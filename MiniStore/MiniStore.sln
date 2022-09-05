@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32819.101
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32802.440
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniStore", "MiniStore\MiniStore.csproj", "{F3CE8E0C-D7FC-43D1-8947-BF74D926C06B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniStore", "MiniStore\MiniStore.csproj", "{A205CEE6-1382-4E4B-8566-C9EF63A0C664}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F3CE8E0C-D7FC-43D1-8947-BF74D926C06B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3CE8E0C-D7FC-43D1-8947-BF74D926C06B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3CE8E0C-D7FC-43D1-8947-BF74D926C06B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3CE8E0C-D7FC-43D1-8947-BF74D926C06B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A205CEE6-1382-4E4B-8566-C9EF63A0C664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A205CEE6-1382-4E4B-8566-C9EF63A0C664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A205CEE6-1382-4E4B-8566-C9EF63A0C664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A205CEE6-1382-4E4B-8566-C9EF63A0C664}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {52530C8C-741F-4D43-B4B3-D1917B7182F2}
+		SolutionGuid = {C8F85EB8-A9F7-4F66-98AB-AA5B4B83B84C}
 	EndGlobalSection
 EndGlobal
