@@ -6,4 +6,5 @@
 /.vs
 /MiniStore/.vs/MiniStore
 /MiniStore/MiniStore/obj/Debug/net6.0
+/MiniStore/MiniStore/bin/Debug/net5.0
 /MiniStore/MiniStore/obj
