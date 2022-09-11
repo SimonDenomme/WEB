@@ -23,7 +23,7 @@ namespace MiniStore.Data
                 {
                     Id = i,
                     Name = $"Category {i}",
-                    Items = new System.Collections.Generic.List<Mini>()
+                    Minis = new System.Collections.Generic.List<Mini>()
                 });
             }
 
@@ -33,11 +33,24 @@ namespace MiniStore.Data
                 {
                     Id = i,
                     Name = $"Mini {i}",
-                    CategoryId = i,
+                    Description = "This is a description",
                     Cost = i * 10,
-                    Discount = i * 2
-                });
+                    Price = i * 20,
+                    Discount = i * 2,
+                    IsColored = i % 2 == 0,
+                    ImagePath = "Creature" + i + ".png",
+                    CategoryId = i,
+                }) ;
             }
+
+            modelBuilder.Entity<Review>().HasData(new Review
+            {
+                Id = 1,
+                UserName = "Review 1",
+                Text = "Good",
+                Rating = 5,
+                MiniId = 1
+            });
         }
     }
 }

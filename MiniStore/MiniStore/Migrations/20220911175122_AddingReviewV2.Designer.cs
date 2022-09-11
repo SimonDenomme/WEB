@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Data;
 
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220911175122_AddingReviewV2")]
+    partial class AddingReviewV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,9 +115,6 @@ namespace MiniStore.Migrations
 
                     b.Property<double>("Discount")
                         .HasColumnType("float");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsColored")
                         .HasColumnType("bit");

@@ -6,6 +6,6 @@ namespace MiniStore.Entity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Mini> Items { get; set; }
+        public List<Mini> Minis { get; set; }
     }
 }
