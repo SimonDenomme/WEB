@@ -12,6 +12,8 @@ namespace MiniStore.Entity
         public double Price { get; set; }
         public double Discount { get; set; }
         public string ImagePath { get; set; }
+        //public int QtyInventory { get; set; }
+        //public int QtySold { get; set; }
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
