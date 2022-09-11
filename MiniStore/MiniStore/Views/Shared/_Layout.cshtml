@@ -3,10 +3,7 @@
 <head>
     <title>@ViewData["Title"] - MiniStore</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="apple-touch-icon" href="/img/apple-icon.png">
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
@@ -98,8 +95,8 @@
 
 
                         @*<a class="nav-icon d-none d-lg-inline" href="/#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                                <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                            </a>*@
+                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                        </a>*@
 
                         <a class="nav-icon position-relative text-decoration-none" href="#">
                             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
@@ -115,11 +112,8 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+
+    @RenderBody()
 
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
@@ -170,7 +164,6 @@
                 </div>
 
             </div>
-
             <div class="row text-light mb-4">
                 <div class="col-12 mb-3">
                     <div class="w-100 my-3 border-top border-light"></div>
@@ -200,7 +193,6 @@
                 </div>
             </div>
         </div>
-
         <div class="w-100 bg-black py-3">
             <div class="container">
                 <div class="row pt-2">
@@ -212,15 +204,14 @@
                 </div>
             </div>
         </div>
-
     </footer>
     <!-- End Footer -->
     <!-- Start Script -->
     @*<script src="assets/js/jquery-1.11.0.min.js"></script>
-        <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/templatemo.js"></script>
-        <script src="assets/js/custom.js"></script>*@
+    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/templatemo.js"></script>
+    <script src="assets/js/custom.js"></script>*@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @*Migrate ???*@
