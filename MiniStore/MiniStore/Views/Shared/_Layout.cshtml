@@ -124,7 +124,9 @@
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
                             <i class="fas fa-map-marker-alt fa-fw"></i>
-                            Endroit où notre magasin se situe
+                            3000, avenue Boullé <br />
+                            &emsp; Saint-Hyacinthe (Québec)<br />
+                            &emsp; J2S 1H9
                         </li>
                         <li>
                             <i class="fa fa-phone fa-fw"></i>
@@ -219,7 +221,7 @@
     <script src="~/js/site.js"></script>
 
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    @*<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>*@
     @*<script>
         var mymap = L.map('mapid').setView([45.6173435, -72.9746047, 13], 13);
 
@@ -239,7 +241,10 @@
         mymap.scrollWheelZoom.disable();
         mymap.touchZoom.disable();
     </script>*@
-
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKf7q3ZzIlJtUM7cA3XK5SAYXT8K-KJko&callback=initMap&v=weekly&language=fr&region=CA"
+            defer>
+    </script>
 
     <!-- End Script -->
 </body>
