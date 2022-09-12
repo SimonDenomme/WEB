@@ -30,10 +30,22 @@ namespace MiniStore.Controllers
         {
             return View();
         }
+
+
+
+        [HttpGet]
         public IActionResult Contact()
         {
             return View();
         }
+
+        //[HttpPost]
+        //public IActionResult Contact()
+        //{
+        //    return View();
+        //}
+
+
         public IActionResult Privacy()
         {
             return View();

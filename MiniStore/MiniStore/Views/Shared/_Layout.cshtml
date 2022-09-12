@@ -82,12 +82,11 @@
                         </div>
 
                         <a class="nav-icon position-relative text-decoration-none" href="#">
-
-                            <form action="" method="get" class="modal-content modal-body border-0 p-0">
+                            <form action="" method="get" class="d-none d-lg-block modal-content modal-body border-0 p-0">
                                 <div class="input-group mb-2">
                                     <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                                    <button type="submit" class="input-group-text bg-success text-light">
-                                        <i class="fa fa-fw fa-search text-white"></i>
+                                    <button type="submit" class="input-group-text text-light">
+                                        <i class="fa fa-fw fa-search text-dark"></i>
                                     </button>
                                 </div>
                             </form>
@@ -95,8 +94,8 @@
 
 
                         @*<a class="nav-icon d-none d-lg-inline" href="/#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                        </a>*@
+                            <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                            </a>*@
 
                         <a class="nav-icon position-relative text-decoration-none" href="#">
                             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
@@ -133,7 +132,7 @@
                         </li>
                         <li>
                             <i class="fa fa-envelope fa-fw"></i>
-                            <a class="text-decoration-none" href="mailto:mini.store@adresseCouriel.com">mini.store@adresseCouriel.com</a>
+                            <a class="text-decoration-none" href="mailto:mini.store@adresseCouriel.com">mini.store@mail.com</a>
                         </li>
                     </ul>
                 </div>
@@ -142,12 +141,12 @@
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Produits</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         @*<li><a class="text-decoration-none" href="#">Luxury</a></li>
-                        <li><a class="text-decoration-none" href="#">Sport Wear</a></li>
-                        <li><a class="text-decoration-none" href="#">Men's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="#">Women's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="#">Popular Dress</a></li>
-                        <li><a class="text-decoration-none" href="#">Gym Accessories</a></li>
-                        <li><a class="text-decoration-none" href="#">Sport Shoes</a></li>*@
+                            <li><a class="text-decoration-none" href="#">Sport Wear</a></li>
+                            <li><a class="text-decoration-none" href="#">Men's Shoes</a></li>
+                            <li><a class="text-decoration-none" href="#">Women's Shoes</a></li>
+                            <li><a class="text-decoration-none" href="#">Popular Dress</a></li>
+                            <li><a class="text-decoration-none" href="#">Gym Accessories</a></li>
+                            <li><a class="text-decoration-none" href="#">Sport Shoes</a></li>*@
                     </ul>
                 </div>
 
@@ -208,16 +207,40 @@
     <!-- End Footer -->
     <!-- Start Script -->
     @*<script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>*@
+        <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/templatemo.js"></script>
+        <script src="assets/js/custom.js"></script>*@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @*Migrate ???*@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/templatemo.js"></script>
     <script src="~/js/site.js"></script>
+
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    @*<script>
+        var mymap = L.map('mapid').setView([45.6173435, -72.9746047, 13], 13);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 18,
+            attribution: 'Zay Telmplte | Template Design by <a href="https://templatemo.com/">Templatemo</a> | Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1
+        }).addTo(mymap);
+
+        L.marker([45.6173435, -72.9746047, 13]).addTo(mymap)
+            .bindPopup("<b>Zay</b> eCommerce Template<br />Location.").openPopup();
+
+        mymap.scrollWheelZoom.disable();
+        mymap.touchZoom.disable();
+    </script>*@
+
+
     <!-- End Script -->
 </body>
 </html>
