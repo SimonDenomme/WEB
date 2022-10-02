@@ -34,13 +34,16 @@ namespace MiniStore.Data
                     Id = i,
                     Name = $"Mini {i}",
                     Description = "This is a description",
-                    Cost = i * 10,
-                    Price = i * 20,
-                    Discount = i * 2,
-                    IsColored = i % 2 == 0,
                     ImagePath = "Creature" + i + ".png",
+                    IsPainted = true,
+                    IsLuminous = i % 2 == 0,
+                    QtyInventory = 5 * i,
+                    NormalPrice = i * 20,
+                    ReducedPrice = i * 10,
+                    IsFrontPage = false,
+                    QtySold = i * 2,
                     CategoryId = i,
-                }) ;
+                });
             }
 
             modelBuilder.Entity<Review>().HasData(new Review

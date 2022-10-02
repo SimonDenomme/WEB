@@ -1,29 +1,23 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="fr-ca">
 <head>
-    <title>@ViewData["Title"] - MiniStore</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - MiniStore</title>
 
-    <link rel="apple-touch-icon" href="/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="/img/Logo1.jpg">
+    <link rel="apple-touch-icon" href="~/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/Logo1.jpg">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/templatemo.css">
-    <link rel="stylesheet" href="/css/site.css">
-    <link rel="stylesheet" href="/css/images.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/templatemo.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/images.css">
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="/css/fontawesome.min.css">
-    <!--
-
-    TemplateMo 559 Zay Shop
-
-    https://templatemo.com/tm-559-zay-shop
-
-    -->
+    <link rel="stylesheet" href="~/css/fontawesome.min.css">
 </head>
 <body>
     <header>
@@ -189,7 +183,7 @@
                 <div class="col-auto">
                     <label class="sr-only" for="subscribeEmail">Adresse courriel</label>
                     <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light text-white id="subscribeEmail" placeholder="Adresse courriel">
+                        <input type="text" class="form-control bg-dark border-light text-white" id="subscribeEmail" placeholder="Adresse courriel">
                         <div class="input-group-text btn-success text-light">S'inscrire</div>
                     </div>
                 </div>
@@ -209,18 +203,11 @@
     </footer>
     <!-- End Footer -->
     <!-- Start Script -->
-    @*<script src="assets/js/jquery-1.11.0.min.js"></script>
-        <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/templatemo.js"></script>
-        <script src="assets/js/custom.js"></script>*@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @*Migrate ???*@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/templatemo.js"></script>
     <script src="~/js/site.js"></script>
-
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script>
@@ -228,7 +215,7 @@
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 19,
-            attribution: 'Zay Telmplte | Template Design by <a href="https://templatemo.com/">Templatemo</a> | Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            attribution: 'Zay Template | Template Design by <a href="https://templatemo.com/">Templatemo</a> | Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
                 '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
                 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             id: 'mapbox/streets-v11',
@@ -242,11 +229,7 @@
         mymap.scrollWheelZoom.disable();
         mymap.touchZoom.disable();
     </script>
-    @*<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKf7q3ZzIlJtUM7cA3XK5SAYXT8K-KJko&callback=initMap&v=weekly&language=fr&region=CA"
-            defer>
-    </script>*@
-
+    @await RenderSectionAsync("Scripts", required: false)
     <!-- End Script -->
 </body>
 </html>
