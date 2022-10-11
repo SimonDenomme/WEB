@@ -26,8 +26,10 @@ namespace MiniStore.Controllers
         {
             return View();
         }
+        [HttpGet("shop-single.cshtml")]
         public IActionResult Shop()
         {
+
             return View();
         }
 
