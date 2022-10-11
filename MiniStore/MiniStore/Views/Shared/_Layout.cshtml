@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="~/css/templatemo.css">
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="stylesheet" href="~/css/images.css">
+    <link rel="stylesheet" href="~/css/slick.min.css">
+    <link rel="stylesheet" href="~/css/slick-theme.min.css">
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
@@ -89,8 +91,8 @@
 
 
                         @*<a class="nav-icon d-none d-lg-inline" href="/#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                            <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                            </a>*@
+                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                        </a>*@
 
                         <a class="nav-icon position-relative text-decoration-none" href="#">
                             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
@@ -138,12 +140,12 @@
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Produits</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         @*<li><a class="text-decoration-none" href="#">Luxury</a></li>
-                            <li><a class="text-decoration-none" href="#">Sport Wear</a></li>
-                            <li><a class="text-decoration-none" href="#">Men's Shoes</a></li>
-                            <li><a class="text-decoration-none" href="#">Women's Shoes</a></li>
-                            <li><a class="text-decoration-none" href="#">Popular Dress</a></li>
-                            <li><a class="text-decoration-none" href="#">Gym Accessories</a></li>
-                            <li><a class="text-decoration-none" href="#">Sport Shoes</a></li>*@
+                        <li><a class="text-decoration-none" href="#">Sport Wear</a></li>
+                        <li><a class="text-decoration-none" href="#">Men's Shoes</a></li>
+                        <li><a class="text-decoration-none" href="#">Women's Shoes</a></li>
+                        <li><a class="text-decoration-none" href="#">Popular Dress</a></li>
+                        <li><a class="text-decoration-none" href="#">Gym Accessories</a></li>
+                        <li><a class="text-decoration-none" href="#">Sport Shoes</a></li>*@
                     </ul>
                 </div>
 
@@ -206,6 +208,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
     <script src="~/js/templatemo.js"></script>
     <script src="~/js/site.js"></script>
 
@@ -229,6 +232,39 @@
         mymap.scrollWheelZoom.disable();
         mymap.touchZoom.disable();
     </script>
+    
+    <script>
+        $('#carousel-related-product').slick({
+            infinite: true,
+            arrows: false,
+            slidesToShow: 4,
+            slidesToScroll: 3,
+            dots: true,
+            responsive: [{
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 3
+                }
+            }
+            ]
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
     <!-- End Script -->
 </body>
