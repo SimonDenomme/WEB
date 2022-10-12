@@ -1,23 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MiniStore.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using System;
+using System.Linq;
+using MiniStore.Data;
 
 namespace MiniStore.ViewComponents
 {
-    public class ListeProduitsVedettes : ViewComponent
+    public class ContactForm : ViewComponent
     {
         private readonly MiniStoreContext _context;
 
-        public ListeProduitsVedettes(MiniStoreContext context)
+        public ContactForm(MiniStoreContext context)
         {
             _context = context;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
+            //var contactForm = await _context.Where(c => c.ContactFormId == 1).FirstOrDefaultAsync();
             return View();
         }
     }
