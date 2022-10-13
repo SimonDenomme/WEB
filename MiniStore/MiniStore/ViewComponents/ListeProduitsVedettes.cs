@@ -16,19 +16,11 @@ namespace MiniStore.ViewComponents
             _context = context;
         }
 
-        //public async Task<IViewComponentResult> InvokeAsync(
-        //    DateTime? dueBefore = null,
-        //    bool showCompleted = true,
-        //    int minPriority = 0)
-        //{
-        //    var toDos = await _context.Todos
-        //        .Where(toDo => (showCompleted || !toDo.IsDone) &&
-        //                                    toDo.Priority >= minPriority &&
-        //                                    (dueBefore == null || toDo.DueDate <= dueBefore))
-        //        .ToListAsync();
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
 
-        //    return View(toDos);
-        //}
+            return View();
+        }
 
 
 
