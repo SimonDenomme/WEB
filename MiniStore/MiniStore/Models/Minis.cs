@@ -9,14 +9,14 @@ namespace MiniStore.Models
 {
     public class Minis
     {
-        [ForeignKey("Mini")]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[ForeignKey("Mini")]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         public string Name { get; set; }
         public string ImagePath { get; set; }
         public double NormalPrice { get; set; }
         public double ReducedPrice { get; set; }
 
-        public Mini Mini { get; set; }
+        //public Mini Mini { get; set; }
     }
 }

@@ -1,16 +1,14 @@
-﻿@model IEnumerable<Minis>
+﻿@model ProduitList
 
 
-<ul class="list-group">
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.ProduitDetails)
     {
-        <li class=" list-group-item">
 
             <div class="col-md-4">
                 <div class="card mb-4 product-wap rounded-0">
                     <div class="card rounded-0">
-                        <img class="card-img rounded-0 img-fluid" src="Creature1.png">
+                        <img class="card-img rounded-0 img-fluid" src="/img/@item.ImagePath">
                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                             <ul class="list-unstyled">
                                 <li><a class="btn btn-success text-white" asp-area="" asp-controller="Shop" asp-action="Item"><i class="far fa-heart"></i></a></li>
@@ -45,9 +43,8 @@
                 </div>
             </div>
 
-        </li>
     }
-</ul>
+
 
 
 

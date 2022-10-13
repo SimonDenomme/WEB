@@ -12,7 +12,7 @@ namespace MiniStore.Data
         }
 
         public DbSet<Mini> Minis { get; set; }
-        public DbSet<Minis> MinisModel { get; set; }
+        //public DbSet<Minis> MinisModel { get; set; }
         public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
