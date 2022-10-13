@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MiniStore.Models;
 
 namespace MiniStore.Entity
 {
@@ -25,5 +26,6 @@ namespace MiniStore.Entity
         public List<Review> Reviews { get; set; }   // Tous les notes qui sont données au mini en particulier
         public int StatusId { get; set; }           // Foreign Key pour la table des status possible pour la mini
         public Status Status { get; set; }          // Navigation property pour la table des status
+        //public Minis MinisModel { get; set; }
     }
 }
