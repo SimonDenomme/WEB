@@ -23,82 +23,99 @@ namespace MiniStore.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(
             bool IsPainted = false,
             bool IsLuminous = false,
+            bool FiltreA = false,
+            bool FiltreB = false,
+            bool FiltreC = false,
             bool IsFiltered = false,
             double MinPrice = 0D,
             double MaxPrice = 1000D,
-            _OrderBy _Order = _OrderBy.AtoZ)
+            _OrderBy _Order = _OrderBy.AtoZ,
+            int StatusId = 1)
         {
+
+            IEnumerable<ProduitDetails> miniFini;
+            var minis1 = _context.Minis.ToList();
 
             if (IsFiltered)
             {
-                //var minis = _context.Minis.ToList();
+                if (FiltreA)
+                {
+                    minis1 = minis1.Where(m => m.IsLuminous == IsLuminous &&
+                                                 m.IsPainted == IsPainted).ToList();
+                }
+                if (FiltreB)
+                {
+                    minis1 = minis1.Where(m => m.NormalPrice >= MinPrice &&
+                                                 m.NormalPrice <= MaxPrice).ToList();
+                }
+                if (FiltreC && StatusId != 1)
+                {
+                    minis1 = minis1.Where(m => m.StatusId == StatusId).ToList();
+                }
 
-                var minis = _context.Minis.ToList()
-                        .Where(m => m.IsLuminous == IsLuminous &&
-                                                 m.IsPainted == IsPainted &&
-                                                 m.NormalPrice >= MinPrice &&
-                                                 m.NormalPrice <= MaxPrice)
-                        .Select(m => new ProduitDetails(m.Id,
+
+
+            }
+                miniFini = minis1.Select(m => new ProduitDetails(m.Id,
                                                         m.Name, m.ImagePath,
                                                         m.NormalPrice, m.ReducedPrice));
+            if (_Order == _OrderBy.ZtoA)
+            {
+                miniFini = miniFini.OrderByDescending(m => m.Name);
 
-                if (_Order == _OrderBy.ZtoA)
-                {
-                    minis = minis.OrderByDescending(m => m.Name);
+                //return View(new ProduitList(minis3.ToArray()));
+            }
+            else if (_Order == _OrderBy.PriceUp)
+            {
+                miniFini = miniFini.OrderBy(m => m.NormalPrice);
 
-                    return View(new ProduitList(minis.ToArray()));
-                }
-                else if (_Order == _OrderBy.PriceUp)
-                {
-                    minis = minis.OrderBy(m => m.NormalPrice);
+                //return View(new ProduitList(minis.ToArray()));
+            }
+            else if (_Order == _OrderBy.PriceDown)
+            {
+                miniFini = miniFini.OrderByDescending(m => m.NormalPrice);
 
-                    return View(new ProduitList(minis.ToArray()));
-                }
-                else if (_Order == _OrderBy.PriceDown)
-                {
-                    minis = minis.OrderByDescending(m => m.NormalPrice);
-
-                    return View(new ProduitList(minis.ToArray()));
-                }
-                else
-                {
-                    minis = minis.OrderBy(m => m.Name);
-
-                    return View(new ProduitList(minis.ToArray()));
-                }
+                //return View(new ProduitList(minis.ToArray()));
             }
             else
             {
-                var minis = _context.Minis.ToList()
-                        .Select(m => new ProduitDetails(m.Id,
-                                                                m.Name, m.ImagePath,
-                                                                m.NormalPrice, m.ReducedPrice));
-                if (_Order == _OrderBy.ZtoA)
-                {
-                    minis = minis.OrderByDescending(m => m.Name);
+                miniFini = miniFini.OrderBy(m => m.Name);
 
-                    return View(new ProduitList(minis.ToArray()));
-                }
-                else if (_Order == _OrderBy.PriceUp)
-                {
-                    minis = minis.OrderBy(m => m.NormalPrice);
-
-                    return View(new ProduitList(minis.ToArray()));
-                }
-                else if (_Order == _OrderBy.PriceDown)
-                {
-                    minis = minis.OrderByDescending(m => m.NormalPrice);
-
-                    return View(new ProduitList(minis.ToArray()));
-                }
-                else
-                {
-                    minis = minis.OrderBy(m => m.Name);
-
-                    return View(new ProduitList(minis.ToArray()));
-                }
                 //return View(new ProduitList(minis.ToArray()));
             }
+
+            return View(new ProduitList(miniFini.ToArray()));
         }
     }
 }
+//else
+//{
+//    var minis = _context.Minis.ToList()
+//            .Select(m => new ProduitDetails(m.Id,
+//                                                    m.Name, m.ImagePath,
+//                                                    m.NormalPrice, m.ReducedPrice));
+//    if (_Order == _OrderBy.ZtoA)
+//    {
+//        minis = minis.OrderByDescending(m => m.Name);
+
+//        return View(new ProduitList(minis.ToArray()));
+//    }
+//    else if (_Order == _OrderBy.PriceUp)
+//    {
+//        minis = minis.OrderBy(m => m.NormalPrice);
+
+//        return View(new ProduitList(minis.ToArray()));
+//    }
+//    else if (_Order == _OrderBy.PriceDown)
+//    {
+//        minis = minis.OrderByDescending(m => m.NormalPrice);
+
+//        return View(new ProduitList(minis.ToArray()));
+//    }
+//    else
+//    {
+//        minis = minis.OrderBy(m => m.Name);
+
+//        return View(new ProduitList(minis.ToArray()));
+//    }
+//}

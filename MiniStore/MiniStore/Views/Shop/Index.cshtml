@@ -6,30 +6,130 @@
             <h1 class="h2 pb-4">Categories</h1>
 
             <form id="formID" asp-action="Index" asp-controller="Shop">
-                <div class="form-group filtre">
-                    <div class="checkbox">
-                        <label class="pb-3">
-                            Peinturé
-                            <input asp-for="IsPainted">
-                        </label>
+                @*<i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+
+                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">
+                        <li>
+                            <div class="form-group filtre">
+                                <div class="checkbox">
+                                    <label class="pb-3">
+                                        Peinturé
+                                        <input asp-for="IsPainted">
+                                    </label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-group filtre">
+                                <div class="checkbox">
+                                    <label class="pb-3">
+                                        Lumineux
+                                        <input asp-for="IsLuminous">
+                                    </label>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>*@
+                <ul class="list-unstyled templatemo-accordion">
+                    <li class="pb-3" style="white-space:nowrap">
+                        <div class="form-group" style="display:inline-block">
+                            <div class="checkbox">
+                                <input asp-for="FiltreA">
+                            </div>
+                        </div>
+                        <a class="collapsed justify-content-between h3 text-decoration-none" style="display:inline-block" href="#">
+                            Filtre A
+                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul class="collapse show list-unstyled pl-3">
+                            <li>
+                                <div class="form-group filtre">
+                                    <div class="checkbox">
+                                        <label class="pb-3">
+                                            Peinturé
+                                            <input asp-for="IsPainted">
+                                        </label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="form-group filtre">
+                                    <div class="checkbox">
+                                        <label class="pb-3">
+                                            Lumineux
+                                            <input asp-for="IsLuminous">
+                                        </label>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="pb-3" style="white-space:nowrap">
+                        <div class="form-group" style="display:inline-block">
+                            <div class="checkbox">
+                                <input asp-for="FiltreB">
+                            </div>
+                        </div>
+                        <a class="collapsed justify-content-between h3 text-decoration-none" style="display:inline-block" href="#">
+                            Prix
+                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul id="collapseTwo" class="collapse list-unstyled pl-3">
+                            <li>
+                                <div class="form-group slider ">
+                                    <div class="range-slider pb-3">
+                                        <span class="rangeValues"></span>
+                                        <input type="range" min="0" max="1000" step="10" asp-for="MinPrice">
+                                        <input type="range" min="0" max="1000" step="10" asp-for="MaxPrice">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li class="pb-3" style="white-space:nowrap">
+                        <div class="form-group" style="display:inline-block">
+                            <div class="checkbox">
+                                <input asp-for="FiltreC">
+                            </div>
+                        </div>
+                        <a class="collapsed justify-content-between h3 text-decoration-none" style="display:inline-block" href="#">
+                            Disponibilite
+                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul id="collapseThree" class="collapse list-unstyled pl-3">
+                            <li>
+                                <div class="form-group">
+                                    <select asp-for="StatusId" class="form-control" form="formID">
+                                        <option value="1">Tout</option>
+                                        <option value="2">Disponible</option>
+                                        <option value="3">Indisponible</option>
+                                        <option value="4">Rupture de stock</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+
+
+                @*<div class="form-group slider">
+                        <label class="pb-3">Prix</label>
+                        <div class="range-slider pb-3">
+                            <span class="rangeValues"></span>
+                            <input type="range" min="0" max="1000" step="10" asp-for="MinPrice">
+                            <input type="range" min="0" max="1000" step="10" asp-for="MaxPrice">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group filtre">
-                    <div class="checkbox">
-                        <label class="pb-3">
-                            Lumineux
-                            <input asp-for="IsLuminous">
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group slider">
-                    <label class="pb-3">Prix</label>
-                    <div class="range-slider pb-3">
-                        <span class="rangeValues"></span>
-                        <input type="range" min="0" max="1000" step="10" asp-for="MinPrice">
-                        <input type="range" min="0" max="1000" step="10" asp-for="MaxPrice">
-                    </div>
-                </div>
+                    <div class="form-group">
+                        <select asp-for="StatusId" class="form-control" form="formID">
+                            <option value="1">Tout</option>
+                            <option value="2">Disponible</option>
+                            <option value="3">Indisponible</option>
+                            <option value="4">Rupture de stock</option>
+                        </select>
+                    </div>*@
                 <div class="form-group">
                     <button type="submit" class=" d-flex btn-primary">Filtrer</button>
                 </div>
@@ -54,7 +154,11 @@
 
             <div class="row">
 
-                <vc:catalog-list is-luminous="@Model.IsLuminous" is-painted="@Model.IsPainted" is-filtered="@Model.IsFiltered" _order="@Model.OrderBy" max-price="@Model.MaxPrice" min-price="@Model.MinPrice">
+                <vc:catalog-list is-luminous="@Model.IsLuminous" is-painted="@Model.IsPainted"
+                                 is-filtered="@Model.IsFiltered" _order="@Model.OrderBy"
+                                 max-price="@Model.MaxPrice" min-price="@Model.MinPrice"
+                                 status-id="@Model.StatusId" filtre-a="@Model.FiltreA"
+                                 filtre-b="@Model.FiltreB" filtre-c="@Model.FiltreC">
 
                 </vc:catalog-list>
 

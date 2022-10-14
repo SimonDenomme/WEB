@@ -29,14 +29,22 @@ namespace MiniStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(indexViewModel i)
         {
-            if (i.IsLuminous)
+            if (i.FiltreA || i.FiltreB || i.FiltreC)
                 i.IsFiltered = true;
-            if (i.IsPainted)
-                i.IsFiltered = true;
-            if (i.MinPrice != 0D)
-                i.IsFiltered = true;
-            if (i.MaxPrice != 1000D)
-                i.IsFiltered = true;
+            if (!i.FiltreA)
+            {
+                i.IsLuminous = false;
+                i.IsPainted = false;
+            }
+            if (!i.FiltreB)
+            {
+                i.MinPrice = 0;
+                i.MaxPrice = 1000;
+            }
+            if (!i.FiltreC)
+            {
+                i.StatusId = 1;
+            }
             return View(i);
         }
 
