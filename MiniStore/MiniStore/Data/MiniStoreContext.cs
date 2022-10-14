@@ -85,15 +85,22 @@ namespace MiniStore.Data
                 Title = "L"
             });
 
-            for (int i = 1; i <= 3; i++)
-            {
-                modelBuilder.Entity<Status>().HasData(new Status
-                {
-                    Id = i,
-                    Title = "Status " + i
-                });
-            }
 
+            modelBuilder.Entity<Status>().HasData(new Status
+            {
+                Id = 1,
+                Title = "Disponible"
+            });
+            modelBuilder.Entity<Status>().HasData(new Status
+            {
+                Id = 2,
+                Title = "Indisponible"
+            });
+            modelBuilder.Entity<Status>().HasData(new Status
+            {
+                Id = 3,
+                Title = "Rupture de stock"
+            });
             modelBuilder.Entity<Message>().HasData(new Message
             {
                 Id = 1,

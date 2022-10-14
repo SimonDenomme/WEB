@@ -4,98 +4,49 @@
     <div class="row">
         <div class="col-lg-3">
             <h1 class="h2 pb-4">Categories</h1>
-            @*<ul class="list-unstyled templatemo-accordion">
-        <li class="pb-3">*@
-            @*<a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-            Peinturé
-            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-        </a>*@
-            @*<ul class="collapse show list-unstyled pl-3">
-                <li><a class="text-decoration-none" href="#">Men</a></li>
-                <li><a class="text-decoration-none" href="#">Women</a></li>
-                <li><a class="text-decoration-none" href="#">Other</a></li>
-                <li><a class="text-decoration-none" href="#">None</a></li>
-            </ul>
-        </li>*@
-            @*<li class="pb-3">*@
-        <form asp-action="Index" asp-controller="Shop">
-            @*<div class="form-group">
 
-                <label class="pb-3">
-                    Peinturé
-                    <input id="IsPainted" class="custom-checkbox justify-content-between h3 text-decoration-none" type="checkbox" @(Model.IsPainted ? "checked" : string.Empty)>
-                </label>
-                <br>
-                <label class="pb-3">
-                    Lumineux
-
-                    <input id="IsLuminous" class="custom-checkbox justify-content-between h3 text-decoration-none" type="checkbox" @(Model.IsLuminous ? "checked" : string.Empty)>
-                </label>
-            </div>*@
-            <div class="form-group">
-                <div class="checkbox">
-                    <label class="pb-3">
-                        Peinturé
-                        <input asp-for="IsPainted">
-                    </label>
+            <form id="formID" asp-action="Index" asp-controller="Shop">
+                <div class="form-group filtre">
+                    <div class="checkbox">
+                        <label class="pb-3">
+                            Peinturé
+                            <input asp-for="IsPainted">
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label class="pb-3">
-                        Lumineux
-                        <input asp-for="IsLuminous">
-                    </label>
+                <div class="form-group filtre">
+                    <div class="checkbox">
+                        <label class="pb-3">
+                            Lumineux
+                            <input asp-for="IsLuminous">
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <button type="submit" class=" d-flex btn-primary">Filtrer</button>
-            </div>
-        </form>
+                <div class="form-group slider">
+                    <label class="pb-3">Prix</label>
+                    <div class="range-slider pb-3">
+                        <span class="rangeValues"></span>
+                        <input type="range" min="0" max="1000" step="10" asp-for="MinPrice">
+                        <input type="range" min="0" max="1000" step="10" asp-for="MaxPrice">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class=" d-flex btn-primary">Filtrer</button>
+                </div>
+            </form>
 
-
-            @*<i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>*@
-
-            @*<ul id="collapseTwo" class="collapse list-unstyled pl-3">
-            <li><a class="text-decoration-none" href="#">Sport</a></li>
-            <li><a class="text-decoration-none" href="#">Luxury</a></li>
-        </ul>*@
-            @*</li>*@
-            @*<li class="pb-3">
-                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                    Product
-                    <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                </a>
-                <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                    <li><a class="text-decoration-none" href="#">Bag</a></li>
-                    <li><a class="text-decoration-none" href="#">Sweather</a></li>
-                    <li><a class="text-decoration-none" href="#">Sunglass</a></li>
-                </ul>
-            </li>
-        </ul>*@
         </div>
 
         <div class="col-lg-9">
             <div class="row">
-                <div class="col-md-6">
-                    <ul class="list-inline shop-top-menu pb-3 pt-1">
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
-                        </li>
-                    </ul>
-                </div>
+
                 <div class="col-md-6 pb-4">
                     <div class="d-flex">
-                        <select class="form-control">
-                            <option>Featured</option>
-                            <option>A to Z</option>
-                            <option>Item</option>
+                        <select asp-for="OrderBy" class="form-control" form="formID">
+                            <option value="AtoZ">A a Z</option>
+                            <option value="ZtoA">Z a A</option>
+                            <option value="PriceUp">Prix Croissant</option>
+                            <option value="PriceDown">Prix Deroissant</option>
                         </select>
                     </div>
                 </div>
@@ -103,7 +54,7 @@
 
             <div class="row">
 
-                <vc:catalog-list is-luminous="@Model.IsLuminous" is-painted="@Model.IsPainted" is-filtered="@Model.IsFiltered">
+                <vc:catalog-list is-luminous="@Model.IsLuminous" is-painted="@Model.IsPainted" is-filtered="@Model.IsFiltered" _order="@Model.OrderBy" max-price="@Model.MaxPrice" min-price="@Model.MinPrice">
 
                 </vc:catalog-list>
 
@@ -569,6 +520,40 @@
 
     *@
 </section>
+
+<script>
+    function getVals() {
+        // Get slider values
+        let parent = this.parentNode;
+        let slides = parent.getElementsByTagName("input");
+        let slide1 = parseFloat(slides[0].value);
+        let slide2 = parseFloat(slides[1].value);
+        // Neither slider will clip the other, so make sure we determine which is larger
+        if (slide1 > slide2) { let tmp = slide2; slide2 = slide1; slide1 = tmp; }
+
+        let displayElement = parent.getElementsByClassName("rangeValues")[0];
+        //innerHTML property allows Javascript code to manipulate a website being displayed
+        displayElement.innerHTML = "$" + slide1 + " - $" + slide2;
+    }
+
+    window.onload = function () {
+        // Initialize Sliders
+        let sliderSections = document.getElementsByClassName("range-slider");
+        for (let x = 0; x < sliderSections.length; x++) {
+            let sliders = sliderSections[x].getElementsByTagName("input");
+            for (let y = 0; y < sliders.length; y++) {
+                if (sliders[y].type === "range") {
+                    //oninput attribute fires when the value of an <input> element is changed
+                    sliders[y].oninput = getVals;
+                    // Manually trigger event first time to display values
+                    sliders[y].oninput();
+                }
+            }
+        }
+    }
+</script>
+
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
 }

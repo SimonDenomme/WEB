@@ -23,18 +23,49 @@ namespace MiniStore.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(
             bool IsPainted = false,
             bool IsLuminous = false,
-            bool IsFiltered = false)
+            bool IsFiltered = false,
+            double MinPrice = 0D,
+            double MaxPrice = 1000D,
+            _OrderBy _Order = _OrderBy.AtoZ)
         {
 
             if (IsFiltered)
             {
-                var minis = _context.Minis.ToList()
-                        .Where(m => (m.IsLuminous == IsLuminous && m.IsPainted == IsPainted))
-                        .Select(m => new ProduitDetails(m.Id,
-                                                            m.Name, m.ImagePath,
-                                                            m.NormalPrice, m.ReducedPrice));
-                return View(new ProduitList(minis.ToArray()));
+                //var minis = _context.Minis.ToList();
 
+                var minis = _context.Minis.ToList()
+                        .Where(m => m.IsLuminous == IsLuminous &&
+                                                 m.IsPainted == IsPainted &&
+                                                 m.NormalPrice >= MinPrice &&
+                                                 m.NormalPrice <= MaxPrice)
+                        .Select(m => new ProduitDetails(m.Id,
+                                                        m.Name, m.ImagePath,
+                                                        m.NormalPrice, m.ReducedPrice));
+
+                if (_Order == _OrderBy.ZtoA)
+                {
+                    minis = minis.OrderByDescending(m => m.Name);
+
+                    return View(new ProduitList(minis.ToArray()));
+                }
+                else if (_Order == _OrderBy.PriceUp)
+                {
+                    minis = minis.OrderBy(m => m.NormalPrice);
+
+                    return View(new ProduitList(minis.ToArray()));
+                }
+                else if (_Order == _OrderBy.PriceDown)
+                {
+                    minis = minis.OrderByDescending(m => m.NormalPrice);
+
+                    return View(new ProduitList(minis.ToArray()));
+                }
+                else
+                {
+                    minis = minis.OrderBy(m => m.Name);
+
+                    return View(new ProduitList(minis.ToArray()));
+                }
             }
             else
             {
@@ -42,18 +73,32 @@ namespace MiniStore.ViewComponents
                         .Select(m => new ProduitDetails(m.Id,
                                                                 m.Name, m.ImagePath,
                                                                 m.NormalPrice, m.ReducedPrice));
-                return View(new ProduitList(minis.ToArray()));
+                if (_Order == _OrderBy.ZtoA)
+                {
+                    minis = minis.OrderByDescending(m => m.Name);
+
+                    return View(new ProduitList(minis.ToArray()));
+                }
+                else if (_Order == _OrderBy.PriceUp)
+                {
+                    minis = minis.OrderBy(m => m.NormalPrice);
+
+                    return View(new ProduitList(minis.ToArray()));
+                }
+                else if (_Order == _OrderBy.PriceDown)
+                {
+                    minis = minis.OrderByDescending(m => m.NormalPrice);
+
+                    return View(new ProduitList(minis.ToArray()));
+                }
+                else
+                {
+                    minis = minis.OrderBy(m => m.Name);
+
+                    return View(new ProduitList(minis.ToArray()));
+                }
+                //return View(new ProduitList(minis.ToArray()));
             }
         }
-
-        //private Task<List<Minis>> GetMinisAsync()
-        //{
-        //    var minis =  _context.Minis.Where(mini => mini.StatusId != 1).ToListAsync();
-
-
-
-        //}
-
-
     }
 }
