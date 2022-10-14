@@ -21,28 +21,29 @@ namespace MiniStore.ViewComponents
         }
 
         public async Task<IViewComponentResult> InvokeAsync(
-            bool IsPainted = true,
-            bool IsLuminous = true)
+            bool IsPainted = false,
+            bool IsLuminous = false,
+            bool IsFiltered = false)
         {
 
-            //if (false)
-            //{
-            //    var minis = _context.Minis.ToList()
-            //            .Where(m => (m.IsLuminous == IsLuminous && m.IsPainted == IsPainted))
-            //            .Select(m => new ProduitDetails(m.Id,
-            //                                                m.Name, m.ImagePath,
-            //                                                m.NormalPrice, m.ReducedPrice));
-            //    return View(new ProduitList(minis.ToArray()));
+            if (IsFiltered)
+            {
+                var minis = _context.Minis.ToList()
+                        .Where(m => (m.IsLuminous == IsLuminous && m.IsPainted == IsPainted))
+                        .Select(m => new ProduitDetails(m.Id,
+                                                            m.Name, m.ImagePath,
+                                                            m.NormalPrice, m.ReducedPrice));
+                return View(new ProduitList(minis.ToArray()));
 
-            //}
-            //else
-            //{
+            }
+            else
+            {
                 var minis = _context.Minis.ToList()
                         .Select(m => new ProduitDetails(m.Id,
                                                                 m.Name, m.ImagePath,
                                                                 m.NormalPrice, m.ReducedPrice));
                 return View(new ProduitList(minis.ToArray()));
-           // }
+            }
         }
 
         //private Task<List<Minis>> GetMinisAsync()
