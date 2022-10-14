@@ -6,30 +6,6 @@
             <h1 class="h2 pb-4">Categories</h1>
 
             <form id="formID" asp-action="Index" asp-controller="Shop">
-                @*<i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-
-                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                        <li>
-                            <div class="form-group filtre">
-                                <div class="checkbox">
-                                    <label class="pb-3">
-                                        Peinturé
-                                        <input asp-for="IsPainted">
-                                    </label>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="form-group filtre">
-                                <div class="checkbox">
-                                    <label class="pb-3">
-                                        Lumineux
-                                        <input asp-for="IsLuminous">
-                                    </label>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>*@
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3" style="white-space:nowrap">
                         <div class="form-group" style="display:inline-block">
@@ -112,24 +88,6 @@
                     </li>
                 </ul>
 
-
-
-                @*<div class="form-group slider">
-                        <label class="pb-3">Prix</label>
-                        <div class="range-slider pb-3">
-                            <span class="rangeValues"></span>
-                            <input type="range" min="0" max="1000" step="10" asp-for="MinPrice">
-                            <input type="range" min="0" max="1000" step="10" asp-for="MaxPrice">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <select asp-for="StatusId" class="form-control" form="formID">
-                            <option value="1">Tout</option>
-                            <option value="2">Disponible</option>
-                            <option value="3">Indisponible</option>
-                            <option value="4">Rupture de stock</option>
-                        </select>
-                    </div>*@
                 <div class="form-group">
                     <button type="submit" class=" d-flex btn-primary">Filtrer</button>
                 </div>
@@ -158,7 +116,8 @@
                                  is-filtered="@Model.IsFiltered" _order="@Model.OrderBy"
                                  max-price="@Model.MaxPrice" min-price="@Model.MinPrice"
                                  status-id="@Model.StatusId" filtre-a="@Model.FiltreA"
-                                 filtre-b="@Model.FiltreB" filtre-c="@Model.FiltreC">
+                                 filtre-b="@Model.FiltreB" filtre-c="@Model.FiltreC"
+                                 page-index="@Model.PageIndex" total-page="@Model.TotalPage">
 
                 </vc:catalog-list>
 
@@ -166,17 +125,26 @@
 
             </div>
             <div div="row">
-                <ul class="pagination pagination-lg justify-content-end">
-                    <li class="page-item disabled">
-                        <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#" tabindex="-1">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
-                    </li>
-                </ul>
+                <div class="form-group">
+
+                    <ul class="pagination pagination-lg justify-content-end">
+                        @for (int i = 1; i <= Model.TotalPage; i++)
+                        {
+                            if (i == Model.PageIndex)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" form="formID" href="@i" tabindex="@i">@i</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <input type="submit" asp-for="PageIndex" class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0" form="formID" value="@i">
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
 

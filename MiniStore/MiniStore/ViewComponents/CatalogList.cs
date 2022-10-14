@@ -30,59 +30,42 @@ namespace MiniStore.ViewComponents
             double MinPrice = 0D,
             double MaxPrice = 1000D,
             _OrderBy _Order = _OrderBy.AtoZ,
-            int StatusId = 1)
+            int StatusId = 1,
+            int PageIndex = 1,
+            int TotalPage = 1)
         {
 
             IEnumerable<ProduitDetails> miniFini;
             var minis1 = _context.Minis.ToList();
 
+            if (_Order == _OrderBy.ZtoA)
+                minis1 = minis1.OrderByDescending(m => m.Name).ToList();
+            else if (_Order == _OrderBy.PriceUp)
+                minis1 = minis1.OrderBy(m => m.NormalPrice).ToList();
+            else if (_Order == _OrderBy.PriceDown)
+                minis1 = minis1.OrderByDescending(m => m.NormalPrice).ToList();
+            else
+                minis1 = minis1.OrderBy(m => m.Name).ToList();
+
             if (IsFiltered)
             {
                 if (FiltreA)
-                {
                     minis1 = minis1.Where(m => m.IsLuminous == IsLuminous &&
                                                  m.IsPainted == IsPainted).ToList();
-                }
                 if (FiltreB)
-                {
                     minis1 = minis1.Where(m => m.NormalPrice >= MinPrice &&
                                                  m.NormalPrice <= MaxPrice).ToList();
-                }
                 if (FiltreC && StatusId != 1)
-                {
                     minis1 = minis1.Where(m => m.StatusId == StatusId).ToList();
-                }
-
-
-
             }
-                miniFini = minis1.Select(m => new ProduitDetails(m.Id,
-                                                        m.Name, m.ImagePath,
-                                                        m.NormalPrice, m.ReducedPrice));
-            if (_Order == _OrderBy.ZtoA)
-            {
-                miniFini = miniFini.OrderByDescending(m => m.Name);
 
-                //return View(new ProduitList(minis3.ToArray()));
-            }
-            else if (_Order == _OrderBy.PriceUp)
-            {
-                miniFini = miniFini.OrderBy(m => m.NormalPrice);
 
-                //return View(new ProduitList(minis.ToArray()));
-            }
-            else if (_Order == _OrderBy.PriceDown)
-            {
-                miniFini = miniFini.OrderByDescending(m => m.NormalPrice);
 
-                //return View(new ProduitList(minis.ToArray()));
-            }
-            else
-            {
-                miniFini = miniFini.OrderBy(m => m.Name);
 
-                //return View(new ProduitList(minis.ToArray()));
-            }
+            miniFini = minis1.Select(m => new ProduitDetails(m.Id,
+                                                    m.Name, m.ImagePath,
+                                                    m.NormalPrice, m.ReducedPrice)).Skip((PageIndex - 1) * 30).Take(30);
+
 
             return View(new ProduitList(miniFini.ToArray()));
         }

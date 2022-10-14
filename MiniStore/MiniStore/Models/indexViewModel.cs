@@ -27,6 +27,7 @@ namespace MiniStore.Models
         public int TotalCount { get; set; }
         public int PageSize { get; set; } = 30;
         public int PageIndex { get; set; } = 1;
+        public int TotalPage { get; set; }
         public virtual Status Status { get; set; }
     }
 }

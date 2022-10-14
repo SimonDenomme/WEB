@@ -29,7 +29,7 @@ namespace MiniStore.Data
                 });
             }
 
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 32; i++)
             {
                 modelBuilder.Entity<Mini>().HasData(new Mini
                 {
@@ -44,7 +44,7 @@ namespace MiniStore.Data
                     ReducedPrice = i * 10,
                     IsFrontPage = false,
                     QtySold = i * 2,
-                    CategoryId = i,
+                    CategoryId = i%12+1,
                     SizeId = 1, // test
                     StatusId = 2, // test
                 });

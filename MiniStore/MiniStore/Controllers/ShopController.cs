@@ -19,8 +19,13 @@ namespace MiniStore.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var mCount = _context.Minis.Count();
-            indexViewModel i = new indexViewModel { IsPainted = false, IsFiltered = false, IsLuminous = false, TotalCount = mCount };
+            decimal mCount = _context.Minis.Count();
+            decimal mpa = mCount / 30;
+            int TP = (int)mpa;
+            mpa = mpa % 1;
+            if (mpa > 0)
+                TP++;
+            indexViewModel i = new indexViewModel { IsPainted = false, IsFiltered = false, IsLuminous = false, TotalCount = (int)mCount, PageIndex = 1, TotalPage = TP };
 
             return View(i);
         }
@@ -29,6 +34,7 @@ namespace MiniStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(indexViewModel i)
         {
+            
             if (i.FiltreA || i.FiltreB || i.FiltreC)
                 i.IsFiltered = true;
             if (!i.FiltreA)
