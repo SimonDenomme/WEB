@@ -22,7 +22,7 @@ namespace MiniStore.ViewComponents
         {
             var mini =  _context.Minis.Where(m => m.Id == Id).Select(m => new ProduitDetails(Id,
                                                         m.Name, m.ImagePath,
-                                                        m.NormalPrice, m.ReducedPrice)).FirstOrDefault();
+                                                        m.NormalPrice, m.ReducedPrice, m.StatusId)).FirstOrDefault();
 
             var minis = _context.Minis.Where(m => m.Id == Id)
                 .Select(mi => new MinisDetails(Id, mi.Description, mi.Reviews, mi.StatusId,mini));

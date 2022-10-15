@@ -154,3 +154,31 @@ input[type=range] {
         input[type=range]:focus::-webkit-slider-runnable-track {
             background: #ccc;
         }
+
+
+.strikethrough {
+    position: relative;
+}
+
+    .strikethrough:before {
+        position: absolute;
+        content: "";
+        left: 0;
+        top: 50%;
+        right: 0;
+        border-top: 1px solid;
+        border-color: inherit;
+        -webkit-transform: rotate(-5deg);
+        -moz-transform: rotate(-5deg);
+        -ms-transform: rotate(-5deg);
+        -o-transform: rotate(-5deg);
+        transform: rotate(-5deg);
+    }
+
+.strikediag {
+    background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
+}
+
+.withpadding {
+    padding: 0 0.15em;
+}

@@ -64,7 +64,7 @@ namespace MiniStore.ViewComponents
 
             miniFini = minis1.Select(m => new ProduitDetails(m.Id,
                                                     m.Name, m.ImagePath,
-                                                    m.NormalPrice, m.ReducedPrice)).Skip((PageIndex - 1) * 30).Take(30);
+                                                    m.NormalPrice, m.ReducedPrice, m.StatusId)).Skip((PageIndex - 1) * 30).Take(30);
 
 
             return View(new ProduitList(miniFini.ToArray()));

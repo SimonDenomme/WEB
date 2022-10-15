@@ -7,7 +7,7 @@ using MiniStore.Entity;
 namespace MiniStore.Models
 {
     public record MinisDetails(int Id, string Description, 
-                List<Review> Reviews, int StatisId, 
+                List<Review> Reviews, int StatusId, 
                 ProduitDetails Minis);
     public record MinisNotList(params MinisDetails[] MinisDetails);
     public class InfoItemMiniModel
