@@ -1,0 +1,67 @@
+﻿@using MiniStore.ViewModels.Account;
+@*@if (User.Identity.IsAuthenticated && User.IsInRole("Administrateur"))
+    {*@
+
+@model MiniStore.ViewModels.Account.RegisterViewModel
+{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"].</h1>
+
+
+<form asp-controller="Account" asp-action="Register" asp-route-returnurl="ReturnUrl" method="post" class="form-horizontal" role="form">
+    <h4>Create a new account.</h4>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Email" class="col-md-8 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RoleUser" class="col-md-8 control-label"></label>
+        <div class="col-md-10">
+            <select asp-for="RoleUser" asp-items="Html.GetEnumSelectList<RegisterViewModel.Role>()">
+                <option selected="selected">Veuillez choisir</option>
+            </select>
+        </div>
+        @*<label asp-for="GenderType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="GenderType" asp-items="Html.GetEnumSelectList<GenderType>()">
+                    <option selected="selected" value="">Please select</option>
+                </select>*@
+
+
+        <span asp-validation-for="RoleUser" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="Password" class="col-md-8 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword" class="col-md-8 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn-primary btn-default">Register</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+@*}*@
