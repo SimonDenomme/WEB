@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using MiniStore.Domain;
 using MiniStore.Entity;
 using MiniStore.Models;
 
 namespace MiniStore.Data
 {
-    public class MiniStoreContext : DbContext
+    public class MiniStoreContext : IdentityDbContext<ApplicationUser>
     {
         public MiniStoreContext(DbContextOptions<MiniStoreContext> options)
             : base(options)
@@ -28,7 +30,7 @@ namespace MiniStore.Data
                     Minis = new System.Collections.Generic.List<Mini>()
                 });
             }
-
+            modelBuilder.Seed();
             for (int i = 1; i <= 32; i++)
             {
                 modelBuilder.Entity<Mini>().HasData(new Mini
@@ -112,6 +114,7 @@ namespace MiniStore.Data
                 Email = "bob@gmail.com",
                 Text = "allo je mappel bob."
             });
+
         }
     }
 }
