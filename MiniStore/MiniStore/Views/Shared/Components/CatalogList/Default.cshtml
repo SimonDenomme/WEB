@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <a asp-area="" asp-controller="Shop" asp-action="Item" class="h3 text-decoration-none">@Html.DisplayFor(modelItem => item.Name)</a>
+                        <a asp-controller="Shop" asp-action="Item" asp-route-id="@item.Id" class="h3 text-decoration-none">@Html.DisplayFor(modelItem => item.Name)</a>
                         <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                             <li>@Html.DisplayFor(modelItem => item.Size)</li>
                             @*<li class="pt-2">
