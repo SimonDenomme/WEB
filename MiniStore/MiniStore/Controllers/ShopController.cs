@@ -109,8 +109,9 @@ namespace MiniStore.Controllers
         }
         public IActionResult Item(int id)
         {
-            //return View();
-            return ViewComponent("InfoItemMini", new {Id = id});
+            ViewData["itemId"] = id;
+            return View();
+            //return ViewComponent("InfoItemMini", new {Id = id});
         }
     }
 }
