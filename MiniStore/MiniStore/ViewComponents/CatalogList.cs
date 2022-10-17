@@ -37,6 +37,7 @@ namespace MiniStore.ViewComponents
 
             IEnumerable<ProduitDetails> miniFini;
             var minis1 = _context.Minis.ToList();
+            var miniSize = _context.Sizes.ToList();
 
             if (_Order == _OrderBy.ZtoA)
                 minis1 = minis1.OrderByDescending(m => m.Name).ToList();
@@ -61,7 +62,7 @@ namespace MiniStore.ViewComponents
 
 
             miniFini = minis1.Select(m => new ProduitDetails(m.Id,
-                                                    m.Name, m.ImagePath, m.Size.Title,
+                                                    m.Name, m.ImagePath, miniSize.Where(s => s.Id == m.SizeId).First().Title,
                                                     m.NormalPrice, m.ReducedPrice, m.StatusId)).Skip((PageIndex - 1) * 30).Take(30);
 
 

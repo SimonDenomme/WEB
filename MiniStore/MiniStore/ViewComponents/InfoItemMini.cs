@@ -20,10 +20,10 @@ namespace MiniStore.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(int Id = 1)
         {
-            var size = _context.Sizes.Where(s => s.Id == Id).FirstOrDefault();
+            var miniSize = _context.Sizes.ToList();
 
             var mini =  _context.Minis.Where(m => m.Id == Id).Select(m => new ProduitDetails(Id,
-                                                        m.Name, m.ImagePath, m.Size.Title,
+                                                        m.Name, m.ImagePath, miniSize.Where(s => s.Id == m.SizeId).First().Title,
                                                         m.NormalPrice, m.ReducedPrice, m.StatusId)).FirstOrDefault();
 
             var minis = _context.Minis.Where(m => m.Id == Id)
