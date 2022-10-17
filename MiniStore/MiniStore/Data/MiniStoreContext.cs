@@ -8,10 +8,7 @@ namespace MiniStore.Data
 {
     public class MiniStoreContext : IdentityDbContext<ApplicationUser>
     {
-        public MiniStoreContext(DbContextOptions<MiniStoreContext> options)
-            : base(options)
-        {
-        }
+        public MiniStoreContext(DbContextOptions<MiniStoreContext> options) : base(options) { }
 
         public DbSet<Mini> Minis { get; set; }
         //public DbSet<Minis> MinisModel { get; set; }
@@ -21,18 +18,18 @@ namespace MiniStore.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            for (int i = 1; i <= 12; i++)
-            {
+            modelBuilder.Seed();
+
+            string[] NameArray = { "Dungeons & Dragons", "PathFinder", "GloomHeaven", "Cyberpunk Red", "Gamma World" };
+            for (int i = 1; i <= 5; i++)
                 modelBuilder.Entity<Category>().HasData(new Category
                 {
                     Id = i,
-                    Name = $"Category {i}",
+                    Name = NameArray[i-1],
                     Minis = new System.Collections.Generic.List<Mini>()
                 });
-            }
-            modelBuilder.Seed();
+
             for (int i = 1; i <= 32; i++)
-            {
                 modelBuilder.Entity<Mini>().HasData(new Mini
                 {
                     Id = i,
@@ -46,19 +43,10 @@ namespace MiniStore.Data
                     ReducedPrice = i * 10,
                     IsFrontPage = false,
                     QtySold = i * 2,
-                    CategoryId = i%12+1,
+                    CategoryId = i % 12 + 1,
                     SizeId = 1, // test
                     StatusId = 2, // test
                 });
-                //modelBuilder.Entity<Minis>().HasData(new Minis
-                //{
-                //    Id = i,
-                //    Name = $"Mini {i}",
-                //    ImagePath = "Creature" + i + ".png",
-                //    NormalPrice = i * 20,
-                //    ReducedPrice = i * 10,
-                //});
-            }
 
             modelBuilder.Entity<Review>().HasData(new Review
             {
@@ -69,44 +57,23 @@ namespace MiniStore.Data
                 MiniId = 1
             });
 
-            modelBuilder.Entity<Size>().HasData(new Size
-            {
-                Id = 1,
-                Title = "S"
-            });
+            string[] TitleArray = { "Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan" };
+            for (int i = 1; i < 7; i++)
+                modelBuilder.Entity<Size>().HasData(new Size
+                {
+                    Id = i,
+                    Title = TitleArray[i - 1]
+                });
 
-            modelBuilder.Entity<Size>().HasData(new Size
-            {
-                Id = 2,
-                Title = "M"
-            });
 
-            modelBuilder.Entity<Size>().HasData(new Size
-            {
-                Id = 3,
-                Title = "L"
-            });
+            string[] StatusArray = { "En inventaire", "Bientôt", "Indisponible", "En rupture de stock" };
+            for (int i = 1; i < 5; i++)
+                modelBuilder.Entity<Status>().HasData(new Status
+                {
+                    Id = i,
+                    Title = StatusArray[i - 1]
+                });
 
-            modelBuilder.Entity<Status>().HasData(new Status
-            {
-                Id = 1,
-                Title = "Tout"
-            });
-            modelBuilder.Entity<Status>().HasData(new Status
-            {
-                Id = 2,
-                Title = "Disponible"
-            });
-            modelBuilder.Entity<Status>().HasData(new Status
-            {
-                Id = 3,
-                Title = "Indisponible"
-            });
-            modelBuilder.Entity<Status>().HasData(new Status
-            {
-                Id = 4,
-                Title = "Rupture de stock"
-            });
             modelBuilder.Entity<Message>().HasData(new Message
             {
                 Id = 1,
