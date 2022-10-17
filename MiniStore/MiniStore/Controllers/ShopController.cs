@@ -111,7 +111,6 @@ namespace MiniStore.Controllers
         {
             ViewData["itemId"] = id;
             return View();
-            //return ViewComponent("InfoItemMini", new {Id = id});
         }
     }
 }

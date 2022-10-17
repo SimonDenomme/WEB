@@ -85,7 +85,7 @@ namespace MiniStore.Data
                 {
                     Id = i,
                     Name = $"Mini {i}",
-                    Description = "This is a description",
+                    Description = $"This is a description of Mini {i}",
                     ImagePath = "Creature" + i + ".png",
                     IsPainted = true,
                     IsLuminous = i % 2 == 0,

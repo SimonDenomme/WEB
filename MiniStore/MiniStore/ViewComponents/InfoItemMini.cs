@@ -32,8 +32,6 @@ namespace MiniStore.ViewComponents
 
 
             return View(new MinisNotList(minis.ToArray()));
-            //return View("InfoItemMini", new MinisNotList(minis.ToArray()));
-            //return View("Item");
         }
     }
 }
