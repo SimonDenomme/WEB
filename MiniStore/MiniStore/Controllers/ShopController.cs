@@ -3,6 +3,8 @@ using MiniStore.Data;
 using MiniStore.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using MiniStore.Entity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MiniStore.Controllers
 {
@@ -53,10 +55,56 @@ namespace MiniStore.Controllers
             }
             return View(i);
         }
-
-
-
-
+        [Authorize]
+        public IActionResult AdminProduit()
+        {
+            return View();
+        }
+        [Authorize]
+        public IActionResult SupprimerProduit()
+        {
+            return View();
+        }
+        [Authorize]
+        [HttpPost]
+        //[Authorize(Roles ="Gerant")]
+        public async Task<IActionResult> SupprimerProduit(int id)
+        {
+            var mini = _context.Minis.Where(i => i.Id == id).FirstOrDefault();
+            _context.Minis.Remove(mini);
+            await _context.SaveChangesAsync();
+            return SupprimerProduit();
+        }
+        [Authorize]
+        public IActionResult ModifierProduit(int id)
+        {
+            var mini = _context.Minis.Where(i => i.Id == id).FirstOrDefault();
+            //_context.Minis.Remove(mini);
+            return View("MiniModification", mini);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ModifierProduit(Mini mini)
+        {
+            var mini1 = _context.Minis.Where(i => i.Id == mini.Id).FirstOrDefault();
+            mini1 = mini;
+            await _context.SaveChangesAsync();
+            return AdminProduit();
+        }
+        [Authorize]
+        public IActionResult AjouterProduit()
+        {
+            return View();
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AjouterProduit(Mini mini)
+        {
+            //var mini1 = _context.Minis.Where(i => i.Id == mini.Id).FirstOrDefault();
+            _context.Minis.Add(mini);
+            await _context.SaveChangesAsync();
+            return AjouterProduit();
+        }
         public IActionResult Item()
         {
             return View();

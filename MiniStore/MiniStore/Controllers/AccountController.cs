@@ -84,8 +84,6 @@ namespace MiniStore.Controllers
             {
                 UserName = model.Email,
                 Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

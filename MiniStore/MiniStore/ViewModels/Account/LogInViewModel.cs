@@ -2,7 +2,7 @@
 
 namespace MiniStore.ViewModels.Account
 {
-    public class LoginViewModel
+    public class LogInViewModel
     {
         [Required(ErrorMessage = "Email requis")]
         [EmailAddress(ErrorMessage = "Format invalide")]
