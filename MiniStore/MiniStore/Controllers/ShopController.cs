@@ -36,7 +36,6 @@ namespace MiniStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(indexViewModel i)
         {
-            
             if (i.FiltreA || i.FiltreB || i.FiltreC)
                 i.IsFiltered = true;
             if (!i.FiltreA)
@@ -56,18 +55,13 @@ namespace MiniStore.Controllers
             return View(i);
         }
         [Authorize]
-        public IActionResult AdminProduit()
-        {
-            return View();
-        }
+        public IActionResult AdminProduit() { return View(); }
+
         [Authorize]
-        public IActionResult SupprimerProduit()
-        {
-            return View();
-        }
+        public IActionResult SupprimerProduit() { return View(); }
+
         [Authorize]
         [HttpPost]
-        //[Authorize(Roles ="Gerant")]
         public async Task<IActionResult> SupprimerProduit(int id)
         {
             var mini = _context.Minis.Where(i => i.Id == id).FirstOrDefault();
@@ -78,7 +72,8 @@ namespace MiniStore.Controllers
         [Authorize]
         public IActionResult ModifierProduit(int id)
         {
-            var mini = _context.Minis.Where(i => i.Id == id).FirstOrDefault();
+            //var mini = _context.Minis.Where(i => i.Id == id).FirstOrDefault();
+            var mini = _context.Minis.Take(id);
             //_context.Minis.Remove(mini);
             return View("MiniModification", mini);
         }
@@ -86,16 +81,23 @@ namespace MiniStore.Controllers
         [HttpPost]
         public async Task<IActionResult> ModifierProduit(Mini mini)
         {
-            var mini1 = _context.Minis.Where(i => i.Id == mini.Id).FirstOrDefault();
-            mini1 = mini;
-            await _context.SaveChangesAsync();
-            return AdminProduit();
+            try
+            {
+                //var mini1 = _context.Minis.Take(mini.Id);
+                var mini1 = _context.Minis.Where(i => i.Id == mini.Id).FirstOrDefault();
+                mini1 = mini;
+                _context.Update(mini);
+                await _context.SaveChangesAsync();
+                return AdminProduit();
+            }
+            catch
+            {
+                return StatusCode(500, "Server error");
+            }
         }
         [Authorize]
-        public IActionResult AjouterProduit()
-        {
-            return View();
-        }
+        public IActionResult AjouterProduit() { return View(); }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> AjouterProduit(Mini mini)
