@@ -18,7 +18,7 @@ namespace MiniStore.ViewComponents
         {
             _context = context;
         }
-        public async Task<IViewComponentResult> InvokeAsync(int Id = 1)
+        public async Task<IViewComponentResult> InvokeAsync(int Id)
         {
             var mini =  _context.Minis.Where(m => m.Id == Id).Select(m => new ProduitDetails(Id,
                                                         m.Name, m.ImagePath,

@@ -105,9 +105,10 @@ namespace MiniStore.Controllers
             await _context.SaveChangesAsync();
             return AjouterProduit();
         }
-        public IActionResult Item()
+        public IActionResult Item(int id)
         {
-            return View();
+            //return View();
+            return ViewComponent("InfoItemMini", new {Id = id});
         }
     }
 }
