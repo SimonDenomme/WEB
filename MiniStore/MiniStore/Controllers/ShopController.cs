@@ -32,7 +32,6 @@ namespace MiniStore.Controllers
             return View(i);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Index(indexViewModel i)
         {
@@ -54,6 +53,17 @@ namespace MiniStore.Controllers
             }
             return View(i);
         }
+
+        [HttpGet]
+        public IActionResult Search(string search)
+        {
+            var minis = _context.Minis.Where(m => m.Name.Contains(search)).ToList();
+            var miniSize = _context.Sizes.ToList();
+            var miniFini = minis.Select(m => new ProduitDetails(m.Id, m.Name, m.ImagePath, miniSize.Where(s => s.Id == m.SizeId).FirstOrDefault().Title, m.NormalPrice, m.ReducedPrice, m.StatusId)).ToList();
+            ProduitList p = new ProduitList(miniFini.ToArray());
+            return View("Index", p);
+        }
+        
         [Authorize]
         public IActionResult AdminProduit() { return View(); }
 

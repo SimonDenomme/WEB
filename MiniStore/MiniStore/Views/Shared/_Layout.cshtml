@@ -69,19 +69,19 @@
                         </ul>
                     </div>
                     <div class="navbar align-self-center d-flex">
-                        <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                        <form asp-action="Search" asp-controller="Shop" method="get" class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                                <div class="input-group-text">
+                                <input type="text" class="form-control" id="inputMobileSearch" name="search" placeholder="Search ...">
+                                <button type="submit" class="input-group-text">
                                     <i class="fa fa-fw fa-search"></i>
-                                </div>
+                                </button>
                             </div>
-                        </div>
+                        </form>
 
                         <a class="nav-icon position-relative text-decoration-none" href="#">
-                            <form action="" method="get" class="d-none d-lg-block modal-content modal-body border-0 p-0">
+                            <form asp-action="Search" asp-controller="Shop" method="get" class="d-none d-lg-block modal-content modal-body border-0 p-0">
                                 <div class="input-group mb-2">
-                                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                                    <input type="text" class="form-control" id="inputModalSearch" name="search" placeholder="Search ...">
                                     <button type="submit" class="input-group-text text-light">
                                         <i class="fa fa-fw fa-search text-dark"></i>
                                     </button>
