@@ -22,8 +22,8 @@ namespace MiniStore.Controllers
         public IActionResult Index()
         {
             int iCount = _context.Minis.Count();
-            
-            indexViewModel i = new indexViewModel { TotalCount = iCount, PageIndex = 1, TotalPage = NombrePage(iCount) };
+
+            indexViewModel i = new indexViewModel { TotalCount = iCount, TotalPage = NombrePage(iCount) };
 
             return View(i);
         }
@@ -56,7 +56,7 @@ namespace MiniStore.Controllers
             var minis = _context.Minis.Where(m => m.Name.ToLower().Contains(search)).ToList();
             var miniSize = _context.Sizes.ToList();
 
-            indexViewModel i = new indexViewModel { IsFiltered = true, IsPainted = search.Contains("#painted"), IsLuminous = search.Contains("#luminous"), Search = search, TotalCount = minis.Count, PageIndex = 1, TotalPage = NombrePage(minis.Count) };
+            indexViewModel i = new indexViewModel { IsFiltered = true, IsPainted = search.Contains("#painted"), IsLuminous = search.Contains("#luminous"), Search = search, TotalCount = minis.Count, TotalPage = NombrePage(minis.Count) };
 
             return View("Index", i);
         }
@@ -117,15 +117,12 @@ namespace MiniStore.Controllers
             return View();
         }
 
-        private int NombrePage(int mCount)
+        private int NombrePage(int iCount)
         {
-            decimal mpa = mCount / 30;
-            int TP = (int)mpa;
-            mpa = mpa % 1;
-            if (mpa > 0)
-                TP++;
+            int iTotalPage = iCount / 30;
+            if (iCount % 30 != 0) iTotalPage++;
 
-            return TP;
+            return iTotalPage;
         }
     }
 }
