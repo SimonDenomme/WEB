@@ -9,6 +9,7 @@ namespace MiniStore.ViewComponents
     public class ContactForm : ViewComponent
     {
         private readonly MiniStoreContext _context;
+        
 
         public ContactForm(MiniStoreContext context)
         {
@@ -17,7 +18,6 @@ namespace MiniStore.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            //var contactForm = await _context.Where(c => c.ContactFormId == 1).FirstOrDefaultAsync();
             return View();
         }
     }
