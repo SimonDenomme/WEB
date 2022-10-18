@@ -32,7 +32,8 @@ namespace MiniStore.ViewComponents
             _OrderBy _Order = _OrderBy.AtoZ,
             int StatusId = 1,
             int PageIndex = 1,
-            int TotalPage = 1)
+            int TotalPage = 1,
+            string Search = null)
         {
 
             IEnumerable<ProduitDetails> miniFini;
@@ -58,6 +59,8 @@ namespace MiniStore.ViewComponents
                                                  m.NormalPrice <= MaxPrice).ToList();
                 if (FiltreC && StatusId != 1)
                     minis1 = minis1.Where(m => m.StatusId == StatusId).ToList();
+                if (Search != null)
+                    minis1 = minis1.Where(m => m.Name.ToLower().Contains(Search)).ToList();
             }
 
 

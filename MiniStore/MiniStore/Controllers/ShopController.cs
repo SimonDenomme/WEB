@@ -21,13 +21,9 @@ namespace MiniStore.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            decimal mCount = _context.Minis.Count();
-            decimal mpa = mCount / 30;
-            int TP = (int)mpa;
-            mpa = mpa % 1;
-            if (mpa > 0)
-                TP++;
-            indexViewModel i = new indexViewModel { IsPainted = false, IsFiltered = false, IsLuminous = false, TotalCount = (int)mCount, PageIndex = 1, TotalPage = TP };
+            int iCount = _context.Minis.Count();
+            
+            indexViewModel i = new indexViewModel { TotalCount = iCount, PageIndex = 1, TotalPage = NombrePage(iCount) };
 
             return View(i);
         }
@@ -57,13 +53,14 @@ namespace MiniStore.Controllers
         [HttpGet]
         public IActionResult Search(string search)
         {
-            var minis = _context.Minis.Where(m => m.Name.Contains(search)).ToList();
+            var minis = _context.Minis.Where(m => m.Name.ToLower().Contains(search)).ToList();
             var miniSize = _context.Sizes.ToList();
-            var miniFini = minis.Select(m => new ProduitDetails(m.Id, m.Name, m.ImagePath, miniSize.Where(s => s.Id == m.SizeId).FirstOrDefault().Title, m.NormalPrice, m.ReducedPrice, m.StatusId)).ToList();
-            ProduitList p = new ProduitList(miniFini.ToArray());
-            return View("Index", p);
+
+            indexViewModel i = new indexViewModel { IsFiltered = true, IsPainted = search.Contains("#painted"), IsLuminous = search.Contains("#luminous"), Search = search, TotalCount = minis.Count, PageIndex = 1, TotalPage = NombrePage(minis.Count) };
+
+            return View("Index", i);
         }
-        
+
         [Authorize]
         public IActionResult AdminProduit() { return View(); }
 
@@ -118,6 +115,17 @@ namespace MiniStore.Controllers
         {
             ViewData["itemId"] = id;
             return View();
+        }
+
+        private int NombrePage(int mCount)
+        {
+            decimal mpa = mCount / 30;
+            int TP = (int)mpa;
+            mpa = mpa % 1;
+            if (mpa > 0)
+                TP++;
+
+            return TP;
         }
     }
 }
