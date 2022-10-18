@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using MiniStore.Domain;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Entity;
-using System.Reflection.Emit;
 
 namespace MiniStore.Data
 {
@@ -94,9 +90,9 @@ namespace MiniStore.Data
                     ReducedPrice = i * 10,
                     IsFrontPage = false,
                     QtySold = i * 2,
-                    CategoryId = i % 12 + 1,
+                    CategoryId = i % 5 + 1,
                     SizeId = i % 6 + 1,
-                    StatusId = 2, // test
+                    StatusId = 1, // test
                 });
         }
         private static void SeedMessages(this ModelBuilder builder)

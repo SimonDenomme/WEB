@@ -48,8 +48,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b5a55fd7-74fc-42f4-bad0-782b2cc67afc",
-                            ConcurrencyStamp = "cbfd62c3-7192-4219-b283-8b7c54d24459",
+                            Id = "f0204c3c-a66f-4215-b5c3-283a96f9f8ee",
+                            ConcurrencyStamp = "9a237f37-f5a7-459e-b76d-c23d8f0ebb7a",
                             Name = "Admin"
                         });
                 });
@@ -141,8 +141,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "c5cbdc29-baa5-44e7-a42b-fb474be18602",
-                            RoleId = "b5a55fd7-74fc-42f4-bad0-782b2cc67afc"
+                            UserId = "fc621b7f-f010-4ab3-ad27-7bb418e9f38f",
+                            RoleId = "f0204c3c-a66f-4215-b5c3-283a96f9f8ee"
                         });
                 });
 
@@ -238,17 +238,17 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c5cbdc29-baa5-44e7-a42b-fb474be18602",
+                            Id = "fc621b7f-f010-4ab3-ad27-7bb418e9f38f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e0736cfe-7286-4891-9d10-e6931bc99995",
+                            ConcurrencyStamp = "e2074358-58a5-4f20-9193-e80488c2ea20",
                             Email = "admin@test.ca",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@TEST.CA",
                             NormalizedUserName = "ADMIN@TEST.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAELmdRIwZ+lhUA1ciVorWelFZne6pNGkq6GNgEuGv9UhGG7CjZZWkn1kdx4aSRRxzSw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOCG19n4R1ZxmsLWBIF35knMeucTAwtPp6nW5UQkYdw8/6elrlnu3E1JeDQIG7ZaqA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "05ef13ee-6ba6-420b-9d7d-7a19d065cd48",
+                            SecurityStamp = "de8f209e-37e7-4cd0-a748-9b355c230a92",
                             TwoFactorEnabled = false,
                             UserName = "admin@test.ca"
                         });
@@ -398,7 +398,7 @@ namespace MiniStore.Migrations
                             QtySold = 2,
                             ReducedPrice = 10.0,
                             SizeId = 2,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
@@ -415,7 +415,7 @@ namespace MiniStore.Migrations
                             QtySold = 4,
                             ReducedPrice = 20.0,
                             SizeId = 3,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
@@ -432,7 +432,7 @@ namespace MiniStore.Migrations
                             QtySold = 6,
                             ReducedPrice = 30.0,
                             SizeId = 4,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
@@ -449,12 +449,12 @@ namespace MiniStore.Migrations
                             QtySold = 8,
                             ReducedPrice = 40.0,
                             SizeId = 5,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 5,
-                            CategoryId = 6,
+                            CategoryId = 1,
                             Description = "This is a description of Mini 5",
                             ImagePath = "Creature5.png",
                             IsFrontPage = false,
@@ -466,12 +466,12 @@ namespace MiniStore.Migrations
                             QtySold = 10,
                             ReducedPrice = 50.0,
                             SizeId = 6,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 6,
-                            CategoryId = 7,
+                            CategoryId = 2,
                             Description = "This is a description of Mini 6",
                             ImagePath = "Creature6.png",
                             IsFrontPage = false,
@@ -483,12 +483,12 @@ namespace MiniStore.Migrations
                             QtySold = 12,
                             ReducedPrice = 60.0,
                             SizeId = 1,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 7,
-                            CategoryId = 8,
+                            CategoryId = 3,
                             Description = "This is a description of Mini 7",
                             ImagePath = "Creature7.png",
                             IsFrontPage = false,
@@ -500,12 +500,12 @@ namespace MiniStore.Migrations
                             QtySold = 14,
                             ReducedPrice = 70.0,
                             SizeId = 2,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 8,
-                            CategoryId = 9,
+                            CategoryId = 4,
                             Description = "This is a description of Mini 8",
                             ImagePath = "Creature8.png",
                             IsFrontPage = false,
@@ -517,12 +517,12 @@ namespace MiniStore.Migrations
                             QtySold = 16,
                             ReducedPrice = 80.0,
                             SizeId = 3,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 9,
-                            CategoryId = 10,
+                            CategoryId = 5,
                             Description = "This is a description of Mini 9",
                             ImagePath = "Creature9.png",
                             IsFrontPage = false,
@@ -534,12 +534,12 @@ namespace MiniStore.Migrations
                             QtySold = 18,
                             ReducedPrice = 90.0,
                             SizeId = 4,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 10,
-                            CategoryId = 11,
+                            CategoryId = 1,
                             Description = "This is a description of Mini 10",
                             ImagePath = "Creature10.png",
                             IsFrontPage = false,
@@ -551,12 +551,12 @@ namespace MiniStore.Migrations
                             QtySold = 20,
                             ReducedPrice = 100.0,
                             SizeId = 5,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 11,
-                            CategoryId = 12,
+                            CategoryId = 2,
                             Description = "This is a description of Mini 11",
                             ImagePath = "Creature11.png",
                             IsFrontPage = false,
@@ -568,12 +568,12 @@ namespace MiniStore.Migrations
                             QtySold = 22,
                             ReducedPrice = 110.0,
                             SizeId = 6,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 12,
-                            CategoryId = 1,
+                            CategoryId = 3,
                             Description = "This is a description of Mini 12",
                             ImagePath = "Creature12.png",
                             IsFrontPage = false,
@@ -585,12 +585,12 @@ namespace MiniStore.Migrations
                             QtySold = 24,
                             ReducedPrice = 120.0,
                             SizeId = 1,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 13,
-                            CategoryId = 2,
+                            CategoryId = 4,
                             Description = "This is a description of Mini 13",
                             ImagePath = "Creature13.png",
                             IsFrontPage = false,
@@ -602,12 +602,12 @@ namespace MiniStore.Migrations
                             QtySold = 26,
                             ReducedPrice = 130.0,
                             SizeId = 2,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 14,
-                            CategoryId = 3,
+                            CategoryId = 5,
                             Description = "This is a description of Mini 14",
                             ImagePath = "Creature14.png",
                             IsFrontPage = false,
@@ -619,12 +619,12 @@ namespace MiniStore.Migrations
                             QtySold = 28,
                             ReducedPrice = 140.0,
                             SizeId = 3,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 15,
-                            CategoryId = 4,
+                            CategoryId = 1,
                             Description = "This is a description of Mini 15",
                             ImagePath = "Creature15.png",
                             IsFrontPage = false,
@@ -636,12 +636,12 @@ namespace MiniStore.Migrations
                             QtySold = 30,
                             ReducedPrice = 150.0,
                             SizeId = 4,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 16,
-                            CategoryId = 5,
+                            CategoryId = 2,
                             Description = "This is a description of Mini 16",
                             ImagePath = "Creature16.png",
                             IsFrontPage = false,
@@ -653,12 +653,12 @@ namespace MiniStore.Migrations
                             QtySold = 32,
                             ReducedPrice = 160.0,
                             SizeId = 5,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 17,
-                            CategoryId = 6,
+                            CategoryId = 3,
                             Description = "This is a description of Mini 17",
                             ImagePath = "Creature17.png",
                             IsFrontPage = false,
@@ -670,12 +670,12 @@ namespace MiniStore.Migrations
                             QtySold = 34,
                             ReducedPrice = 170.0,
                             SizeId = 6,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 18,
-                            CategoryId = 7,
+                            CategoryId = 4,
                             Description = "This is a description of Mini 18",
                             ImagePath = "Creature18.png",
                             IsFrontPage = false,
@@ -687,12 +687,12 @@ namespace MiniStore.Migrations
                             QtySold = 36,
                             ReducedPrice = 180.0,
                             SizeId = 1,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 19,
-                            CategoryId = 8,
+                            CategoryId = 5,
                             Description = "This is a description of Mini 19",
                             ImagePath = "Creature19.png",
                             IsFrontPage = false,
@@ -704,12 +704,12 @@ namespace MiniStore.Migrations
                             QtySold = 38,
                             ReducedPrice = 190.0,
                             SizeId = 2,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 20,
-                            CategoryId = 9,
+                            CategoryId = 1,
                             Description = "This is a description of Mini 20",
                             ImagePath = "Creature20.png",
                             IsFrontPage = false,
@@ -721,12 +721,12 @@ namespace MiniStore.Migrations
                             QtySold = 40,
                             ReducedPrice = 200.0,
                             SizeId = 3,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 21,
-                            CategoryId = 10,
+                            CategoryId = 2,
                             Description = "This is a description of Mini 21",
                             ImagePath = "Creature21.png",
                             IsFrontPage = false,
@@ -738,12 +738,12 @@ namespace MiniStore.Migrations
                             QtySold = 42,
                             ReducedPrice = 210.0,
                             SizeId = 4,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 22,
-                            CategoryId = 11,
+                            CategoryId = 3,
                             Description = "This is a description of Mini 22",
                             ImagePath = "Creature22.png",
                             IsFrontPage = false,
@@ -755,12 +755,12 @@ namespace MiniStore.Migrations
                             QtySold = 44,
                             ReducedPrice = 220.0,
                             SizeId = 5,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 23,
-                            CategoryId = 12,
+                            CategoryId = 4,
                             Description = "This is a description of Mini 23",
                             ImagePath = "Creature23.png",
                             IsFrontPage = false,
@@ -772,12 +772,12 @@ namespace MiniStore.Migrations
                             QtySold = 46,
                             ReducedPrice = 230.0,
                             SizeId = 6,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 24,
-                            CategoryId = 1,
+                            CategoryId = 5,
                             Description = "This is a description of Mini 24",
                             ImagePath = "Creature24.png",
                             IsFrontPage = false,
@@ -789,12 +789,12 @@ namespace MiniStore.Migrations
                             QtySold = 48,
                             ReducedPrice = 240.0,
                             SizeId = 1,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 25,
-                            CategoryId = 2,
+                            CategoryId = 1,
                             Description = "This is a description of Mini 25",
                             ImagePath = "Creature25.png",
                             IsFrontPage = false,
@@ -806,12 +806,12 @@ namespace MiniStore.Migrations
                             QtySold = 50,
                             ReducedPrice = 250.0,
                             SizeId = 2,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 26,
-                            CategoryId = 3,
+                            CategoryId = 2,
                             Description = "This is a description of Mini 26",
                             ImagePath = "Creature26.png",
                             IsFrontPage = false,
@@ -823,12 +823,12 @@ namespace MiniStore.Migrations
                             QtySold = 52,
                             ReducedPrice = 260.0,
                             SizeId = 3,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 27,
-                            CategoryId = 4,
+                            CategoryId = 3,
                             Description = "This is a description of Mini 27",
                             ImagePath = "Creature27.png",
                             IsFrontPage = false,
@@ -840,12 +840,12 @@ namespace MiniStore.Migrations
                             QtySold = 54,
                             ReducedPrice = 270.0,
                             SizeId = 4,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 28,
-                            CategoryId = 5,
+                            CategoryId = 4,
                             Description = "This is a description of Mini 28",
                             ImagePath = "Creature28.png",
                             IsFrontPage = false,
@@ -857,12 +857,12 @@ namespace MiniStore.Migrations
                             QtySold = 56,
                             ReducedPrice = 280.0,
                             SizeId = 5,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 29,
-                            CategoryId = 6,
+                            CategoryId = 5,
                             Description = "This is a description of Mini 29",
                             ImagePath = "Creature29.png",
                             IsFrontPage = false,
@@ -874,12 +874,12 @@ namespace MiniStore.Migrations
                             QtySold = 58,
                             ReducedPrice = 290.0,
                             SizeId = 6,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 30,
-                            CategoryId = 7,
+                            CategoryId = 1,
                             Description = "This is a description of Mini 30",
                             ImagePath = "Creature30.png",
                             IsFrontPage = false,
@@ -891,12 +891,12 @@ namespace MiniStore.Migrations
                             QtySold = 60,
                             ReducedPrice = 300.0,
                             SizeId = 1,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 31,
-                            CategoryId = 8,
+                            CategoryId = 2,
                             Description = "This is a description of Mini 31",
                             ImagePath = "Creature31.png",
                             IsFrontPage = false,
@@ -908,12 +908,12 @@ namespace MiniStore.Migrations
                             QtySold = 62,
                             ReducedPrice = 310.0,
                             SizeId = 2,
-                            StatusId = 2
+                            StatusId = 1
                         },
                         new
                         {
                             Id = 32,
-                            CategoryId = 9,
+                            CategoryId = 3,
                             Description = "This is a description of Mini 32",
                             ImagePath = "Creature32.png",
                             IsFrontPage = false,
@@ -925,7 +925,7 @@ namespace MiniStore.Migrations
                             QtySold = 64,
                             ReducedPrice = 320.0,
                             SizeId = 3,
-                            StatusId = 2
+                            StatusId = 1
                         });
                 });
 
