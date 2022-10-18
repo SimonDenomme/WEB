@@ -18,11 +18,12 @@ namespace MiniStore.ViewComponents
         {
             _context = context;
         }
-        public async Task<IViewComponentResult> InvokeAsync(int Id = 1)
+        public async Task<IViewComponentResult> InvokeAsync(int Id)
         {
             var miniSize = _context.Sizes.ToList();
 
-            var mini =  _context.Minis.Where(m => m.Id == Id).Select(m => new ProduitDetails(Id,
+            var mini =  _context.Minis.AsEnumerable()
+                                      .Where(m => m.Id == Id).Select(m => new ProduitDetails(Id,
                                                         m.Name, m.ImagePath, miniSize.Where(s => s.Id == m.SizeId).First().Title,
                                                         m.NormalPrice, m.ReducedPrice, m.StatusId)).FirstOrDefault();
 

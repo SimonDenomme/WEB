@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Data;
 
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20221017202720_Maj2-Db")]
+    partial class Maj2Db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,8 +50,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b5a55fd7-74fc-42f4-bad0-782b2cc67afc",
-                            ConcurrencyStamp = "cbfd62c3-7192-4219-b283-8b7c54d24459",
+                            Id = "0e47e1f5-9467-4541-98d7-ce1bd470d5f4",
+                            ConcurrencyStamp = "4bf5f118-daa5-46f6-87bb-05f5307b690d",
                             Name = "Admin"
                         });
                 });
@@ -141,8 +143,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "c5cbdc29-baa5-44e7-a42b-fb474be18602",
-                            RoleId = "b5a55fd7-74fc-42f4-bad0-782b2cc67afc"
+                            UserId = "5b7a46b3-6921-4e31-88ef-b5c030a59aa8",
+                            RoleId = "0e47e1f5-9467-4541-98d7-ce1bd470d5f4"
                         });
                 });
 
@@ -238,17 +240,17 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c5cbdc29-baa5-44e7-a42b-fb474be18602",
+                            Id = "5b7a46b3-6921-4e31-88ef-b5c030a59aa8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e0736cfe-7286-4891-9d10-e6931bc99995",
+                            ConcurrencyStamp = "cc846b24-ad8b-4e82-ad63-b1648bb07e0a",
                             Email = "admin@test.ca",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@TEST.CA",
                             NormalizedUserName = "ADMIN@TEST.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAELmdRIwZ+lhUA1ciVorWelFZne6pNGkq6GNgEuGv9UhGG7CjZZWkn1kdx4aSRRxzSw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELmMIqXcGAZOzN1vjZhTg5DO2dpJ7GyCYkhuB4QMtUUtFtq+3ilB/AhruxSnqXSyfw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "05ef13ee-6ba6-420b-9d7d-7a19d065cd48",
+                            SecurityStamp = "5977fd0b-aa04-43ef-ab1d-b5b4860b57c7",
                             TwoFactorEnabled = false,
                             UserName = "admin@test.ca"
                         });
@@ -387,7 +389,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 1,
                             CategoryId = 2,
-                            Description = "This is a description of Mini 1",
+                            Description = "This is a description",
                             ImagePath = "Creature1.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -404,7 +406,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 2,
                             CategoryId = 3,
-                            Description = "This is a description of Mini 2",
+                            Description = "This is a description",
                             ImagePath = "Creature2.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -421,7 +423,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 3,
                             CategoryId = 4,
-                            Description = "This is a description of Mini 3",
+                            Description = "This is a description",
                             ImagePath = "Creature3.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -438,7 +440,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 4,
                             CategoryId = 5,
-                            Description = "This is a description of Mini 4",
+                            Description = "This is a description",
                             ImagePath = "Creature4.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -455,7 +457,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 5,
                             CategoryId = 6,
-                            Description = "This is a description of Mini 5",
+                            Description = "This is a description",
                             ImagePath = "Creature5.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -472,7 +474,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 6,
                             CategoryId = 7,
-                            Description = "This is a description of Mini 6",
+                            Description = "This is a description",
                             ImagePath = "Creature6.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -489,7 +491,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 7,
                             CategoryId = 8,
-                            Description = "This is a description of Mini 7",
+                            Description = "This is a description",
                             ImagePath = "Creature7.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -506,7 +508,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 8,
                             CategoryId = 9,
-                            Description = "This is a description of Mini 8",
+                            Description = "This is a description",
                             ImagePath = "Creature8.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -523,7 +525,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 9,
                             CategoryId = 10,
-                            Description = "This is a description of Mini 9",
+                            Description = "This is a description",
                             ImagePath = "Creature9.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -540,7 +542,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 10,
                             CategoryId = 11,
-                            Description = "This is a description of Mini 10",
+                            Description = "This is a description",
                             ImagePath = "Creature10.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -557,7 +559,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 11,
                             CategoryId = 12,
-                            Description = "This is a description of Mini 11",
+                            Description = "This is a description",
                             ImagePath = "Creature11.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -574,7 +576,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 12,
                             CategoryId = 1,
-                            Description = "This is a description of Mini 12",
+                            Description = "This is a description",
                             ImagePath = "Creature12.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -591,7 +593,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 13,
                             CategoryId = 2,
-                            Description = "This is a description of Mini 13",
+                            Description = "This is a description",
                             ImagePath = "Creature13.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -608,7 +610,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 14,
                             CategoryId = 3,
-                            Description = "This is a description of Mini 14",
+                            Description = "This is a description",
                             ImagePath = "Creature14.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -625,7 +627,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 15,
                             CategoryId = 4,
-                            Description = "This is a description of Mini 15",
+                            Description = "This is a description",
                             ImagePath = "Creature15.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -642,7 +644,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 16,
                             CategoryId = 5,
-                            Description = "This is a description of Mini 16",
+                            Description = "This is a description",
                             ImagePath = "Creature16.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -659,7 +661,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 17,
                             CategoryId = 6,
-                            Description = "This is a description of Mini 17",
+                            Description = "This is a description",
                             ImagePath = "Creature17.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -676,7 +678,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 18,
                             CategoryId = 7,
-                            Description = "This is a description of Mini 18",
+                            Description = "This is a description",
                             ImagePath = "Creature18.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -693,7 +695,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 19,
                             CategoryId = 8,
-                            Description = "This is a description of Mini 19",
+                            Description = "This is a description",
                             ImagePath = "Creature19.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -710,7 +712,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 20,
                             CategoryId = 9,
-                            Description = "This is a description of Mini 20",
+                            Description = "This is a description",
                             ImagePath = "Creature20.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -727,7 +729,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 21,
                             CategoryId = 10,
-                            Description = "This is a description of Mini 21",
+                            Description = "This is a description",
                             ImagePath = "Creature21.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -744,7 +746,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 22,
                             CategoryId = 11,
-                            Description = "This is a description of Mini 22",
+                            Description = "This is a description",
                             ImagePath = "Creature22.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -761,7 +763,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 23,
                             CategoryId = 12,
-                            Description = "This is a description of Mini 23",
+                            Description = "This is a description",
                             ImagePath = "Creature23.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -778,7 +780,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 24,
                             CategoryId = 1,
-                            Description = "This is a description of Mini 24",
+                            Description = "This is a description",
                             ImagePath = "Creature24.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -795,7 +797,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 25,
                             CategoryId = 2,
-                            Description = "This is a description of Mini 25",
+                            Description = "This is a description",
                             ImagePath = "Creature25.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -812,7 +814,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 26,
                             CategoryId = 3,
-                            Description = "This is a description of Mini 26",
+                            Description = "This is a description",
                             ImagePath = "Creature26.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -829,7 +831,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 27,
                             CategoryId = 4,
-                            Description = "This is a description of Mini 27",
+                            Description = "This is a description",
                             ImagePath = "Creature27.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -846,7 +848,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 28,
                             CategoryId = 5,
-                            Description = "This is a description of Mini 28",
+                            Description = "This is a description",
                             ImagePath = "Creature28.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -863,7 +865,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 29,
                             CategoryId = 6,
-                            Description = "This is a description of Mini 29",
+                            Description = "This is a description",
                             ImagePath = "Creature29.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -880,7 +882,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 30,
                             CategoryId = 7,
-                            Description = "This is a description of Mini 30",
+                            Description = "This is a description",
                             ImagePath = "Creature30.png",
                             IsFrontPage = false,
                             IsLuminous = true,
@@ -897,7 +899,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 31,
                             CategoryId = 8,
-                            Description = "This is a description of Mini 31",
+                            Description = "This is a description",
                             ImagePath = "Creature31.png",
                             IsFrontPage = false,
                             IsLuminous = false,
@@ -914,7 +916,7 @@ namespace MiniStore.Migrations
                         {
                             Id = 32,
                             CategoryId = 9,
-                            Description = "This is a description of Mini 32",
+                            Description = "This is a description",
                             ImagePath = "Creature32.png",
                             IsFrontPage = false,
                             IsLuminous = true,

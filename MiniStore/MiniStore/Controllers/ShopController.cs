@@ -68,16 +68,13 @@ namespace MiniStore.Controllers
         public IActionResult AdminProduit() { return View(); }
 
         [Authorize]
-        public IActionResult SupprimerProduit() { return View(); }
-
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> SupprimerProduit(int id)
         {
             var mini = _context.Minis.Where(i => i.Id == id).FirstOrDefault();
             _context.Minis.Remove(mini);
             await _context.SaveChangesAsync();
-            return SupprimerProduit();
+            return AdminProduit();
         }
         [Authorize]
         public IActionResult ModifierProduit(int id)
@@ -117,7 +114,10 @@ namespace MiniStore.Controllers
             await _context.SaveChangesAsync();
             return AjouterProduit();
         }
-        public IActionResult Item() { return View(); }
-
+        public IActionResult Item(int id)
+        {
+            ViewData["itemId"] = id;
+            return View();
+        }
     }
 }
