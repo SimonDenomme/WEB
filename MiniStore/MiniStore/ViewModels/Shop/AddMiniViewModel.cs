@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MiniStore.ViewModels.Shop
 {
@@ -13,10 +15,11 @@ namespace MiniStore.ViewModels.Shop
         public double Normalprice { get; set; }
         public double ReducedPrice { get; set; }
 
+        public IEnumerable<SelectListItem> Categories { get; set; }
+        public string SelectedCategory { get; set; }
 
-        public int CategoryId { get; set; }
-        public int SizeId { get; set; }
-        //public int StatusId { get; set; }         // Normalement c'est une donnée qui est gérée par le site, pas par l'utilisateur
+        public IEnumerable<SelectListItem> Sizes { get; set; }
+        public string SelectedSize { get; set; }
     }
 }
                                                 

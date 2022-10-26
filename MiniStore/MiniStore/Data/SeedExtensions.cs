@@ -129,7 +129,7 @@ namespace MiniStore.Data
         }
         private static void SeedStatus(this ModelBuilder builder)
         {
-            string[] StatusArray = { "En inventaire", "Bientôt", "Indisponible", "En rupture de stock" };
+            string[] StatusArray = { "En inventaire", "Précommande", "Indisponible", "En rupture de stock" };
             for (int i = 1; i < 5; i++)
                 builder.Entity<Status>().HasData(new Status
                 {

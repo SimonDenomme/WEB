@@ -1,1 +1,81 @@
-﻿<h1>Tu es bien dans ModifierProduit.cshtml</h1>
+﻿@model MiniStore.ViewModels.Shop.EditMiniViewModel
+
+@{
+    ViewData["Title"] = "ModifierProduit";
+}
+
+<h1>ModifierProduit</h1>
+
+<h4>MiniEditViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ModifierProduit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagePath" class="control-label"></label>
+                <input asp-for="ImagePath" class="form-control" />
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPainted" /> @Html.DisplayNameFor(model => model.IsPainted)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsLuminous" /> @Html.DisplayNameFor(model => model.IsLuminous)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="QtyInventory" class="control-label"></label>
+                <input asp-for="QtyInventory" class="form-control" />
+                <span asp-validation-for="QtyInventory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NormalPrice" class="control-label"></label>
+                <input asp-for="NormalPrice" class="form-control" />
+                <span asp-validation-for="NormalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReducedPrice" class="control-label"></label>
+                <input asp-for="ReducedPrice" class="form-control" />
+                <span asp-validation-for="ReducedPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.DropDownListFor(m=>m.SelectedCategory, Model.Categories, "Sélectionner une catégorie", new { @class = "form_control" })
+            </div>
+            <div class="form-group">
+                @Html.DropDownListFor(m=>m.SelectedSize, Model.Sizes, "Sélectionner une taille", new { @class = "form-control" })
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StatusIndiponible" /> @Html.DisplayNameFor(model => model.StatusIndiponible)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

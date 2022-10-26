@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using MiniStore.Domain;
 using MiniStore.ViewModels.Shop;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MiniStore.Controllers
 {
@@ -105,6 +107,7 @@ namespace MiniStore.Controllers
                 return StatusCode(500, "Server error");
             }
         }
+
         // ToDo: Concevoir la vue de ModifierProduit
         [Authorize]
         public async Task<IActionResult> ModifierProduit(int? id)
@@ -128,8 +131,11 @@ namespace MiniStore.Controllers
                     QtyInventory = mini.QtyInventory,
                     NormalPrice = mini.NormalPrice,
                     ReducedPrice = mini.ReducedPrice,
-                    CategoryId = mini.CategoryId,
-                    SizeId = mini.SizeId,
+                    Categories = FillDropDownCategory(),
+                    SelectedCategory = mini.CategoryId.ToString(),
+                    Sizes = FillDropDownSize(),
+                    SelectedSize = mini.SizeId.ToString(),
+                    StatusIndiponible = mini.StatusId == 3
                 };
 
                 return View(edit);
@@ -160,8 +166,13 @@ namespace MiniStore.Controllers
                 mini.QtyInventory = model.QtyInventory;
                 mini.NormalPrice = model.NormalPrice;
                 mini.ReducedPrice = model.ReducedPrice;
-                mini.Category = await _context.Categories.FindAsync( model.CategoryId);
-                mini.Size = await _context.Sizes.FindAsync(model.SizeId);
+                mini.CategoryId = int.Parse(model.SelectedCategory);
+                mini.SizeId = int.Parse(model.SelectedSize);
+
+                // { "En inventaire", "Précommande", "Indisponible", "En rupture de stock" }
+                mini.StatusId = mini.QtyInventory > 0 ? 1 : 4;
+                if (model.StatusIndiponible)
+                    mini.StatusId = 3;
 
                 _context.Update(mini);
                 await _context.SaveChangesAsync();
@@ -172,10 +183,16 @@ namespace MiniStore.Controllers
                 return StatusCode(500, "Server error");
             }
         }
-        // ToDo: Concevoir la vue de AjouterProduit
-        [Authorize]
-        public IActionResult AjouterProduit() { return View(new AddMiniViewModel()); }
 
+        [Authorize]
+        public IActionResult AjouterProduit()
+        {
+            return View(new AddMiniViewModel
+            {
+                Categories = FillDropDownCategory(),
+                Sizes = FillDropDownSize()
+            });
+        }
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -191,13 +208,43 @@ namespace MiniStore.Controllers
                 QtyInventory = model.QtyInventory,
                 NormalPrice = model.Normalprice,
                 ReducedPrice = model.ReducedPrice,
-                CategoryId = model.CategoryId,
-                SizeId = model.SizeId,
+                CategoryId = int.Parse(model.SelectedCategory),
+                SizeId = int.Parse(model.SelectedSize),
             };
+
+            // { "En inventaire", "Précommande", "Indisponible", "En rupture de stock" }
+            mini.StatusId = mini.QtyInventory > 0 ? 1 : 2;
 
             _context.Add(mini);
             await _context.SaveChangesAsync();
-            return AdminProduit();
+            return RedirectToAction("AdminProduit");
+        }
+
+        private IEnumerable<SelectListItem> FillDropDownCategory()
+        {
+            var categories = _context.Categories.ToList();
+            var list = categories.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            });
+            return list;
+        }
+        private IEnumerable<SelectListItem> FillDropDownSize()
+        {
+            var categories = _context.Sizes.ToList();
+            var list = categories.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Title
+            });
+            return list;
+        }
+
+        public IActionResult Item(int id)
+        {
+            ViewData["itemId"] = id;
+            return View();
         }
 
         private int NombrePage(int iCount)

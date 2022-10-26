@@ -1,4 +1,7 @@
-﻿namespace MiniStore.ViewModels.Shop
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+
+namespace MiniStore.ViewModels.Shop
 {
     public class EditMiniViewModel
     {
@@ -11,7 +14,13 @@
         public int QtyInventory { get; set; }
         public double NormalPrice { get; set; }
         public double ReducedPrice { get; set; }
-        public int CategoryId { get; set; }
-        public int SizeId { get; set; }
+
+        public IEnumerable<SelectListItem> Categories { get; set; }
+        public string SelectedCategory { get; set; }
+
+        public IEnumerable<SelectListItem> Sizes { get; set; }
+        public string SelectedSize { get; set; }
+
+        public bool StatusIndiponible { get; set; }
     }
 }
