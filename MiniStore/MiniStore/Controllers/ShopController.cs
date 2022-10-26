@@ -176,7 +176,7 @@ namespace MiniStore.Controllers
 
                 _context.Update(mini);
                 await _context.SaveChangesAsync();
-                return AdminProduit();
+                return RedirectToAction("AdminProduit");
             }
             catch
             {
@@ -249,7 +249,7 @@ namespace MiniStore.Controllers
 
         private int NombrePage(int iCount)
         {
-            int iTotalPage = 30; // iCount / 30;
+            int iTotalPage = iCount / 30;
             if (iCount % 30 != 0) iTotalPage++;
 
             return iTotalPage;
