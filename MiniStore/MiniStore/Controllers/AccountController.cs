@@ -98,7 +98,6 @@ namespace MiniStore.Controllers
             {
                 _context.Attach(user);
                 _context.SaveChanges();
-
             }
             catch (Exception)
             {

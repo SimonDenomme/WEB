@@ -21,6 +21,9 @@ namespace MiniStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+            services.AddDbContext<MiniStoreContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentityCore<ApplicationUser>()
                 .AddEntityFrameworkStores<MiniStoreContext>()
@@ -31,10 +34,6 @@ namespace MiniStore
                 options.DefaultScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             }).AddIdentityCookies();
-            services.AddControllersWithViews();
-
-            services.AddDbContext<MiniStoreContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -48,12 +47,13 @@ namespace MiniStore
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseHttpsRedirection();
+
 
             app.UseEndpoints(endpoints =>
             {

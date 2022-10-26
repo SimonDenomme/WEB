@@ -5,6 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using MiniStore.Entity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using MiniStore.Domain;
+using MiniStore.ViewModels.Shop;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace MiniStore.Controllers
 {
@@ -12,10 +16,16 @@ namespace MiniStore.Controllers
     {
 
         private readonly MiniStoreContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ShopController(MiniStoreContext context)
+        public ShopController(MiniStoreContext context,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -29,7 +39,7 @@ namespace MiniStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(indexViewModel i)
+        public IActionResult Index(indexViewModel i)
         {
             if (i.FiltreA || i.FiltreB || i.FiltreC)
                 i.IsFiltered = true;
@@ -62,34 +72,97 @@ namespace MiniStore.Controllers
         }
 
         [Authorize]
-        public IActionResult AdminProduit() { return View(); }
+        public IActionResult AdminProduit()
+        {
+            var minis = _context.Minis.ToList();
+            var list = minis.Select(m =>
+                new MiniViewModel
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    Description = m.Description,
+                    ImagePath = m.ImagePath,
+                    NormalPrice = m.NormalPrice,
+                    ReducedPrice = m.ReducedPrice,
+                });
+
+            return View(list);
+        }
 
         [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> SupprimerProduit(int id)
-        {
-            var mini = _context.Minis.Where(i => i.Id == id).FirstOrDefault();
-            _context.Minis.Remove(mini);
-            await _context.SaveChangesAsync();
-            return AdminProduit();
-        }
-        [Authorize]
-        public IActionResult ModifierProduit(int id)
-        {
-            //var mini = _context.Minis.Where(i => i.Id == id).FirstOrDefault();
-            var mini = _context.Minis.Take(id);
-            //_context.Minis.Remove(mini);
-            return View("MiniModification", mini);
-        }
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> ModifierProduit(Mini mini)
+        [HttpGet]
+        public async Task<IActionResult> SupprimerProduit(int? id)
         {
             try
             {
-                //var mini1 = _context.Minis.Take(mini.Id);
-                var mini1 = _context.Minis.Where(i => i.Id == mini.Id).FirstOrDefault();
-                mini1 = mini;
+                var mini = await _context.Minis.FindAsync(id);
+                _context.Minis.Remove(mini);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("AdminProduit");
+            }
+            catch
+            {
+                return StatusCode(500, "Server error");
+            }
+        }
+        // ToDo: Concevoir la vue de ModifierProduit
+        [Authorize]
+        public async Task<IActionResult> ModifierProduit(int? id)
+        {
+            if (id == null)
+                return NotFound();
+            try
+            {
+                var mini = await _context.Minis.FindAsync(id);
+                if (mini == null)
+                    return NotFound();
+
+                var edit = new EditMiniViewModel
+                {
+                    Id = mini.Id,
+                    Name = mini.Name,
+                    Description = mini.Description,
+                    ImagePath = mini.ImagePath,
+                    IsPainted = mini.IsPainted,
+                    IsLuminous = mini.IsLuminous,
+                    QtyInventory = mini.QtyInventory,
+                    NormalPrice = mini.NormalPrice,
+                    ReducedPrice = mini.ReducedPrice,
+                    CategoryId = mini.CategoryId,
+                    SizeId = mini.SizeId,
+                };
+
+                return View(edit);
+            }
+            catch
+            {
+                return StatusCode(500, "Server error");
+            }
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ModifierProduit(EditMiniViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(string.Empty, "The model is not valid");
+                return View(model);
+            }
+            try
+            {
+                var mini = await _context.Minis.FindAsync(model.Id);
+
+                mini.Name = model.Name;
+                mini.Description = model.Description;
+                mini.ImagePath = model.ImagePath;
+                mini.IsPainted = model.IsPainted;
+                mini.IsLuminous = model.IsLuminous;
+                mini.QtyInventory = model.QtyInventory;
+                mini.NormalPrice = model.NormalPrice;
+                mini.ReducedPrice = model.ReducedPrice;
+                mini.Category = await _context.Categories.FindAsync( model.CategoryId);
+                mini.Size = await _context.Sizes.FindAsync(model.SizeId);
+
                 _context.Update(mini);
                 await _context.SaveChangesAsync();
                 return AdminProduit();
@@ -99,27 +172,37 @@ namespace MiniStore.Controllers
                 return StatusCode(500, "Server error");
             }
         }
+        // ToDo: Concevoir la vue de AjouterProduit
         [Authorize]
-        public IActionResult AjouterProduit() { return View(); }
+        public IActionResult AjouterProduit() { return View(new AddMiniViewModel()); }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AjouterProduit(Mini mini)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AjouterProduit(AddMiniViewModel model)
         {
-            //var mini1 = _context.Minis.Where(i => i.Id == mini.Id).FirstOrDefault();
-            _context.Minis.Add(mini);
+            var mini = new Mini
+            {
+                Name = model.Name,
+                Description = model.Description,
+                ImagePath = model.ImagePath,
+                IsPainted = model.IsPainted,
+                IsLuminous = model.IsLuminous,
+                QtyInventory = model.QtyInventory,
+                NormalPrice = model.Normalprice,
+                ReducedPrice = model.ReducedPrice,
+                CategoryId = model.CategoryId,
+                SizeId = model.SizeId,
+            };
+
+            _context.Add(mini);
             await _context.SaveChangesAsync();
-            return AjouterProduit();
-        }
-        public IActionResult Item(int id)
-        {
-            ViewData["itemId"] = id;
-            return View();
+            return AdminProduit();
         }
 
         private int NombrePage(int iCount)
         {
-            int iTotalPage = iCount / 30;
+            int iTotalPage = 30; // iCount / 30;
             if (iCount % 30 != 0) iTotalPage++;
 
             return iTotalPage;
