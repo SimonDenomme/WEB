@@ -16,7 +16,6 @@ namespace MiniStore.Controllers
 {
     public class ShopController : Controller
     {
-
         private readonly MiniStoreContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -108,7 +107,6 @@ namespace MiniStore.Controllers
             }
         }
 
-        // ToDo: Concevoir la vue de ModifierProduit
         [Authorize]
         public async Task<IActionResult> ModifierProduit(int? id)
         {

@@ -20,6 +20,7 @@ namespace MiniStore.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(int Id)
         {
+            // ToDo: Ajouter l'essentiel du formulaire pour le PanierItem/id
             var miniSize = _context.Sizes.ToList();
 
             var mini =  _context.Minis.AsEnumerable()

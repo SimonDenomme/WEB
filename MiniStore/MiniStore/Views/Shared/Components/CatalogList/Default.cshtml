@@ -39,18 +39,21 @@
                         @if (item.StatusId == 3)
                         {
                             //<p class="h3 py-2"><span class="strikethrough">@item.Minis.NormalPrice $</span></p>
-                            <p class="h3 py-2"><span class="strikediag">@item.NormalPrice $</span>  <span style="color:red">Indisponible</span></p>
+                            <p class="h3 py-2"><span class="strikediag">@item.ReducedPrice $</span>  <span style="color:red">Indisponible</span></p>
                         }
                         else if (item.StatusId == 4)
                         {
 
-                            <p class="h3 py-2"><span class="strikediag">@item.NormalPrice $</span>  <span style="color:red">Rupture de stock</span></p>
+                    <p class="h3 py-2"><span class="strikediag">@item.ReducedPrice $</span>  <span style="color:red">Rupture de stock</span></p>
+                        }
+                        else if (item.StatusId == 2)
+                        {
+                    <p class="h3 py-2">@item.ReducedPrice $</p> <span style="color:darkgreen; font-weight:bold">Précommande</span>
                         }
                         else
                         {
-                            <p class="h3 py-2">@item.NormalPrice $</p> <span style="color:darkgreen; font-weight:bold" >Disponible</span>
+                    <p class="h3 py-2">@item.ReducedPrice $</p> <span style="color:darkgreen; font-weight:bold">En inventaire</span>
                         }
-                        @*<p class="text-center mb-0">@Html.DisplayFor(modelItem => item.NormalPrice) $</p>*@
                     </div>
                 </div>
             </div>
