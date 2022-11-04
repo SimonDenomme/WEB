@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System;
-using System.Linq;
 using MiniStore.Data;
 
 namespace MiniStore.ViewComponents

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MiniStore.Domain
+﻿namespace MiniStore.Domain
 {
     public class Address
     {

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace MiniStore.Models
+﻿namespace MiniStore.Models
 {
     public class ContactModel
     {
