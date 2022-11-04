@@ -32,9 +32,13 @@ namespace MiniStore.Controllers
         // ToDo: Ramasser les informations de la quantité, l'id de litem
         // ToDo: Regarder comment fonctionne le post du formulaire du component InfoItemMini
         // ToDo: Regarder où passe les infos du post
-        public async Task<IActionResult> PanierItem(MinisDetails mini)
+        public async Task<IActionResult> AjouterItemPanier(MinisDetails mini)
         {
-            if (mini.Quantity > 0) { }
+            if (mini.Quantity < 0)
+                RedirectToAction("Item", "Shop", new { id = mini.Id });
+            
+            
+
             return View();
         }
     }
