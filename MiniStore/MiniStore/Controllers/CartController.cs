@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
@@ -7,6 +8,7 @@ using MiniStore.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MiniStore.ViewModels.Cart;
 
 namespace MiniStore.Controllers
 {
@@ -24,12 +26,55 @@ namespace MiniStore.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+       
+        // ToDo: GET ListCart / Index
+        [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            // List par rôle
+            if (User.IsInRole("Admin"))
+            {
+                var carts = await _context.Carts.ToListAsync();
+
+                var liste = _context.Carts.ToList().Select(x =>
+                new CartViewModels.CartViewModel(
+                    x.UserId,
+                    _context.ItemInCarts.ToList().Select(i =>
+                        new CartViewModels.ItemInCartModel(i.Id, i.Mini.Name, i.Mini.ImagePath, i.Quantity, i.Mini.ReducedPrice))
+                        .ToList(),
+                    x.items.Sum(x => x.Mini.ReducedPrice)));
+                
+                return View("AdminIndex", liste);
+            }
+
+            if (User.IsInRole("Client"))
+            {
+                var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
+                
+                var list = cart.Select(x => new CartViewModels.CartViewModel(
+                    x.UserId, 
+                    _context.ItemInCarts.ToList().Select(i => 
+                        new CartViewModels.ItemInCartModel(i.Id, i.Mini.Name, i.Mini.ImagePath, i.Quantity, i.Mini.ReducedPrice))
+                        .ToList(), 
+                    x.items.Sum(x => x.Mini.ReducedPrice)));
+                
+                return View("Index", cart);
+            }
+
+            return NotFound();
+        }
 
         // ToDo: Regarder comment fonctionne le post du formulaire du component InfoItemMini
         // ToDo: Regarder où passe les infos du post
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> AjouterItemPanier(MinisDetails mini)
         {
+            // User
+            if (_userManager.GetUserId(User) == null)
+                RedirectToAction("LogIn", "Account");
+
             // Quantity
             if (mini.Quantity < 0)
                 RedirectToAction("Item", "Shop", new { id = mini.Id });
@@ -38,10 +83,6 @@ namespace MiniStore.Controllers
             var entity = await _context.Minis.FindAsync(mini.Id);
             if (entity == null)
                 RedirectToAction("Item", "Shop", new { id = mini.Id });
-
-            // User
-            if (_userManager.GetUserId(User) == null)
-                RedirectToAction("LogIn", "Account");
 
             // Cart
             var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
@@ -67,6 +108,7 @@ namespace MiniStore.Controllers
         }
 
         // ToDo: GET IncItem
+        [Authorize]
         public async Task<IActionResult> IncItem(int? id)
         {
             if (id == null)
@@ -81,6 +123,7 @@ namespace MiniStore.Controllers
         }
 
         // ToDo: GET DecItem
+        [Authorize]
         public async Task<IActionResult> DecItem(int? id)
         {
             if (id == null)
@@ -94,25 +137,19 @@ namespace MiniStore.Controllers
             return RedirectToAction("Index");
         }
 
-        // ToDo: GET ListCart / Index
-        public async Task<IActionResult> Index()
-        {
-            List<Cart> carts;
-            if (this.User.IsInRole("Admin"))
-                carts = await _context.Carts.ToListAsync();
-
-            if (this.User.IsInRole("Client"))
-                carts = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
-
-            
-
-            return View();
-        }
-
         // ToDo: GET DeleteItem
-        public async Task<IActionResult> DeleteItem()
+        [Authorize]
+        public async Task<IActionResult> DeleteItem(int? id)
         {
-            return View();
+            if (id == null)
+                return NotFound();
+
+            var item = await _context.ItemInCarts.FindAsync(id);
+            
+            _context.ItemInCarts.Remove(item);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
     }
 }
