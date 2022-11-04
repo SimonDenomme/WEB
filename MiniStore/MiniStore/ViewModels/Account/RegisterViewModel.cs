@@ -19,6 +19,26 @@ namespace MiniStore.ViewModels.Account
         [Display(Name = "Confirmer votre mot de passe")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Street Number")]
+        public int AddressNumber { get; set; }
+        [Required]
+        [Display(Name = "Street Name")]
+        public string AddressStreet { get; set; }
+        [Required]
+        [Display(Name = "City")]
+        public string AddressCity { get; set; }
+        [Required]
+        [Display(Name = "Postal Code")]
+        public string AddressPostalCode { get; set; }
+
         [EnumDataType(typeof(Role))]
         [Display(Name = "Role")]
         public Role RoleUser { get; set; } = Role.Utilisateur;

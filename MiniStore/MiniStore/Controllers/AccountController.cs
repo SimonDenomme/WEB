@@ -80,10 +80,21 @@ namespace MiniStore.Controllers
                 return View(model);
             }
 
+            var address = new Address
+            {
+                Number = model.AddressNumber,
+                Street = model.AddressStreet,
+                City = model.AddressCity,
+                PostalCode = model.AddressPostalCode,
+            };
+
             var user = new ApplicationUser
             {
                 UserName = model.Email,
                 Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Address = address,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -98,6 +109,7 @@ namespace MiniStore.Controllers
             {
                 _context.Attach(user);
                 _context.SaveChanges();
+
             }
             catch (Exception)
             {
