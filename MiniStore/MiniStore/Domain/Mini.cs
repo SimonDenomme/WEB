@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MiniStore.Models;
 
 namespace MiniStore.Domain
 {

@@ -1,5 +1,3 @@
-using System;
-
 namespace MiniStore.Models
 {
     public class ErrorViewModel

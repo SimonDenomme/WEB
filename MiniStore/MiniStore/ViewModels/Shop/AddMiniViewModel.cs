@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace MiniStore.ViewModels.Shop
 {

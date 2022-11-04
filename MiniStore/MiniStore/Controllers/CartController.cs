@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
 using MiniStore.Models;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MiniStore.ViewModels.Cart;

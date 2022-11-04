@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace MiniStore.ViewModels.Shop
+﻿namespace MiniStore.ViewModels.Shop
 {
     public class MiniViewModel
     {
