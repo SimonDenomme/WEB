@@ -16,6 +16,8 @@ namespace MiniStore.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Status> Status { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<ItemInCart> ItemInCarts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

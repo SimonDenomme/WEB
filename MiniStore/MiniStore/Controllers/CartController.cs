@@ -24,21 +24,41 @@ namespace MiniStore.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         // ToDo: Ramasser les informations de la quantité, l'id de litem
         // ToDo: Regarder comment fonctionne le post du formulaire du component InfoItemMini
         // ToDo: Regarder où passe les infos du post
+        [HttpPost]
         public async Task<IActionResult> AjouterItemPanier(MinisDetails mini)
         {
             if (mini.Quantity < 0)
                 RedirectToAction("Item", "Shop", new { id = mini.Id });
-            
-            
 
+
+
+            return RedirectToAction("Index");
+        }
+
+        // ToDo: GET IncItem
+        public async Task<IActionResult> IncItem()
+        {
+            return View();
+        }
+        
+        // ToDo: GET DecItem
+        public async Task<IActionResult> DecItem()
+        {
+            return View();
+        }
+        
+        // ToDo: GET ListCart / Index
+        public async Task<IActionResult> Index()
+        {
+            return View();
+        }
+
+        // ToDo: GET DeleteItem
+        public async Task<IActionResult> DeleteItem()
+        {
             return View();
         }
     }
