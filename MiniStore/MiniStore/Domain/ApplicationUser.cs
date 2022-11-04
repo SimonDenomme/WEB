@@ -11,8 +11,8 @@ namespace MiniStore.Domain
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public int? CommandId { get; set; }
-        public Command Command { get; set; }
+        //public int? CommandId { get; set; }
+        //public Command Command { get; set; }
         public int? AddressId { get; set; }
         public Address Address { get; set; }
     }

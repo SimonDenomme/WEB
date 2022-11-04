@@ -1,0 +1,43 @@
+﻿@model CommandModel
+
+
+
+<div>
+    @Model.UserId
+</div>
+<div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    @Html.DisplayFor(modelItem => item.Mini.Name)
+                </tr>
+                <tr>
+                    @Html.DisplayFor(modelItem => item.Mini.NormalPrice)
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    client info
+</div>
+<div>
+    @Model.TotalAvantTaxe $
+    <br>
+    @Model.Taxe $
+    <br>
+    @Model.TotalApresTaxe $
+    <br>
+    @Model.FraisLivraison $
+
+</div>
