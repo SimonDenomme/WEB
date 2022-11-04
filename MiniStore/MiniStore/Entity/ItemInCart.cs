@@ -1,4 +1,6 @@
-﻿namespace MiniStore.Entity
+﻿using MiniStore.Domain;
+
+namespace MiniStore.Entity
 {
     // Table Many Many entre cart et les minis
     public class ItemInCart
