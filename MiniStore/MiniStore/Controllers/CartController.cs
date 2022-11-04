@@ -25,7 +25,7 @@ namespace MiniStore.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-       
+
         // ToDo: GET ListCart / Index
         [Authorize]
         public async Task<IActionResult> Index()
@@ -42,21 +42,21 @@ namespace MiniStore.Controllers
                         new CartViewModels.ItemInCartModel(i.Id, i.Mini.Name, i.Mini.ImagePath, i.Quantity, i.Mini.ReducedPrice))
                         .ToList(),
                     x.items.Sum(x => x.Mini.ReducedPrice)));
-                
+
                 return View("AdminIndex", liste);
             }
 
             if (User.IsInRole("Client"))
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
-                
+
                 var list = cart.Select(x => new CartViewModels.CartViewModel(
-                    x.UserId, 
-                    _context.ItemInCarts.ToList().Select(i => 
+                    x.UserId,
+                    _context.ItemInCarts.ToList().Select(i =>
                         new CartViewModels.ItemInCartModel(i.Id, i.Mini.Name, i.Mini.ImagePath, i.Quantity, i.Mini.ReducedPrice))
-                        .ToList(), 
+                        .ToList(),
                     x.items.Sum(x => x.Mini.ReducedPrice)));
-                
+
                 return View("Index", cart);
             }
 
@@ -68,20 +68,20 @@ namespace MiniStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> AjouterItemPanier(MinisDetails mini)
+        public async Task<IActionResult> AjouterItemPanier(int MiniId, int Quantity)
         {
             // User
             if (_userManager.GetUserId(User) == null)
-                RedirectToAction("LogIn", "Account");
+                return RedirectToAction("LogIn", "Account");
 
             // Quantity
-            if (mini.Quantity < 0)
-                RedirectToAction("Item", "Shop", new { id = mini.Id });
+            if (Quantity < 1)
+                return RedirectToAction("Item", "Shop", new { id = MiniId });
 
             // Mini
-            var entity = await _context.Minis.FindAsync(mini.Id);
+            var entity = await _context.Minis.FindAsync(MiniId);
             if (entity == null)
-                RedirectToAction("Item", "Shop", new { id = mini.Id });
+                return RedirectToAction("Item", "Shop", new { id = MiniId });
 
             // Cart
             var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
@@ -94,9 +94,9 @@ namespace MiniStore.Controllers
 
             var item = new ItemInCart
             {
-                MiniId = mini.Id,
+                MiniId = MiniId,
                 Mini = entity,
-                Quantity = mini.Quantity,
+                Quantity = Quantity,
                 CartId = cart.Id,
                 Cart = cart
             };
@@ -144,7 +144,7 @@ namespace MiniStore.Controllers
                 return NotFound();
 
             var item = await _context.ItemInCarts.FindAsync(id);
-            
+
             _context.ItemInCarts.Remove(item);
             await _context.SaveChangesAsync();
 
