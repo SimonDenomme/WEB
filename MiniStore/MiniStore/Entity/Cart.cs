@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using MiniStore.Domain;
+using System.Collections.Generic;
 
 namespace MiniStore.Entity
 {
     public class Cart
     {
         public int Id { get; set; }
-        public string Title { get; set; }
 
-        // ToDo: Il faut avoir un moyen de garder à quel user le panier est (UserID, UserName, ...)
-        public string UserName { get; set; }
-
-        // ToDo: Gestion de la cardinalité entre Cart et Mini
-        public List<ItemInCart> Items { get; set; }
-
+        // Navigation properties
+        public List<ItemInCart> items { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser CartUser { get; set; }
     }
 }

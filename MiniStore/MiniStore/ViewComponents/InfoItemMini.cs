@@ -21,12 +21,12 @@ namespace MiniStore.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(int Id)
         {
             // ToDo: Ajouter l'essentiel du formulaire pour le PanierItem
-            var m = _context.Minis.FindAsync(Id);
+            var m = await _context.Minis.FindAsync(Id);
 
             return View(
                 new MinisDetails(
-                    Id, m.Result.ImagePath, m.Result.Name, m.Result.Description,
-                    m.Result.NormalPrice, 1, m.Result.Reviews, m.Result.StatusId));
+                    Id, m.ImagePath, m.Name, m.Description,
+                    m.NormalPrice, 1, m.Reviews, m.StatusId));
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
+using MiniStore.Entity;
 using MiniStore.Models;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,11 +32,38 @@ namespace MiniStore.Controllers
         [HttpPost]
         public async Task<IActionResult> AjouterItemPanier(MinisDetails mini)
         {
+            // Quantity
             if (mini.Quantity < 0)
                 RedirectToAction("Item", "Shop", new { id = mini.Id });
 
+            // Mini
+            var entity = await _context.Minis.FindAsync(mini.Id);
+            if (entity == null)
+                RedirectToAction("Item", "Shop", new { id = mini.Id });
 
+            // User
+            if (_userManager.GetUserId(User) == null)
+                RedirectToAction("LogIn", "Account");
+            
+            // Cart
+            var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+            if (cart == null){
+                cart = new Cart { UserId = _userManager.GetUserId(User) };
+                _context.Add(cart);
+                await _context.SaveChangesAsync();
+            }
 
+            var item = new ItemInCart
+            {
+                MiniId = mini.Id,
+                Mini = entity,
+                Quantity = mini.Quantity,
+                CartId = cart.Id,
+                Cart = cart
+            };
+
+            _context.Add(item);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
