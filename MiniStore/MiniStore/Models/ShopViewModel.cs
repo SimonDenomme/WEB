@@ -7,7 +7,7 @@ using MiniStore.Entity;
 namespace MiniStore.Models
 {
     public enum _OrderBy { AtoZ, ZtoA, PriceUp, PriceDown }
-    public class indexViewModel
+    public class ShopViewModel
     {
         public bool IsPainted { get; set; } = false;
         public bool IsLuminous { get; set; } = false;

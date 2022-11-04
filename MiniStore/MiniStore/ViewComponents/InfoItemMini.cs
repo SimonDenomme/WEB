@@ -20,19 +20,13 @@ namespace MiniStore.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(int Id)
         {
-            // ToDo: Ajouter l'essentiel du formulaire pour le PanierItem/id
-            var miniSize = _context.Sizes.ToList();
+            // ToDo: Ajouter l'essentiel du formulaire pour le PanierItem
+            var m = _context.Minis.FindAsync(Id);
 
-            var mini =  _context.Minis.AsEnumerable()
-                                      .Where(m => m.Id == Id).Select(m => new ProduitDetails(Id,
-                                                        m.Name, m.ImagePath, miniSize.Where(s => s.Id == m.SizeId).First().Title,
-                                                        m.NormalPrice, m.ReducedPrice, m.StatusId)).FirstOrDefault();
-
-            var minis = _context.Minis.Where(m => m.Id == Id)
-                .Select(mi => new MinisDetails(Id, mi.Description, mi.Reviews, mi.StatusId,mini));
-
-
-            return View(new MinisNotList(minis.ToArray()));
+            return View(
+                new MinisDetails(
+                    Id, m.Result.ImagePath, m.Result.Name, m.Result.Description,
+                    m.Result.NormalPrice, 1, m.Result.Reviews, m.Result.StatusId));
         }
     }
 }

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MiniStore.Data;
 using MiniStore.Domain;
+using MiniStore.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MiniStore.Controllers
@@ -30,9 +32,10 @@ namespace MiniStore.Controllers
         // ToDo: Ramasser les informations de la quantité, l'id de litem
         // ToDo: Regarder comment fonctionne le post du formulaire du component InfoItemMini
         // ToDo: Regarder où passe les infos du post
-        //public async Task<IActionResult> PanierItem()
-        //{
-            
-        //}
+        public async Task<IActionResult> PanierItem(MinisDetails mini)
+        {
+            if (mini.Quantity > 0) { }
+            return View();
+        }
     }
 }

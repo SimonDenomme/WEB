@@ -34,13 +34,13 @@ namespace MiniStore.Controllers
         {
             int iCount = _context.Minis.Count();
 
-            indexViewModel i = new indexViewModel { TotalCount = iCount, TotalPage = NombrePage(iCount) };
+            ShopViewModel i = new ShopViewModel { TotalCount = iCount, TotalPage = NombrePage(iCount) };
 
             return View(i);
         }
 
         [HttpPost]
-        public IActionResult Index(indexViewModel i)
+        public IActionResult Index(ShopViewModel i)
         {
             if (i.FiltreA || i.FiltreB || i.FiltreC)
                 i.IsFiltered = true;
@@ -67,7 +67,7 @@ namespace MiniStore.Controllers
             var minis = _context.Minis.Where(m => m.Name.ToLower().Contains(search)).ToList();
             var miniSize = _context.Sizes.ToList();
 
-            indexViewModel i = new indexViewModel { IsFiltered = true, IsPainted = search.Contains("#painted"), IsLuminous = search.Contains("#luminous"), Search = search, TotalCount = minis.Count, TotalPage = NombrePage(minis.Count) };
+            ShopViewModel i = new ShopViewModel { IsFiltered = true, IsPainted = search.Contains("#painted"), IsLuminous = search.Contains("#luminous"), Search = search, TotalCount = minis.Count, TotalPage = NombrePage(minis.Count) };
 
             return View("Index", i);
         }

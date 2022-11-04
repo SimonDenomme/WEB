@@ -1,13 +1,11 @@
-﻿@model MinisNotList
+﻿@model MinisDetails
 
-@foreach (var item in Model.MinisDetails)
-{
     <section class="bg-light">
         <div class="container pb-5">
             <div class="row">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3">
-                        <img class="card-img img-fluid" src="/img/@item.Minis.ImagePath" alt="Card image cap" id="product-detail">
+                        <img class="card-img img-fluid" src="/img/@Model.ImagePath" alt="Card image cap" id="product-detail">
                     </div>
                     <div class="row">
                             <!--Start Controls-->
@@ -103,19 +101,19 @@
                 <div class="col-lg-7 mt-5">
                     <div class="card">
                         <div class="card-body">
-                            <h1 class="h2">@item.Minis.Name</h1>
-                            @if (item.StatusId == 3)
+                            <h1 class="h2">@Model.Name</h1>
+                            @if (@Model.StatusId == 3)
                             {
-                            //<p class="h3 py-2"><span class="strikethrough">@item.Minis.NormalPrice $</span></p>
-                                <p class="h3 py-2"><span class="strikediag">@item.Minis.NormalPrice $</span>  <span style="color:red">Indisponible</span></p>
+                            //<p class="h3 py-2"><span class="strikethrough">@@Model.Minis.NormalPrice $</span></p>
+                                <p class="h3 py-2"><span class="strikediag">@Model.NormalPrice $</span>  <span style="color:red">Indisponible</span></p>
                             }
-                            else if (item.StatusId == 4)
+                            else if (Model.StatusId == 4)
                             {
-                                <p class="h3 py-2"><span class="strikediag">@item.Minis.NormalPrice $</span>  <span style="color:red">Rupture de stock</span></p>
+                                <p class="h3 py-2"><span class="strikediag">@Model.NormalPrice $</span>  <span style="color:red">Rupture de stock</span></p>
                             }
                             else
                             {
-                                <p class="h3 py-2">@item.Minis.NormalPrice $</p> <span style="color:darkgreen; font-weight:bold">Disponible</span>
+                                <p class="h3 py-2">@Model.NormalPrice $</p> <span style="color:darkgreen; font-weight:bold">Disponible</span>
                             }
                             <p class="py-2">
                                 <i class="fa fa-star text-warning"></i>
@@ -123,7 +121,7 @@
                                 <i class="fa fa-star text-warning"></i>
                                 <i class="fa fa-star text-warning"></i>
                                 <i class="fa fa-star text-secondary"></i>
-                                <span class="list-inline-item text-dark">Rating 4.8 | @item.Reviews.Count Comments</span>
+                                <span class="list-inline-item text-dark">Rating 4.8 | @*@Model.Reviews.Count*@ 0 Comments</span>
                             </p>
                             @*<ul class="list-inline">
                         <li class="list-inline-item">
@@ -135,7 +133,7 @@
                         </ul>*@
 
                             <h6>Description:</h6>
-                            <p>@item.Description</p>
+                            <p>@Model.Description</p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <h6>Avaliable Color :</h6>
@@ -156,7 +154,7 @@
                         <li>Excepteur sint</li>
                         </ul>*@
 
-                            <form asp-controller="CartController" asp-action="PanierItem" method="post">
+                            <form asp-controller="CartController" asp-action="PanierItem" method="get">
                                 <input type="hidden" name="product-title" value="Activewear">
                                 <div class="row">
                                     @*<div class="col-auto">
@@ -178,7 +176,7 @@
                                                 <input type="hidden" name="product-quanity" id="product-quanity" value="1">
                                             </li>
                                             <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                            @if (item.StatusId == 3 || item.StatusId == 4)
+                                            @if (Model.StatusId == 3 || Model.StatusId == 4)
                                             {
                                                 <li class="list-inline-item"><span class="badge bg-secondary">0</span></li>
                                             }
@@ -191,7 +189,7 @@
                                     </div>
                                 </div>
                                 <div class="row pb-3">
-                                    @if (item.StatusId == 3 || item.StatusId == 4)
+                                    @if (Model.StatusId == 3 || Model.StatusId == 4)
                                     {
                                         <div class="col d-grid">
                                             <button type="submit" class="btn btn-success btn-lg" disabled name="submit" value="buy">Buy</button>

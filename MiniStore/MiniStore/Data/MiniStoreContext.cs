@@ -13,7 +13,6 @@ namespace MiniStore.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Mini> Minis { get; set; }
-        public DbSet<Minis> Minis_1 { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Status> Status { get; set; }
