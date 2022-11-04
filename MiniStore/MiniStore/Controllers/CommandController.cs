@@ -2,6 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using MiniStore.Data;
 using MiniStore.Domain;
+//using MiniStore.Entity;
+using MiniStore.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MiniStore.Controllers
@@ -32,8 +37,14 @@ namespace MiniStore.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> ConfirmCommand()
+
+        public async Task<IActionResult> ConfirmCommand(CommandModel model)
         {
+
+
+
+
+
             return View();
         }
 
@@ -41,8 +52,11 @@ namespace MiniStore.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> CreateCommand()
+        public async Task<IActionResult> CreateCommand(Cart cart)
         {
+
+
+
 
 
             return View();
