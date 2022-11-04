@@ -1,7 +1,6 @@
-﻿using MiniStore.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace MiniStore.Entity
+namespace MiniStore.Domain
 {
     public class Cart
     {

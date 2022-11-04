@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
-using MiniStore.Entity;
 using MiniStore.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,7 +25,6 @@ namespace MiniStore.Controllers
             _signInManager = signInManager;
         }
 
-        // ToDo: Ramasser les informations de la quantité, l'id de litem
         // ToDo: Regarder comment fonctionne le post du formulaire du component InfoItemMini
         // ToDo: Regarder où passe les infos du post
         [HttpPost]
@@ -44,10 +42,11 @@ namespace MiniStore.Controllers
             // User
             if (_userManager.GetUserId(User) == null)
                 RedirectToAction("LogIn", "Account");
-            
+
             // Cart
             var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
-            if (cart == null){
+            if (cart == null)
+            {
                 cart = new Cart { UserId = _userManager.GetUserId(User) };
                 _context.Add(cart);
                 await _context.SaveChangesAsync();
@@ -68,20 +67,45 @@ namespace MiniStore.Controllers
         }
 
         // ToDo: GET IncItem
-        public async Task<IActionResult> IncItem()
+        public async Task<IActionResult> IncItem(int? id)
         {
-            return View();
+            if (id == null)
+                return NotFound();
+
+            var item = await _context.ItemInCarts.FindAsync(id);
+            item.Quantity++;
+
+            _context.Update(item);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
-        
+
         // ToDo: GET DecItem
-        public async Task<IActionResult> DecItem()
+        public async Task<IActionResult> DecItem(int? id)
         {
-            return View();
+            if (id == null)
+                return NotFound();
+
+            var item = await _context.ItemInCarts.FindAsync(id);
+            item.Quantity--;
+
+            _context.Update(item);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
-        
+
         // ToDo: GET ListCart / Index
         public async Task<IActionResult> Index()
         {
+            List<Cart> carts;
+            if (this.User.IsInRole("Admin"))
+                carts = await _context.Carts.ToListAsync();
+
+            if (this.User.IsInRole("Client"))
+                carts = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
+
+            
+
             return View();
         }
 

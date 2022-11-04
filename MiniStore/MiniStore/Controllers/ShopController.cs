@@ -3,12 +3,10 @@ using MiniStore.Data;
 using MiniStore.Models;
 using System.Linq;
 using System.Threading.Tasks;
-using MiniStore.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using MiniStore.Domain;
 using MiniStore.ViewModels.Shop;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

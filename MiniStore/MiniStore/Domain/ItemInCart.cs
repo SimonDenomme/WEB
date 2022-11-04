@@ -1,13 +1,11 @@
-﻿using MiniStore.Domain;
-
-namespace MiniStore.Entity
+﻿namespace MiniStore.Domain
 {
     // Table Many Many entre cart et les minis
     public class ItemInCart
     {
         public int Id { get; set; }
         public int Quantity { get; set; }
-        
+
 
         // Navigations Properties
         public int CartId { get; set; }

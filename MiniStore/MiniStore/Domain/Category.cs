@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MiniStore.Entity
+namespace MiniStore.Domain
 {
     public class Category
     {

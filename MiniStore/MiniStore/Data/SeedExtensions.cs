@@ -3,7 +3,6 @@ using MiniStore.Domain;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MiniStore.Entity;
 
 namespace MiniStore.Data
 {

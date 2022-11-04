@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MiniStore.Models;
 
-namespace MiniStore.Entity
+namespace MiniStore.Domain
 {
     public class Mini
     {
@@ -12,10 +12,10 @@ namespace MiniStore.Entity
         public bool IsPainted { get; set; }         // Paramètre de tri et de filtre sur l'item
         public bool IsLuminous { get; set; }        // Paramètre de tri et de filtre sur l'item
         public int QtyInventory { get; set; }       // Permet la gestion des Statuts par le site
-        
+
         public double NormalPrice { get; set; }     // Prix d'origine de vente avant rabais
         public double ReducedPrice { get; set; }    // Va permettre de jouer avec les prix un tout peit peu
-        
+
         public bool IsFrontPage { get; set; }       // Va permettre de le mettre sur la page d'acceuil en un seul clic et généralisera son affichage
         public int QtySold { get; set; }            // Va permettre d'avoir le most sold comme tri, et aussi de savoir si un produit est en rupture de stock
 
