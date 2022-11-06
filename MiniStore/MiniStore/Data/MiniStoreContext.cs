@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Domain;
+using MiniStore.ViewModels.Adresse;
 
 namespace MiniStore.Data
 {
@@ -23,5 +24,6 @@ namespace MiniStore.Data
 
             modelBuilder.Seed();
         }
+        public DbSet<MiniStore.ViewModels.Adresse.AdresseViewModel> AdresseViewModel { get; set; }
     }
 }

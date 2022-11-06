@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Data;
 
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20221106191551_MigrationAjoutAdresse")]
+    partial class MigrationAjoutAdresse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,8 +50,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "49455b95-7677-4aac-97ec-150416737023",
-                            ConcurrencyStamp = "7c72acb5-77eb-4c4a-a8be-145980df936f",
+                            Id = "88d03fb8-6ea5-4883-8db2-b3fa629d09b5",
+                            ConcurrencyStamp = "00bb983c-728e-46b9-a076-484df0a6a682",
                             Name = "Admin"
                         });
                 });
@@ -141,8 +143,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "b3481842-2e42-4cb7-9cfa-05e6f2d97cbb",
-                            RoleId = "49455b95-7677-4aac-97ec-150416737023"
+                            UserId = "212bba6a-0f15-40d9-a8f4-3ccb0406be2b",
+                            RoleId = "88d03fb8-6ea5-4883-8db2-b3fa629d09b5"
                         });
                 });
 
@@ -177,9 +179,6 @@ namespace MiniStore.Migrations
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdUser")
-                        .HasColumnType("int");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
@@ -275,17 +274,17 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b3481842-2e42-4cb7-9cfa-05e6f2d97cbb",
+                            Id = "212bba6a-0f15-40d9-a8f4-3ccb0406be2b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d45ffcd9-ad99-4cea-97a6-7b444a6e934b",
+                            ConcurrencyStamp = "c5d8d9ce-b1d4-4d16-a16c-40cd79633d2a",
                             Email = "admin@test.ca",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@TEST.CA",
                             NormalizedUserName = "ADMIN@TEST.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKnr82fBIHKrWK1JbP/AM29kmEHkScyzACZzcuWKEizIC/r4WjSfT3+1LdBfbGnbBw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIiNDrremP4yh1zGHlfgU1KEZ4bWNPm4I2kqqtWYv7rH5wlN0P7sYwUMjI+rSw9aMg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9e3f8747-e843-4587-a551-859c14c0799d",
+                            SecurityStamp = "f04b7c72-982a-4d3a-a9c6-d4dbe2d22d22",
                             TwoFactorEnabled = false,
                             UserName = "admin@test.ca"
                         });
@@ -1161,33 +1160,6 @@ namespace MiniStore.Migrations
                             Id = 4,
                             Title = "En rupture de stock"
                         });
-                });
-
-            modelBuilder.Entity("MiniStore.ViewModels.Adresse.AdresseViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressCity")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("AddressNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AddressPostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressStreet")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AdresseViewModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
