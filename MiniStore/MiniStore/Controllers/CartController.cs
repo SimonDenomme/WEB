@@ -59,7 +59,12 @@ namespace MiniStore.Controllers
 
                 return View("Index", cart);
             }
-
+            else
+            {
+                var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
+               return RedirectToAction("CommandForm", "Command", cart);
+                
+            }
             return NotFound();
         }
 

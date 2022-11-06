@@ -4,6 +4,7 @@ using MiniStore.Data;
 using MiniStore.Domain;
 //using MiniStore.Entity;
 using MiniStore.Models;
+using MiniStore.ViewModels.Cart;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,10 @@ namespace MiniStore.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("CommandInfos");
         }
 
-        public async Task<IActionResult> CommandForm()
+        public async Task<IActionResult> CommandForm(List<Cart> cart)
         {
             return View();
         }
@@ -61,6 +62,8 @@ namespace MiniStore.Controllers
 
             return View();
         }
+
+        
 
     }
 }
