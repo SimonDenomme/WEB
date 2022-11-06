@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using MiniStore.Data;
 using MiniStore.Domain;
 using MiniStore.ViewModels.Account;
+using System.Collections.Generic;
 
 namespace MiniStore.Controllers
 {
@@ -77,7 +78,7 @@ namespace MiniStore.Controllers
             {
                 return View(model);
             }
-
+            List<Address> lstAddress = new List<Address>();
             var address = new Address
             {
                 Number = model.AddressNumber,
@@ -85,14 +86,14 @@ namespace MiniStore.Controllers
                 City = model.AddressCity,
                 PostalCode = model.AddressPostalCode,
             };
-
+            lstAddress.Add(address);
             var user = new ApplicationUser
             {
                 UserName = model.Email,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Address = address,
+                Address = lstAddress,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
