@@ -1,1 +1,77 @@
-﻿ADMIN INDEX !!!!
+﻿@model IEnumerable<MiniStore.ViewModels.Cart.CartViewModels.CartViewModel>
+
+<div class="cart-body">
+    @foreach (var cart in Model)
+    {
+        <div class="shopping-cart">
+            <!-- Title -->
+            <div class="title">
+                Panier d'achats de : @cart.UserName
+            </div>
+
+            @foreach (var item in cart.ItemsInCart)
+            {
+                <div class="item">
+                    <div class="buttons">
+                        <a asp-action="DeleteItem" asp-route-id="@item.Id" class="delete-btn"></a>
+                        @*<span class="like-btn"></span>*@
+                    </div>
+
+                    <div class="image">
+                        <img src="/img/@item.ImagePath" alt="" />
+                    </div>
+
+                    <div class="description">
+                        <span>@item.Name</span>
+                        @*<span>Bball High</span>*@
+                        @*<span>White</span>*@
+                    </div>
+
+                    <div class="quantity">
+                        <ul class="list-inline pb-3">
+                            <li class="list-inline-item text-right">
+                                <input type="hidden" name="Quantity" id="product-quanity" value="@item.Quantity">
+                            </li>
+                            <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
+                            <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">@item.Quantity</span></li>
+                            <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="total-price">$@item.Price</div>
+                </div>
+            }
+
+            @*<!-- Product #1 -->
+        <div class="item">
+        <div class="buttons">
+        <span class="delete-btn"></span>
+        <span class="like-btn"></span>
+        </div>
+
+        <div class="image">
+        <img src="item-1.png" alt="" />
+        </div>
+
+        <div class="description">
+        <span>Common Projects</span>
+        <span>Bball High</span>
+        <span>White</span>
+        </div>
+
+        <div class="quantity">
+        <ul class="list-inline pb-3">
+        <li class="list-inline-item text-right">
+        <input type="hidden" name="Quantity" id="product-quanity" value="Quantity">
+        </li>
+        <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
+        <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">Quantity</span></li>
+        <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
+        </ul>
+        </div>
+
+        <div class="total-price">$549</div>
+        </div>*@
+        </div>
+    }
+</div>

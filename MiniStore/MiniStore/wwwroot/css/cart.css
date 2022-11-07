@@ -98,6 +98,11 @@
     margin-right: 50px;
 }
 
+.image img {
+    height: 100%;
+    width: 100%;
+}
+
 .description {
     padding-top: 10px;
     margin-right: 60px;
@@ -178,10 +183,6 @@ input:focus {
         height: auto;
         flex-wrap: wrap;
         justify-content: center;
-    }
-
-    .image img {
-        width: 50%;
     }
 
     .image,

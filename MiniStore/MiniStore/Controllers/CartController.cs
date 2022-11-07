@@ -33,15 +33,17 @@ namespace MiniStore.Controllers
             // List par rôle
             if (User.IsInRole("Admin"))
             {
-                var carts = await _context.Carts.ToListAsync();
-
-                var liste = _context.Carts.ToList().Select(x =>
+                var liste = _context.Carts.ToList().Select(c =>
                     new CartViewModels.CartViewModel(
-                        x.UserId,
-                        _context.ItemInCarts.ToList().Select(i =>
-                            new CartViewModels.ItemInCartModel(i.Id, i.Mini.Name, i.Mini.ImagePath, i.Quantity, i.Mini.ReducedPrice))
-                            .ToList(),
-                        x.items.Sum(x => x.Mini.ReducedPrice)));
+                        _context.Users.Find(c.UserId).UserName,
+                        _context.ItemInCarts.Where(i => i.CartId == c.Id).ToList().Select(i =>
+                        new CartViewModels.ItemInCartModel(
+                            i.Id,
+                            _context.Minis.Find(i.MiniId).Name,
+                            _context.Minis.Find(i.MiniId).ImagePath,
+                            i.Quantity,
+                            _context.Minis.Find(i.MiniId).ReducedPrice)),
+                    _context.ItemInCarts.Where(i2 => i2.CartId == c.Id).Select(x => x.Mini.ReducedPrice).Sum()));
 
                 return View("AdminIndex", liste);
             }
@@ -51,11 +53,8 @@ namespace MiniStore.Controllers
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
                 var items = await _context.ItemInCarts.Where(x => x.CartId == cart.Id).ToListAsync();
 
-                if (items == null)
-                    return View("Index");
-
                 var list = new CartViewModels.CartViewModel(
-                    cart.UserId,
+                    _context.Users.Find(cart.UserId).UserName,
                     items.Select(i =>
                         new CartViewModels.ItemInCartModel(
                             i.Id,
@@ -154,12 +153,13 @@ namespace MiniStore.Controllers
                 return NotFound();
 
             var item = await _context.ItemInCarts.FindAsync(id);
+            int cartId = item.CartId;
 
             _context.ItemInCarts.Remove(item);
 
-            if (_context.ItemInCarts.Where(i => i.CartId == item.CartId).Count() == 0)
+            if (_context.ItemInCarts.Where(i => i.CartId == cartId).Count() == 0)
             {
-                var cart = await _context.Carts.FindAsync(item.CartId);
+                var cart = await _context.Carts.FindAsync(cartId);
                 _context.Carts.Remove(cart);
             }
 
