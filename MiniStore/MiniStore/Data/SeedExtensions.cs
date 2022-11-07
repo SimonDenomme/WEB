@@ -11,12 +11,8 @@ namespace MiniStore.Data
         private static readonly PasswordHasher<ApplicationUser> PASSWORD_HASHER = new();
         public static void Seed(this ModelBuilder builder)
         {
-            var admins = new List<ApplicationUser>() {
-                CreateUser("admin@test.ca", "Qwerty123!"),
-            };
-
-            builder.SeedUsers(admins);
-            builder.SeedUsersToRole(admins, new IdentityRole("Admin"));
+            builder.SeedAdmin();
+            builder.SeedClient();
 
             builder.SeedCategories();
             builder.SeedSizes();
@@ -60,6 +56,28 @@ namespace MiniStore.Data
                     RoleId = role.Id
                 });
             }
+        }
+
+        private static void SeedAdmin(this ModelBuilder builder)
+        {
+            var admins = new List<ApplicationUser>() {
+                CreateUser("admin@test.ca", "Qwerty123!"),
+                CreateUser("edmon@narnia.na", "Qwerty123!"),
+            };
+
+            builder.SeedUsers(admins);
+            builder.SeedUsersToRole(admins, new IdentityRole("Admin"));
+        }
+        private static void SeedClient(this ModelBuilder builder)
+        {
+            var clients = new List<ApplicationUser>() {
+                CreateUser("client@test.ca", "Qwerty123!"),
+                CreateUser("client2@test.ca", "Qwerty123!"),
+                CreateUser("client3@test.ca", "Qwerty123!"),
+            };
+
+            builder.SeedUsers(clients);
+            builder.SeedUsersToRole(clients, new IdentityRole("Client"));
         }
 
         private static void SeedCategories(this ModelBuilder builder)

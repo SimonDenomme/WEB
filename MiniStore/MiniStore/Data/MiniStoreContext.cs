@@ -23,6 +23,5 @@ namespace MiniStore.Data
 
             modelBuilder.Seed();
         }
-        public DbSet<MiniStore.ViewModels.Adresse.AdresseViewModel> AdresseViewModel { get; set; }
     }
 }
