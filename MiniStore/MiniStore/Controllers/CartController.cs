@@ -26,7 +26,7 @@ namespace MiniStore.Controllers
             _signInManager = signInManager;
         }
 
-        // ToDo: GET ListCart / Index
+        // GET ListCart / Index
         [Authorize]
         public async Task<IActionResult> Index()
         {
@@ -49,31 +49,32 @@ namespace MiniStore.Controllers
             if (User.IsInRole("Client"))
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+                var items = await _context.ItemInCarts.Where(x => x.CartId == cart.Id).ToListAsync();
+
+                if (items == null)
+                    return View("Index");
 
                 var list = new CartViewModels.CartViewModel(
                     cart.UserId,
-                    _context.ItemInCarts.ToList().Select(i =>
+                    items.Select(i =>
                         new CartViewModels.ItemInCartModel(
-                            i.Id, 
+                            i.Id,
                             _context.Minis.Find(i.MiniId).Name,
                             _context.Minis.Find(i.MiniId).ImagePath,
-                            i.Quantity, 
-                            _context.Minis.Find(i.MiniId).ReducedPrice))
-                        .ToList(),
-                    cart.items.Sum(x => x.Mini.ReducedPrice));
+                            i.Quantity,
+                            _context.Minis.Find(i.MiniId).ReducedPrice)),
+                    _context.ItemInCarts.Where(x => x.CartId == cart.Id).Select(x => x.Mini.ReducedPrice).Sum());
 
                 return View("Index", list);
             }
             else
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
-               return RedirectToAction("CommandForm", "Command", cart);
-                
+                return RedirectToAction("CommandForm", "Command", cart);
             }
         }
 
-        // ToDo: Regarder comment fonctionne le post du formulaire du component InfoItemMini
-        // ToDo: Regarder où passe les infos du post
+        // POST AddToCart
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -115,7 +116,7 @@ namespace MiniStore.Controllers
             return RedirectToAction("Index");
         }
 
-        // ToDo: GET IncItem
+        // GET IncItem
         [Authorize]
         public async Task<IActionResult> IncItem(int? id)
         {
@@ -130,7 +131,7 @@ namespace MiniStore.Controllers
             return RedirectToAction("Index");
         }
 
-        // ToDo: GET DecItem
+        // GET DecItem
         [Authorize]
         public async Task<IActionResult> DecItem(int? id)
         {
@@ -145,7 +146,7 @@ namespace MiniStore.Controllers
             return RedirectToAction("Index");
         }
 
-        // ToDo: GET DeleteItem
+        // GET DeleteItem
         [Authorize]
         public async Task<IActionResult> DeleteItem(int? id)
         {
@@ -155,6 +156,13 @@ namespace MiniStore.Controllers
             var item = await _context.ItemInCarts.FindAsync(id);
 
             _context.ItemInCarts.Remove(item);
+
+            if (_context.ItemInCarts.Where(i => i.CartId == item.CartId).Count() == 0)
+            {
+                var cart = await _context.Carts.FindAsync(item.CartId);
+                _context.Carts.Remove(cart);
+            }
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");

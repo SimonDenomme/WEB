@@ -4,14 +4,47 @@
     <div class="shopping-cart">
         <!-- Title -->
         <div class="title">
-            Shopping Bag
+            Panier d'achats
         </div>
 
-        <!-- Product #1 -->
+        @foreach (var item in Model.ItemsInCart)
+        {
+            <div class="item">
+                <div class="buttons">
+                    <a asp-action="DeleteItem" asp-route-id="@item.Id" class="delete-btn"></a>
+                    @*<span class="like-btn"></span>*@
+                </div>
+
+                <div class="image">
+                    <img src="/img/@item.ImagePath" alt="" />
+                </div>
+
+                <div class="description">
+                    <span>@item.Name</span>
+                    @*<span>Bball High</span>*@
+                    @*<span>White</span>*@
+                </div>
+
+                <div class="quantity">
+                    <ul class="list-inline pb-3">
+                        <li class="list-inline-item text-right">
+                            <input type="hidden" name="Quantity" id="product-quanity" value="@item.Quantity">
+                        </li>
+                        <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
+                        <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">@item.Quantity</span></li>
+                        <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
+                    </ul>
+                </div>
+
+                <div class="total-price">$@item.Price</div>
+            </div>
+        }
+
+        @*<!-- Product #1 -->
         <div class="item">
             <div class="buttons">
                 <span class="delete-btn"></span>
-                @*<span class="like-btn"></span>*@
+                <span class="like-btn"></span>
             </div>
 
             <div class="image">
@@ -36,66 +69,6 @@
             </div>
 
             <div class="total-price">$549</div>
-        </div>
-
-        <!-- Product #2 -->
-        <div class="item">
-            <div class="buttons">
-                <span class="delete-btn"></span>
-                <span class="like-btn"></span>
-            </div>
-
-            <div class="image">
-                <img src="item-2.png" alt="" />
-            </div>
-
-            <div class="description">
-                <span>Maison Margiela</span>
-                <span>Future Sneakers</span>
-                <span>White</span>
-            </div>
-
-            <div class="quantity">
-                <button class="cart-button btn-plus" type="button" name="button">
-                    <img src="plus.svg" alt="" />
-                </button>
-                <input type="text" name="name" value="1">
-                <button class="cart-button btn-minus" type="button" name="button">
-                    <img src="minus.svg" alt="" />
-                </button>
-            </div>
-
-            <div class="total-price">$870</div>
-        </div>
-
-        <!-- Product #3 -->
-        <div class="item">
-            <div class="buttons">
-                <span class="delete-btn"></span>
-                <span class="like-btn"></span>
-            </div>
-
-            <div class="image">
-                <img src="item-3.png" alt="" />
-            </div>
-
-            <div class="description">
-                <span>Our Legacy</span>
-                <span>Brushed Scarf</span>
-                <span>Brown</span>
-            </div>
-
-            <div class="quantity">
-                <button class="cart-button btn-plus" type="button" name="button">
-                    <img src="plus.svg" alt="" />
-                </button>
-                <input type="text" name="name" value="1">
-                <button class="cart-button btn-minus" type="button" name="button">
-                    <img src="minus.svg" alt="" />
-                </button>
-            </div>
-
-            <div class="total-price">$349</div>
-        </div>
+        </div>*@
     </div>
 </div>
