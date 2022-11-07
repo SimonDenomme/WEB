@@ -8,6 +8,7 @@ using MiniStore.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using MiniStore.ViewModels.Cart;
+using System.Collections.Generic;
 
 namespace MiniStore.Controllers
 {
@@ -26,6 +27,27 @@ namespace MiniStore.Controllers
             _signInManager = signInManager;
         }
 
+        private CartViewModels.CartViewModel CartMapping(Cart cart)
+        {
+            var items = _context.ItemInCarts.Where(x => x.CartId == cart.Id).ToList();
+            var sousTotal = _context.ItemInCarts.Where(x => x.CartId == cart.Id).Select(x => x.Mini.ReducedPrice * x.Quantity).Sum();
+
+            var list = new CartViewModels.CartViewModel(
+                _context.Users.Find(cart.UserId).UserName,
+                items.Select(i =>
+                    new CartViewModels.ItemInCartModel(
+                        i.Id,
+                        _context.Minis.Find(i.MiniId).Name,
+                        _context.Minis.Find(i.MiniId).ImagePath,
+                        i.Quantity,
+                        _context.Minis.Find(i.MiniId).ReducedPrice)),
+                sousTotal,
+                sousTotal * 0.15,
+                sousTotal * 1.15);
+
+            return list;
+        }
+
         // GET ListCart / Index
         [Authorize]
         public async Task<IActionResult> Index()
@@ -33,38 +55,19 @@ namespace MiniStore.Controllers
             // List par rôle
             if (User.IsInRole("Admin"))
             {
-                var liste = _context.Carts.ToList().Select(c =>
-                    new CartViewModels.CartViewModel(
-                        _context.Users.Find(c.UserId).UserName,
-                        _context.ItemInCarts.Where(i => i.CartId == c.Id).ToList().Select(i =>
-                        new CartViewModels.ItemInCartModel(
-                            i.Id,
-                            _context.Minis.Find(i.MiniId).Name,
-                            _context.Minis.Find(i.MiniId).ImagePath,
-                            i.Quantity,
-                            _context.Minis.Find(i.MiniId).ReducedPrice)),
-                    _context.ItemInCarts.Where(i2 => i2.CartId == c.Id).Select(x => x.Mini.ReducedPrice).Sum()));
+                var carts = await _context.Carts.ToListAsync();
+                var model = new List<CartViewModels.CartViewModel>();
+                
+                foreach (var cart in carts)
+                    model.Add(CartMapping(cart));
 
-                return View("AdminIndex", liste);
+                return View("AdminIndex", model);
             }
 
             if (User.IsInRole("Client"))
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
-                var items = await _context.ItemInCarts.Where(x => x.CartId == cart.Id).ToListAsync();
-
-                var list = new CartViewModels.CartViewModel(
-                    _context.Users.Find(cart.UserId).UserName,
-                    items.Select(i =>
-                        new CartViewModels.ItemInCartModel(
-                            i.Id,
-                            _context.Minis.Find(i.MiniId).Name,
-                            _context.Minis.Find(i.MiniId).ImagePath,
-                            i.Quantity,
-                            _context.Minis.Find(i.MiniId).ReducedPrice)),
-                    _context.ItemInCarts.Where(x => x.CartId == cart.Id).Select(x => x.Mini.ReducedPrice).Sum());
-
-                return View("Index", list);
+                return View("Index", CartMapping(cart));
             }
             else
             {
