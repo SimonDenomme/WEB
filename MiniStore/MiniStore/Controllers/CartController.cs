@@ -36,28 +36,33 @@ namespace MiniStore.Controllers
                 var carts = await _context.Carts.ToListAsync();
 
                 var liste = _context.Carts.ToList().Select(x =>
-                new CartViewModels.CartViewModel(
-                    x.UserId,
-                    _context.ItemInCarts.ToList().Select(i =>
-                        new CartViewModels.ItemInCartModel(i.Id, i.Mini.Name, i.Mini.ImagePath, i.Quantity, i.Mini.ReducedPrice))
-                        .ToList(),
-                    x.items.Sum(x => x.Mini.ReducedPrice)));
+                    new CartViewModels.CartViewModel(
+                        x.UserId,
+                        _context.ItemInCarts.ToList().Select(i =>
+                            new CartViewModels.ItemInCartModel(i.Id, i.Mini.Name, i.Mini.ImagePath, i.Quantity, i.Mini.ReducedPrice))
+                            .ToList(),
+                        x.items.Sum(x => x.Mini.ReducedPrice)));
 
                 return View("AdminIndex", liste);
             }
 
             if (User.IsInRole("Client"))
             {
-                var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
+                var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
 
-                var list = cart.Select(x => new CartViewModels.CartViewModel(
-                    x.UserId,
+                var list = new CartViewModels.CartViewModel(
+                    cart.UserId,
                     _context.ItemInCarts.ToList().Select(i =>
-                        new CartViewModels.ItemInCartModel(i.Id, i.Mini.Name, i.Mini.ImagePath, i.Quantity, i.Mini.ReducedPrice))
+                        new CartViewModels.ItemInCartModel(
+                            i.Id, 
+                            _context.Minis.Find(i.MiniId).Name,
+                            _context.Minis.Find(i.MiniId).ImagePath,
+                            i.Quantity, 
+                            _context.Minis.Find(i.MiniId).ReducedPrice))
                         .ToList(),
-                    x.items.Sum(x => x.Mini.ReducedPrice)));
+                    cart.items.Sum(x => x.Mini.ReducedPrice));
 
-                return View("Index", cart);
+                return View("Index", list);
             }
             else
             {
@@ -65,7 +70,6 @@ namespace MiniStore.Controllers
                return RedirectToAction("CommandForm", "Command", cart);
                 
             }
-            return NotFound();
         }
 
         // ToDo: Regarder comment fonctionne le post du formulaire du component InfoItemMini
