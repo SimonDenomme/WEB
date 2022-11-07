@@ -1,8 +1,10 @@
 ﻿using MiniStore.Domain;
+using MiniStore.ViewModels.Cart;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static MiniStore.ViewModels.Cart.CartViewModels;
 
 namespace MiniStore.Models
 {
@@ -10,13 +12,7 @@ namespace MiniStore.Models
     {
         public int Id { get; set; }
 
-        public int UserId { get; set; }
-        public decimal TotalAvantTaxe { get; set; }
-        public decimal Taxe { get; set; }
-        public decimal TotalApresTaxe { get; set; }
-        public decimal FraisLivraison { get; set; }
-
-
-        public List<ItemInCart> Items { get; set; }
+        public Cart Cart { get; set; }
+        //public CartViewModel CVM { get; set; }
     }
 }

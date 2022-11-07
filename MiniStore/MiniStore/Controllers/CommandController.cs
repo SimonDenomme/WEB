@@ -34,7 +34,7 @@ namespace MiniStore.Controllers
             return View("CommandInfos");
         }
 
-        public async Task<IActionResult> CommandForm(List<Cart> cart)
+        public async Task<IActionResult> CommandForm(int Id)
         {
             return View();
         }
@@ -49,20 +49,40 @@ namespace MiniStore.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CancelCommand()
+        public async Task<IActionResult> CancelCommand(int Id)
         {
+            var command = _context.Carts.Where(c => c.Id == Id).FirstOrDefault();
+            command.IsCommand = false;
             return View();
         }
-        public async Task<IActionResult> CreateCommand(Cart cart)
+        public async Task<IActionResult> CreateCommand(int Id)
         {
+            var Command = _context.Carts.Where(c => c.Id == Id).FirstOrDefault();
+            Command.IsCommand = true;
+            var commandModel = new CommandModel
+            {
+                Cart = Command
+            };
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("CommandForm", Id);
+            }
+            return RedirectToAction("LogIn", "Account");
 
 
+            //return View();
+        }
 
-
+        public async Task<IActionResult> CommandInfos(int Id)
+        {
+            var Command = _context.Carts.Where(c => c.Id == Id).FirstOrDefault();
+            var commandModel = new CommandModel
+            {
+                Cart = Command
+            };
 
             return View();
         }
-
         
 
     }

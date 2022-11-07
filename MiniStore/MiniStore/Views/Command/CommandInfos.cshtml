@@ -3,8 +3,10 @@
 
 
 <div>
-    @Model.UserId
+    @Model.Cart.CartUser.Email
 </div>
+@{ 
+    double montantTotal = 0;
 <div>
 
     <table class="table">
@@ -16,8 +18,9 @@
         </thead>
         <tbody>
 
-            @foreach (var item in Model.Items)
+            @foreach (var item in Model.Cart.items)
             {
+                montantTotal += item.Mini.NormalPrice;
                 <tr>
                     @Html.DisplayFor(modelItem => item.Mini.Name)
                 </tr>
@@ -32,15 +35,17 @@
     client info
 </div>
 <div>
-    @Model.TotalAvantTaxe $
+    Montant avant taxe : @montantTotal $
     <br>
-    @Model.Taxe $
+    Taxe : @(montantTotal * 0.15) $
     <br>
-    @Model.TotalApresTaxe $
+    Montant après taxe : @(montantTotal * 1.15) $
     <br>
-    @Model.FraisLivraison $
-
+    Frais de livraison : 15 $
+    <br>
+    Montant final : @(montantTotal * 1.15 + 15) $
 </div>
+}
 
 
 <div class="container py-5">
@@ -51,8 +56,9 @@
                 <div class="col text-end mt-2">
                     <button type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>
                 </div>
-                <div class="col text-end mt-2">
-                    <button type="submit" class="btn btn-danger btn-lg px-3">Annuler</button>
+                <div class="buttons">
+                    <a asp-action="CancelCommand" asp-route-id="@item.Id" class="delete-btn"></a>
+                    @*<span class="like-btn"></span>*@
                 </div>
             </div>
         </form>
