@@ -26,6 +26,7 @@ namespace MiniStore
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentityCore<ApplicationUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MiniStoreContext>()
                 .AddSignInManager()
                 .AddDefaultTokenProviders();

@@ -48,8 +48,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "49455b95-7677-4aac-97ec-150416737023",
-                            ConcurrencyStamp = "7c72acb5-77eb-4c4a-a8be-145980df936f",
+                            Id = "5e4a1511-3c5d-4c1a-b477-7d983a721944",
+                            ConcurrencyStamp = "ad67fe9e-88f8-406c-bd78-be026f90de5b",
                             Name = "Admin"
                         });
                 });
@@ -141,8 +141,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "b3481842-2e42-4cb7-9cfa-05e6f2d97cbb",
-                            RoleId = "49455b95-7677-4aac-97ec-150416737023"
+                            UserId = "fb812715-f4a6-4183-b0c3-83e8923f4671",
+                            RoleId = "5e4a1511-3c5d-4c1a-b477-7d983a721944"
                         });
                 });
 
@@ -178,9 +178,6 @@ namespace MiniStore.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdUser")
-                        .HasColumnType("int");
-
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
@@ -188,6 +185,9 @@ namespace MiniStore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -203,9 +203,6 @@ namespace MiniStore.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CommandId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -260,8 +257,6 @@ namespace MiniStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommandId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -275,17 +270,17 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b3481842-2e42-4cb7-9cfa-05e6f2d97cbb",
+                            Id = "fb812715-f4a6-4183-b0c3-83e8923f4671",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d45ffcd9-ad99-4cea-97a6-7b444a6e934b",
+                            ConcurrencyStamp = "afb3dd2e-96ac-43e5-abb3-e3148bd50b4d",
                             Email = "admin@test.ca",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@TEST.CA",
                             NormalizedUserName = "ADMIN@TEST.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKnr82fBIHKrWK1JbP/AM29kmEHkScyzACZzcuWKEizIC/r4WjSfT3+1LdBfbGnbBw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGM1DWEEDofErcXcnq65PW8nhZPp9GA9ifk4qc1nA1FzmFgUNBkb670hSjYVuR71+w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9e3f8747-e843-4587-a551-859c14c0799d",
+                            SecurityStamp = "d02d638f-fa4c-4100-b692-10570e6b2c45",
                             TwoFactorEnabled = false,
                             UserName = "admin@test.ca"
                         });
@@ -300,6 +295,9 @@ namespace MiniStore.Migrations
 
                     b.Property<string>("CartUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsCommand")
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
@@ -351,38 +349,6 @@ namespace MiniStore.Migrations
                             Id = 5,
                             Name = "Gamma World"
                         });
-                });
-
-            modelBuilder.Entity("MiniStore.Domain.Command", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("FraisLivraison")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("ItemsId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Taxe")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalApresTaxe")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalAvantTaxe")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemsId");
-
-                    b.ToTable("Command");
                 });
 
             modelBuilder.Entity("MiniStore.Domain.ItemInCart", b =>
@@ -1248,15 +1214,6 @@ namespace MiniStore.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
-            modelBuilder.Entity("MiniStore.Domain.ApplicationUser", b =>
-                {
-                    b.HasOne("MiniStore.Domain.Command", "Command")
-                        .WithMany()
-                        .HasForeignKey("CommandId");
-
-                    b.Navigation("Command");
-                });
-
             modelBuilder.Entity("MiniStore.Domain.Cart", b =>
                 {
                     b.HasOne("MiniStore.Domain.ApplicationUser", "CartUser")
@@ -1264,15 +1221,6 @@ namespace MiniStore.Migrations
                         .HasForeignKey("CartUserId");
 
                     b.Navigation("CartUser");
-                });
-
-            modelBuilder.Entity("MiniStore.Domain.Command", b =>
-                {
-                    b.HasOne("MiniStore.Domain.Cart", "Items")
-                        .WithMany()
-                        .HasForeignKey("ItemsId");
-
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("MiniStore.Domain.ItemInCart", b =>

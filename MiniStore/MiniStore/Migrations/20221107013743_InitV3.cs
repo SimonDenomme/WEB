@@ -3,10 +3,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MiniStore.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitV3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AdresseViewModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AddressNumber = table.Column<int>(type: "int", nullable: false),
+                    AddressStreet = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressCity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressPostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdresseViewModel", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -77,22 +93,6 @@ namespace MiniStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Minis_1",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalPrice = table.Column<double>(type: "float", nullable: false),
-                    ReducedPrice = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Minis_1", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Sizes",
                 columns: table => new
                 {
@@ -137,6 +137,30 @@ namespace MiniStore.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,6 +249,27 @@ namespace MiniStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsCommand = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CartUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Carts_AspNetUsers_CartUserId",
+                        column: x => x.CartUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Minis",
                 columns: table => new
                 {
@@ -268,6 +313,33 @@ namespace MiniStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ItemInCarts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    CartId = table.Column<int>(type: "int", nullable: false),
+                    MiniId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemInCarts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemInCarts_Carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Carts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemInCarts_Minis_MiniId",
+                        column: x => x.MiniId,
+                        principalTable: "Minis",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
@@ -292,12 +364,12 @@ namespace MiniStore.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f0204c3c-a66f-4215-b5c3-283a96f9f8ee", "9a237f37-f5a7-459e-b76d-c23d8f0ebb7a", "Admin", null });
+                values: new object[] { "5e4a1511-3c5d-4c1a-b477-7d983a721944", "ad67fe9e-88f8-406c-bd78-be026f90de5b", "Admin", null });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "fc621b7f-f010-4ab3-ad27-7bb418e9f38f", 0, "e2074358-58a5-4f20-9193-e80488c2ea20", "admin@test.ca", false, null, null, false, null, "ADMIN@TEST.CA", "ADMIN@TEST.CA", "AQAAAAEAACcQAAAAEOCG19n4R1ZxmsLWBIF35knMeucTAwtPp6nW5UQkYdw8/6elrlnu3E1JeDQIG7ZaqA==", null, false, "de8f209e-37e7-4cd0-a748-9b355c230a92", false, "admin@test.ca" });
+                values: new object[] { "fb812715-f4a6-4183-b0c3-83e8923f4671", 0, "afb3dd2e-96ac-43e5-abb3-e3148bd50b4d", "admin@test.ca", false, null, null, false, null, "ADMIN@TEST.CA", "ADMIN@TEST.CA", "AQAAAAEAACcQAAAAEGM1DWEEDofErcXcnq65PW8nhZPp9GA9ifk4qc1nA1FzmFgUNBkb670hSjYVuR71+w==", null, false, "d02d638f-fa4c-4100-b692-10570e6b2c45", false, "admin@test.ca" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -336,14 +408,14 @@ namespace MiniStore.Migrations
                 {
                     { 3, "Indisponible" },
                     { 1, "En inventaire" },
-                    { 2, "Bientôt" },
+                    { 2, "Précommande" },
                     { 4, "En rupture de stock" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "f0204c3c-a66f-4215-b5c3-283a96f9f8ee", "fc621b7f-f010-4ab3-ad27-7bb418e9f38f" });
+                values: new object[] { "5e4a1511-3c5d-4c1a-b477-7d983a721944", "fb812715-f4a6-4183-b0c3-83e8923f4671" });
 
             migrationBuilder.InsertData(
                 table: "Minis",
@@ -390,6 +462,11 @@ namespace MiniStore.Migrations
                 values: new object[] { 1, 1, (byte)5, "Good", "Review 1" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Addresses_ApplicationUserId",
+                table: "Addresses",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -429,6 +506,21 @@ namespace MiniStore.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Carts_CartUserId",
+                table: "Carts",
+                column: "CartUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemInCarts_CartId",
+                table: "ItemInCarts",
+                column: "CartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemInCarts_MiniId",
+                table: "ItemInCarts",
+                column: "MiniId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Minis_CategoryId",
                 table: "Minis",
                 column: "CategoryId");
@@ -452,6 +544,12 @@ namespace MiniStore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Addresses");
+
+            migrationBuilder.DropTable(
+                name: "AdresseViewModel");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -467,10 +565,10 @@ namespace MiniStore.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "ItemInCarts");
 
             migrationBuilder.DropTable(
-                name: "Minis_1");
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
@@ -479,10 +577,13 @@ namespace MiniStore.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "Minis");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");

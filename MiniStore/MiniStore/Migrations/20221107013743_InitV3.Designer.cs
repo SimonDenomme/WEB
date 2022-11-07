@@ -10,8 +10,8 @@ using MiniStore.Data;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    [Migration("20221104034941_CartStuff")]
-    partial class CartStuff
+    [Migration("20221107013743_InitV3")]
+    partial class InitV3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1ff29d53-e342-4ac9-b930-18a35b07916e",
-                            ConcurrencyStamp = "83e5eaf0-6f2c-417c-b395-6930d6792750",
+                            Id = "5e4a1511-3c5d-4c1a-b477-7d983a721944",
+                            ConcurrencyStamp = "ad67fe9e-88f8-406c-bd78-be026f90de5b",
                             Name = "Admin"
                         });
                 });
@@ -143,8 +143,8 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "49082e1e-72b6-44e7-83aa-5c4907988466",
-                            RoleId = "1ff29d53-e342-4ac9-b930-18a35b07916e"
+                            UserId = "fb812715-f4a6-4183-b0c3-83e8923f4671",
+                            RoleId = "5e4a1511-3c5d-4c1a-b477-7d983a721944"
                         });
                 });
 
@@ -165,6 +165,38 @@ namespace MiniStore.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("MiniStore.Domain.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("MiniStore.Domain.ApplicationUser", b =>
@@ -240,41 +272,46 @@ namespace MiniStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "49082e1e-72b6-44e7-83aa-5c4907988466",
+                            Id = "fb812715-f4a6-4183-b0c3-83e8923f4671",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9c994c86-0dd6-4281-a247-51235cda15ee",
+                            ConcurrencyStamp = "afb3dd2e-96ac-43e5-abb3-e3148bd50b4d",
                             Email = "admin@test.ca",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@TEST.CA",
                             NormalizedUserName = "ADMIN@TEST.CA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPFeDJUbkh21Vn+9+OGUTYd1pqaelc0yXAsfUfBECPLT/FiaoFNg1EkoSd/yoqwELg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGM1DWEEDofErcXcnq65PW8nhZPp9GA9ifk4qc1nA1FzmFgUNBkb670hSjYVuR71+w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8475e910-135b-41fa-af61-ef08e0a0b55e",
+                            SecurityStamp = "d02d638f-fa4c-4100-b692-10570e6b2c45",
                             TwoFactorEnabled = false,
                             UserName = "admin@test.ca"
                         });
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Cart", b =>
+            modelBuilder.Entity("MiniStore.Domain.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("CartUserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserName")
+                    b.Property<bool>("IsCommand")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartUserId");
+
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Category", b =>
+            modelBuilder.Entity("MiniStore.Domain.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -316,7 +353,7 @@ namespace MiniStore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.ItemInCart", b =>
+            modelBuilder.Entity("MiniStore.Domain.ItemInCart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -341,7 +378,7 @@ namespace MiniStore.Migrations
                     b.ToTable("ItemInCarts");
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Message", b =>
+            modelBuilder.Entity("MiniStore.Domain.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -371,7 +408,7 @@ namespace MiniStore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Mini", b =>
+            modelBuilder.Entity("MiniStore.Domain.Mini", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -974,7 +1011,7 @@ namespace MiniStore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Review", b =>
+            modelBuilder.Entity("MiniStore.Domain.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1010,7 +1047,7 @@ namespace MiniStore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Size", b =>
+            modelBuilder.Entity("MiniStore.Domain.Size", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1057,7 +1094,7 @@ namespace MiniStore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Status", b =>
+            modelBuilder.Entity("MiniStore.Domain.Status", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1092,6 +1129,33 @@ namespace MiniStore.Migrations
                             Id = 4,
                             Title = "En rupture de stock"
                         });
+                });
+
+            modelBuilder.Entity("MiniStore.ViewModels.Adresse.AdresseViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AddressCity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AddressNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AddressPostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressStreet")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdresseViewModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1145,15 +1209,31 @@ namespace MiniStore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.ItemInCart", b =>
+            modelBuilder.Entity("MiniStore.Domain.Address", b =>
                 {
-                    b.HasOne("MiniStore.Entity.Cart", "Cart")
-                        .WithMany("Items")
+                    b.HasOne("MiniStore.Domain.ApplicationUser", null)
+                        .WithMany("Address")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("MiniStore.Domain.Cart", b =>
+                {
+                    b.HasOne("MiniStore.Domain.ApplicationUser", "CartUser")
+                        .WithMany()
+                        .HasForeignKey("CartUserId");
+
+                    b.Navigation("CartUser");
+                });
+
+            modelBuilder.Entity("MiniStore.Domain.ItemInCart", b =>
+                {
+                    b.HasOne("MiniStore.Domain.Cart", "Cart")
+                        .WithMany("items")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MiniStore.Entity.Mini", "Mini")
+                    b.HasOne("MiniStore.Domain.Mini", "Mini")
                         .WithMany()
                         .HasForeignKey("MiniId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1164,21 +1244,21 @@ namespace MiniStore.Migrations
                     b.Navigation("Mini");
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Mini", b =>
+            modelBuilder.Entity("MiniStore.Domain.Mini", b =>
                 {
-                    b.HasOne("MiniStore.Entity.Category", "Category")
+                    b.HasOne("MiniStore.Domain.Category", "Category")
                         .WithMany("Minis")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MiniStore.Entity.Size", "Size")
+                    b.HasOne("MiniStore.Domain.Size", "Size")
                         .WithMany()
                         .HasForeignKey("SizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MiniStore.Entity.Status", "Status")
+                    b.HasOne("MiniStore.Domain.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1191,9 +1271,9 @@ namespace MiniStore.Migrations
                     b.Navigation("Status");
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Review", b =>
+            modelBuilder.Entity("MiniStore.Domain.Review", b =>
                 {
-                    b.HasOne("MiniStore.Entity.Mini", "Mini")
+                    b.HasOne("MiniStore.Domain.Mini", "Mini")
                         .WithMany("Reviews")
                         .HasForeignKey("MiniId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1202,17 +1282,22 @@ namespace MiniStore.Migrations
                     b.Navigation("Mini");
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Cart", b =>
+            modelBuilder.Entity("MiniStore.Domain.ApplicationUser", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Category", b =>
+            modelBuilder.Entity("MiniStore.Domain.Cart", b =>
+                {
+                    b.Navigation("items");
+                });
+
+            modelBuilder.Entity("MiniStore.Domain.Category", b =>
                 {
                     b.Navigation("Minis");
                 });
 
-            modelBuilder.Entity("MiniStore.Entity.Mini", b =>
+            modelBuilder.Entity("MiniStore.Domain.Mini", b =>
                 {
                     b.Navigation("Reviews");
                 });

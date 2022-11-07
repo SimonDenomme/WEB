@@ -1,9 +1,9 @@
 ﻿namespace MiniStore.Domain
 {
-    public class Command
+    public class Commande
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public decimal TotalAvantTaxe { get; set; }
         public decimal Taxe { get; set; }
         public decimal TotalApresTaxe { get; set; }
