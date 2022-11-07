@@ -1,6 +1,8 @@
 ﻿@model MiniStore.ViewModels.Cart.CartViewModels.CartViewModel
 
 <div class="cart-body">
+    <a class="nav-link" asp-area="" asp-controller="Shop" asp-action="Index">Ajouter d'autres minis</a>
+
     <div class="shopping-cart">
         <!-- Title -->
         <div class="title">
@@ -43,6 +45,11 @@
         <div class="sous-total">Sous-Total : @Model.SousTotal.ToString("C")</div>
         <div class="taxes">Taxes : @Model.Taxes.ToString("C")</div>
         <div class="total-price">Total : @Model.Total.ToString("C")</div>
+
+    </div>
+    
+    <div class="shopping-cart">
+        <a class="nav-link" asp-area="" asp-controller="Command" asp-action="">Passer le panier en commande</a>
 
     </div>
 </div>

@@ -16,16 +16,15 @@ namespace MiniStore.Controllers
     {
         private readonly MiniStoreContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public CartController(MiniStoreContext context,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _signInManager = signInManager;
         }
+
+        //ToDo: Passer le panier en commande (link dans l'Index et l'AdminIndex)
 
         private CartViewModels.CartViewModel CartMapping(Cart cart)
         {

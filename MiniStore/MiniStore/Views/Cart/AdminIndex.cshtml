@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<MiniStore.ViewModels.Cart.CartViewModels.CartViewModel>
 
 <div class="cart-body">
+    <a class="nav-link text-dark" asp-area="" asp-controller="Shop" asp-action="Index">Retour</a>
+    
     @foreach (var cart in Model)
     {
         <div class="shopping-cart">
