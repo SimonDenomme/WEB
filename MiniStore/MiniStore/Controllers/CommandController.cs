@@ -33,7 +33,7 @@ namespace MiniStore.Controllers
         //    return View("CommandInfos");
         //}
 
-        public async Task<IActionResult> CommandForm(int Id)
+        public async Task<IActionResult> CommandForm(int cartId)
         {
             return View();
         }
@@ -46,18 +46,27 @@ namespace MiniStore.Controllers
             command.IsCommand = false;
             return View();
         }
-        
+
         public async Task<IActionResult> CreateCommand(int cartId)
         {
             var Command = await _context.Carts.FindAsync(cartId);
-            Command.IsCommand = true;
             var commandModel = new Commande
             {
+                IsSent = true,
                 Items = Command,
-                UserId = _userManager.GetUserId(User)
+                UserId = _userManager.GetUserId(User),
             };
             _context.Add(commandModel);
             await _context.SaveChangesAsync();
+
+            var items = await _context.ItemInCarts.Where(i => i.CartId == cartId).ToListAsync();
+            foreach (var i in items)
+            {
+                i.CommandeId = commandModel.Id;
+                _context.Update(i);
+            }
+            await _context.SaveChangesAsync();
+
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("CommandForm", cartId);
@@ -80,7 +89,7 @@ namespace MiniStore.Controllers
 
             return View(commandModel);
         }
-        
+
 
     }
 }

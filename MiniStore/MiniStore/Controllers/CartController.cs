@@ -64,6 +64,8 @@ namespace MiniStore.Controllers
             if (User.IsInRole("Client"))
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+                if (cart == null)
+                    return View("EmptyCart");
                 var items = await _context.ItemInCarts.Where(i => i.CartId == cart.Id).FirstOrDefaultAsync();
                 if (items == null)
                     return View("EmptyCart");
