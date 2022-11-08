@@ -1,3 +1,4 @@
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +37,10 @@ namespace MiniStore
                 options.DefaultScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             }).AddIdentityCookies();
+
+            //services.AddFluentValidationAutoValidation();
+            //services.AddFluentValidationClientsideAdapters();
+            //services.AddValidatorsFromAssembly(typeof(SignUpRequestModelValidator).Assembly);
 
             services.AddFluentValidation(x =>
             {
