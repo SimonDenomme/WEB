@@ -5,9 +5,9 @@ namespace MiniStore.Models
 {
     public class ClientViewModel
     {
-        public ApplicationUser User { get; set; }
+        //public ApplicationUser User { get; set; }
 
-        //public string Name { get; set; }
+        public string UserName { get; set; }
 
         public List<Commande> Commands { get; set; }
 

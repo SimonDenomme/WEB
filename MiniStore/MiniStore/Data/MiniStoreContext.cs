@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Domain;
+using MiniStore.Models;
 
 namespace MiniStore.Data
 {
@@ -24,5 +25,6 @@ namespace MiniStore.Data
 
             modelBuilder.Seed();
         }
+        public DbSet<MiniStore.Models.CommandModel> CommandModel { get; set; }
     }
 }

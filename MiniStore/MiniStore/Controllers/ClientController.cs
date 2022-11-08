@@ -2,8 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
+using MiniStore.Models;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MiniStore.Controllers
 {
@@ -33,9 +39,28 @@ namespace MiniStore.Controllers
 
         // GET: ClientController/Details
         [Authorize(Roles = "Client")]
-        public ActionResult Details()
+        public async Task<IActionResult> List()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            try
+            {
+                //List<CommandModel> commandes /*= new List<CommandModel>()*/;
+                var cdes = await _context.Commands.Where(c => c.UserId == user.Id)
+                                                   .Select(c =>
+                                                   new CommandModel
+                                                   {
+                                                       IsSent = c.IsSent,
+                                                       Cart = c.Items,
+                                                       Number = c.Id
+                                                   }).ToListAsync();
+
+                return View(cdes);
+            }
+            catch
+            {
+                return StatusCode(500, "Server error");
+            }
+            
         }
 
         
