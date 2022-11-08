@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
-//using MiniStore.Entity;
 using MiniStore.Models;
-using MiniStore.ViewModels.Cart;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MiniStore.Controllers
 {
+    [Authorize]
     public class CommandController : Controller
     {
         private readonly MiniStoreContext _context;

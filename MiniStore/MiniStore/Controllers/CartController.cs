@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
-using MiniStore.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using MiniStore.ViewModels.Cart;
@@ -23,8 +22,6 @@ namespace MiniStore.Controllers
             _context = context;
             _userManager = userManager;
         }
-
-        //ToDo: Passer le panier en commande (link dans l'Index et l'AdminIndex)
 
         private CartViewModels.CartViewModel CartMapping(Cart cart)
         {
