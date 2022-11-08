@@ -73,8 +73,11 @@
                             @if (User.IsInRole("Admin") || User.IsInRole("Client"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Adresse" asp-action="Add">Ajouter adresse</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Index">Mon compte</a>
                                 </li>
+                                @*<li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Adresse" asp-action="Add">Ajouter adresse</a>
+                                </li>*@
                             }
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
@@ -147,7 +150,7 @@
         </div>
     </div>
 
-    @RenderBody()
+     @RenderBody()
 
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
