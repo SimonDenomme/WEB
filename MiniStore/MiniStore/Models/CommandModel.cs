@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MiniStore.Domain;
-using MiniStore.ViewModels.Cart;
 using System.Collections.Generic;
 
 namespace MiniStore.Models
