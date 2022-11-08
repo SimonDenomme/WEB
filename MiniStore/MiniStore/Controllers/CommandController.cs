@@ -44,16 +44,14 @@ namespace MiniStore.Controllers
 
         public async Task<IActionResult> CancelCommand(int Id)
         {
-            var command = await _context.Carts.Where(c => c.Id == Id).FirstOrDefaultAsync();
+            var command = await _context.Carts.FindAsync(Id);
             command.IsCommand = false;
             return View();
         }
-
-
-
+        
         public async Task<IActionResult> CreateCommand(int cartId)
         {
-            var Command = _context.Carts.Where(c => c.Id == cartId).FirstOrDefault();
+            var Command = await _context.Carts.FindAsync(cartId);
             Command.IsCommand = true;
             var commandModel = new Commande
             {

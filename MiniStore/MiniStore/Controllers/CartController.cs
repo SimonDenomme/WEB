@@ -143,6 +143,9 @@ namespace MiniStore.Controllers
             var item = await _context.ItemInCarts.FindAsync(id);
             item.Quantity--;
 
+            if (item.Quantity < 1)
+                item.Quantity = 1;
+
             _context.Update(item);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
