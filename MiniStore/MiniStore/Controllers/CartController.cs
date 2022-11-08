@@ -67,7 +67,8 @@ namespace MiniStore.Controllers
             if (User.IsInRole("Client"))
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
-                if (cart == null)
+                var items = await _context.ItemInCarts.Where(i => i.CartId == cart.Id).FirstOrDefaultAsync();
+                if (items == null)
                     return View("EmptyCart");
                 return View(CartMapping(cart));
             }
@@ -95,7 +96,7 @@ namespace MiniStore.Controllers
             // Mini
             var entity = await _context.Minis.FindAsync(MiniId);
             if (entity == null)
-                return RedirectToAction("Item", "Shop", new { id = MiniId });
+                return RedirectToAction("Index", "Shop");
 
             // Cart
             var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
@@ -106,16 +107,23 @@ namespace MiniStore.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            var item = new ItemInCart
+            // Valider si déjà dans le panier
+            var item1 = await _context.ItemInCarts.Where(i => i.MiniId == MiniId && i.CartId == cart.Id).FirstOrDefaultAsync();
+            if (item1 != null)
+                item1.Quantity++;
+            else
             {
-                MiniId = MiniId,
-                Mini = entity,
-                Quantity = Quantity,
-                CartId = cart.Id,
-                Cart = cart
-            };
+                var item = new ItemInCart
+                {
+                    MiniId = MiniId,
+                    Mini = entity,
+                    Quantity = Quantity,
+                    CartId = cart.Id,
+                    Cart = cart
+                };
 
-            _context.Add(item);
+                _context.Add(item);
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
