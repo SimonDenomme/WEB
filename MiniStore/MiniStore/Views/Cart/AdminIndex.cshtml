@@ -34,48 +34,21 @@
                             <li class="list-inline-item text-right">
                                 <input type="hidden" name="Quantity" id="product-quanity" value="@item.Quantity">
                             </li>
-                            <li class="list-inline-item"><span class="btn btn-success" id="minus-btn">-</span></li>
+                            <li class="list-inline-item"><a asp-area="" asp-action="DecItem" asp-route-id="@item.Id" class="btn btn-success" id="minus-btn">-</a></li>
                             <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">@item.Quantity</span></li>
-                            <li class="list-inline-item"><span class="btn btn-success" id="plus-btn">+</span></li>
+                            <li class="list-inline-item"><a asp-area="" asp-action="IncItem" asp-route-id="@item.Id" class="btn btn-success" id="plus-btn">+</a></li>
                         </ul>
                     </div>
 
-                    <div class="total-price">$@item.Price</div>
+                    <div class="price">$@item.Price</div>
                 </div>
             }
+            <div class="sous-total">Sous-Total : @cart.SousTotal.ToString("C")</div>
+            <div class="taxes">Taxes : @cart.Taxes.ToString("C")</div>
+            <div class="total-price">Total : @cart.Total.ToString("C")</div>
 
-            @*<!-- Product #1 -->
-                <div class="item">
-                <div class="buttons">
-                <span class="delete-btn"></span>
-                <span class="like-btn"></span>
-                </div>
-
-                <div class="image">
-                <img src="item-1.png" alt="" />
-                </div>
-
-                <div class="description">
-                <span>Common Projects</span>
-                <span>Bball High</span>
-                <span>White</span>
-                </div>
-
-                <div class="quantity">
-                <ul class="list-inline pb-3">
-                <li class="list-inline-item text-right">
-                <input type="hidden" name="Quantity" id="product-quanity" value="Quantity">
-                </li>
-                <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">Quantity</span></li>
-                <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
-                </ul>
-                </div>
-
-                <div class="total-price">$549</div>
-                </div>*@
         </div>
-        }
+    }
     <div class="shopping-cart">
         <a class="nav-link" asp-area="" asp-controller="Command" asp-action="CreateCommand">Passer le panier en commande</a>
 
