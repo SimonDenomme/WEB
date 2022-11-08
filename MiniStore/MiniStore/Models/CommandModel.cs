@@ -1,4 +1,5 @@
-﻿using MiniStore.Domain;
+﻿using FluentValidation;
+using MiniStore.Domain;
 
 namespace MiniStore.Models
 {
@@ -17,5 +18,22 @@ namespace MiniStore.Models
 
         // Cart ?
         public Cart Cart { get; set; }
+    }
+    
+    public class CommandValidator : AbstractValidator<CommandModel>
+    {
+        private const string EMAILREGEX = @"^[A-z\d!\/$%?&*#]{4,30}@[A-z\d]{4,30}.[A-z]{2,5}$";
+
+        public CommandValidator()
+        {
+            //RuleFor(x => x.Email).Matches(EMAILREGEX).WithMessage("The email must be in the good format (Ex: example@example.com).")
+
+            RuleFor(x => x.PostalCode)
+                .NotEmpty()
+                    .When(x => x.Number > 0)
+                    .WithMessage("The postal code is required.")
+                .Matches(@"^[A-z]\d[A-z]\s?\d[A-z]\d$")
+                    .WithMessage("The postal code must respect the convention, H0H0H0.");
+        }
     }
 }
