@@ -6,7 +6,7 @@ namespace MiniStore.Domain
     {
         public int Id { get; set; }
 
-        public bool IsCommand { get; set; }
+        public bool IsCommand { get; set; } = false;
 
         // Navigation properties
         public List<ItemInCart> items { get; set; }

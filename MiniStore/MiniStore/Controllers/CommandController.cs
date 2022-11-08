@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
 //using MiniStore.Entity;
@@ -34,35 +35,51 @@ namespace MiniStore.Controllers
             return View("CommandInfos");
         }
 
-        public async Task<IActionResult> CommandForm(List<Cart> cart)
+        public async Task<IActionResult> CommandForm(int Id)
         {
             return View();
         }
 
-        public async Task<IActionResult> ConfirmCommand(CommandModel model)
+
+
+        public async Task<IActionResult> CancelCommand(int Id)
         {
-
-
-
-
-
+            var command = await _context.Carts.Where(c => c.Id == Id).FirstOrDefaultAsync();
+            command.IsCommand = false;
             return View();
         }
-
-        public async Task<IActionResult> CancelCommand()
+        public async Task<IActionResult> CreateCommand(int Id)
         {
-            return View();
+            var Command = _context.Carts.Where(c => c.Id == Id).FirstOrDefault();
+            Command.IsCommand = true;
+            var commandModel = new CommandModel
+            {
+                Cart = Command
+            };
+            _context.Add(commandModel);
+            await _context.SaveChangesAsync();
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("CommandForm", Id);
+            }
+            return RedirectToAction("LogIn", "Account");
+
+
+            //return View();
         }
-        public async Task<IActionResult> CreateCommand(Cart cart)
+
+        public async Task<IActionResult> CommandInfos()
         {
+            var Command = _context.Commands.Where(c => c.IsSent == false).FirstOrDefault();
+            var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
 
+            var commandModel = new CommandModel
+            {
+                Cart = cart
+            };
 
-
-
-
-            return View();
+            return View(commandModel);
         }
-
         
 
     }
