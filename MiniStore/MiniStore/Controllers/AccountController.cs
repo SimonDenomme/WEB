@@ -15,15 +15,18 @@ namespace MiniStore.Controllers
         private readonly MiniStoreContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(
             MiniStoreContext context,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         [AllowAnonymous]
@@ -78,6 +81,8 @@ namespace MiniStore.Controllers
             {
                 return View(model);
             }
+            
+            // Create Address
             List<Address> lstAddress = new List<Address>();
             var address = new Address
             {
@@ -87,6 +92,9 @@ namespace MiniStore.Controllers
                 PostalCode = model.AddressPostalCode,
             };
             lstAddress.Add(address);
+            await _context.SaveChangesAsync();
+
+            // Create UserModel
             var user = new ApplicationUser
             {
                 UserName = model.Email,
@@ -96,23 +104,22 @@ namespace MiniStore.Controllers
                 Address = lstAddress,
             };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
+            // Create Role if not exists
+            bool adminRoleExists = await _roleManager.RoleExistsAsync("Client");
+            if (!adminRoleExists)
             {
-                ModelState.AddModelError(string.Empty, "Unable to register!");
-                return View(model);
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Client"));
             }
 
-            try
+            // Create User
+            var createPowerUser = await _userManager.CreateAsync(user, model.Password);
+            if (createPowerUser.Succeeded)
             {
-                _context.Attach(user);
-                _context.SaveChanges();
-
+                var testing = await _userManager.AddToRoleAsync(user, "Client");
             }
-            catch (Exception)
+            else
             {
-                ModelState.AddModelError(string.Empty, "Unable to register!");
+                ModelState.AddModelError(string.Empty, "Error adding the user to the database");
                 return View(model);
             }
 
