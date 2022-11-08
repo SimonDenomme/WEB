@@ -44,13 +44,14 @@ namespace MiniStore.Controllers
 
         public async Task<IActionResult> CancelCommand(int Id)
         {
-            var command = await _context.Carts.Where(c => c.Id == Id).FirstOrDefaultAsync();
+            var command = await _context.Carts.FindAsync(Id);
             command.IsCommand = false;
             return View();
         }
-        public async Task<IActionResult> CreateCommand(int Id)
+        
+        public async Task<IActionResult> CreateCommand(int cartId)
         {
-            var Command = _context.Carts.Where(c => c.Id == Id).FirstOrDefault();
+            var Command = await _context.Carts.FindAsync(cartId);
             Command.IsCommand = true;
             var commandModel = new CommandModel
             {
@@ -60,7 +61,7 @@ namespace MiniStore.Controllers
             await _context.SaveChangesAsync();
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("CommandForm", Id);
+                return RedirectToAction("CommandForm", cartId);
             }
             return RedirectToAction("LogIn", "Account");
 

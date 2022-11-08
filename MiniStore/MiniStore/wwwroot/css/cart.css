@@ -150,11 +150,11 @@
     cursor: pointer;
 }
 
-.btn-minus img {
+.minus-btn img {
     margin-bottom: 3px;
 }
 
-.btn-plus img {
+.plus-btn img {
     margin-top: 2px;
 }
 
