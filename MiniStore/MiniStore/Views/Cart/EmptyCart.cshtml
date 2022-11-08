@@ -1,0 +1,50 @@
+﻿@model MiniStore.ViewModels.Cart.CartViewModels.CartViewModel
+
+<div class="cart-body">
+    <a class="nav-link" asp-area="" asp-controller="Shop" asp-action="Index">Ajouter d'autres minis</a>
+
+    <div class="shopping-cart">
+        <!-- Title -->
+        <div class="title">
+            Panier d'achats
+        </div>
+
+        @*<div class="item">
+            <div class="buttons">
+                <a asp-action="DeleteItem" asp-route-id="@item.Id" class="delete-btn"></a>
+                @*<span class="like-btn"></span>
+            </div>
+
+            <div class="image">
+                <img src="/img/@item.ImagePath" alt="" />
+            </div>
+
+            <div class="description">
+                <span>@item.Name</span>
+            </div>
+
+            <div class="quantity">
+                <ul class="list-inline pb-3">
+                    <li class="list-inline-item text-right">
+                        <input type="hidden" name="Quantity" id="product-quanity" value="@item.Quantity">
+                    </li>
+                    <li class="list-inline-item"><a asp-area="" asp-action="DecItem" asp-route-id="@item.Id" class="btn btn-success" id="minus-btn">-</a></li>
+                    <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">@item.Quantity</span></li>
+                    <li class="list-inline-item"><a asp-area="" asp-action="IncItem" asp-route-id="@item.Id" class="btn btn-success" id="plus-btn">+</a></li>
+                </ul>
+            </div>
+
+            <div class="price">$@item.Price</div>
+        </div>
+
+        <div class="sous-total">Sous-Total : @Model.SousTotal.ToString("C")</div>
+        <div class="taxes">Taxes : @Model.Taxes.ToString("C")</div>
+        <div class="total-price">Total : @Model.Total.ToString("C")</div>*@
+
+    </div>
+
+    <div class="shopping-cart">
+        @*<a class="nav-link" asp-area="" asp-controller="Command" asp-route-cartId="@Model.Id" asp-action="CreateCommand">Passer le panier en commande</a>*@
+        Il n'y a pas d'article à l'horizon
+    </div>
+</div>

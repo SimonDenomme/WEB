@@ -57,7 +57,7 @@ namespace MiniStore.Controllers
             {
                 var carts = await _context.Carts.ToListAsync();
                 var model = new List<CartViewModels.CartViewModel>();
-                
+
                 foreach (var cart in carts)
                     model.Add(CartMapping(cart));
 
@@ -67,7 +67,9 @@ namespace MiniStore.Controllers
             if (User.IsInRole("Client"))
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
-                return View("Index", CartMapping(cart));
+                if (cart == null)
+                    return View("EmptyCart");
+                return View(CartMapping(cart));
             }
             else
             {
