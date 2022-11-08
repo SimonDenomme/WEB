@@ -32,8 +32,12 @@ namespace MiniStore.Controllers
 
         // GET: ClientController
         [Authorize(Roles = "Client")]
-        public ActionResult Index()
+        public async Task<ActionResult> IndexAsync()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            
+              ViewData["name"] = user.FirstName+ " " +user.LastName;
+                          
             return View();
         }
 
@@ -59,10 +63,7 @@ namespace MiniStore.Controllers
             catch
             {
                 return StatusCode(500, "Server error");
-            }
-            
-        }
-
-        
+            }            
+        }        
     }
 }
