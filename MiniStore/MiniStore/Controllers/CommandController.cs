@@ -30,10 +30,10 @@ namespace MiniStore.Controllers
 
 
 
-        public IActionResult Index()
-        {
-            return View("CommandInfos");
-        }
+        //public IActionResult Index()
+        //{
+        //    return View("CommandInfos");
+        //}
 
         public async Task<IActionResult> CommandForm(int Id)
         {
@@ -53,9 +53,10 @@ namespace MiniStore.Controllers
         {
             var Command = await _context.Carts.FindAsync(cartId);
             Command.IsCommand = true;
-            var commandModel = new CommandModel
+            var commandModel = new Commande
             {
-                Cart = Command
+                Items = Command,
+                UserId = _userManager.GetUserId(User)
             };
             _context.Add(commandModel);
             await _context.SaveChangesAsync();
