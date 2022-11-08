@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
 //using MiniStore.Entity;
@@ -39,19 +40,11 @@ namespace MiniStore.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ConfirmCommand(CommandModel model)
-        {
 
-
-
-
-
-            return View();
-        }
 
         public async Task<IActionResult> CancelCommand(int Id)
         {
-            var command = _context.Carts.Where(c => c.Id == Id).FirstOrDefault();
+            var command = await _context.Carts.Where(c => c.Id == Id).FirstOrDefaultAsync();
             command.IsCommand = false;
             return View();
         }
@@ -63,6 +56,8 @@ namespace MiniStore.Controllers
             {
                 Cart = Command
             };
+            _context.Add(commandModel);
+            await _context.SaveChangesAsync();
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("CommandForm", Id);
@@ -73,15 +68,17 @@ namespace MiniStore.Controllers
             //return View();
         }
 
-        public async Task<IActionResult> CommandInfos(int Id)
+        public async Task<IActionResult> CommandInfos()
         {
-            var Command = _context.Carts.Where(c => c.Id == Id).FirstOrDefault();
+            var Command = _context.Commands.Where(c => c.IsSent == false).FirstOrDefault();
+            var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+
             var commandModel = new CommandModel
             {
-                Cart = Command
+                Cart = cart
             };
 
-            return View();
+            return View(commandModel);
         }
         
 
