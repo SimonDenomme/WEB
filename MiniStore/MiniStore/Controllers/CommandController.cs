@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
 using MiniStore.Models;
+using MiniStore.ViewModels.Cart;
 using System.Linq;
 using System.Threading.Tasks;
 using static MiniStore.ViewModels.Cart.CartViewModels;
@@ -82,26 +83,46 @@ namespace MiniStore.Controllers
         {
             //var Command = _context.Commands.Where(c => c.IsSent == false).FirstOrDefault();
             var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
-            var items =  _context.ItemInCarts.Where(i => i.CartId == cart.Id);
+            var items =  await _context.ItemInCarts.Where(i => i.CartId == cart.Id).ToListAsync();
 
-            var cart1 = new CartViewModel
+            //CartMapping()
+
+
+            //var cart1 = new CartViewModel(cart.Id,
+            //     "",
+            //    items,
+            //     0.0d,
+            //     0.0d,
+            //     0.0d);
+            var commandModel = new CommandModel()
             {
-                Id = cart.Id,
-                UserName = "",
-                ItemsInCart = (System.Collections.Generic.IEnumerable<ItemInCartModel>)items.AsEnumerable(),
-                SousTotal = 0.0d,
-                Taxes = 0.0d,
-                Total = 0.0d
-            };
-            var commandModel = new CommandModel
-            {
-                Cart = cart,
-                CartView = cart1
+                items = items
             };
 
             return View(commandModel);
         }
 
+        private CartViewModels.CartViewModel CartMapping(Cart cart)
+        {
+            var items = _context.ItemInCarts.Where(i => i.CartId == cart.Id).ToList();
+            var sousTotal = _context.ItemInCarts.Where(x => x.CartId == cart.Id).Select(y => y.Mini.ReducedPrice * y.Quantity).Sum();
 
+            var list = new CartViewModels.CartViewModel(
+                cart.Id,
+                _context.Users.Find(cart.UserId).UserName,
+                items.Select(i =>
+                    new CartViewModels.ItemInCartModel(
+                        i.Id,
+                        _context.Minis.Find(i.MiniId).Name,
+                        _context.Minis.Find(i.MiniId).ImagePath,
+                        i.Quantity,
+                        _context.Minis.Find(i.MiniId).ReducedPrice)).ToList(),
+                sousTotal,
+                sousTotal * 0.15,
+                sousTotal * 1.15);
+
+            return list;
+        }
     }
+
 }

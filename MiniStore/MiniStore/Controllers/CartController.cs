@@ -37,7 +37,7 @@ namespace MiniStore.Controllers
                         _context.Minis.Find(i.MiniId).Name,
                         _context.Minis.Find(i.MiniId).ImagePath,
                         i.Quantity,
-                        _context.Minis.Find(i.MiniId).ReducedPrice)),
+                        _context.Minis.Find(i.MiniId).ReducedPrice)).ToList(),
                 sousTotal,
                 sousTotal * 0.15,
                 sousTotal * 1.15);

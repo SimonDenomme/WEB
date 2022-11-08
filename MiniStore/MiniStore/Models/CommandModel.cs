@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MiniStore.Domain;
 using MiniStore.ViewModels.Cart;
+using System.Collections.Generic;
 
 namespace MiniStore.Models
 {
@@ -19,7 +20,7 @@ namespace MiniStore.Models
 
         public Cart Cart { get; set; }
         // Cart ?
-        public CartViewModels.CartViewModel CartView { get; set; }
+        public List<ItemInCart> items { get; set; }
     }
     
     public class CommandValidator : AbstractValidator<CommandModel>
