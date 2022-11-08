@@ -1,50 +1,73 @@
 ﻿@model CommandModel
 
 
-
 @*<div>
-    @Model.Cart.CartUser
-</div>*@
-@{ 
+        @Model.Cart.CartUser
+    </div>*@
+@{
     double montantTotal = 0;
-<div>
+    <div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prix</th>
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
 
-            @foreach (var item in Model.Cart.items)
-            {
-                montantTotal += item.Mini.NormalPrice;
+                @foreach (var item in Model.Cart.items)
+                {
+                    montantTotal += item.Mini.NormalPrice;
+                    <tr>
+                        @Html.DisplayFor(modelItem => item.Mini.Name)
+                    </tr>
+                    <tr>
+                        @Html.DisplayFor(modelItem => item.Mini.NormalPrice)
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div>
+        Informations personnelles
+        <table>
+            <thead>
                 <tr>
-                    @Html.DisplayFor(modelItem => item.Mini.Name)
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Ville</th>
+                    <th>Code postal</th>
                 </tr>
-                <tr>
-                    @Html.DisplayFor(modelItem => item.Mini.NormalPrice)
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-<div>
-    client info
-</div>
-<div>
-    Montant avant taxe : @montantTotal $
-    <br>
-    Taxe : @(montantTotal * 0.15) $
-    <br>
-    Montant après taxe : @(montantTotal * 1.15) $
-    <br>
-    Frais de livraison : 15 $
-    <br>
-    Montant final : @(montantTotal * 1.15 + 15) $
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Cart.CartUser.Address)
+                {
+
+                    <tr>
+                        <td>@Model.Cart.CartUser.FirstName</td>
+                        <td>@Model.Cart.CartUser.LastName</td>
+                        <td>@item.Number @item.Street</td>
+                        <td>@item.City</td>
+                        <td>@item.PostalCode</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div>
+        Montant avant taxe : @montantTotal $
+        <br>
+        Taxe : @(montantTotal * 0.15) $
+        <br>
+        Montant après taxe : @(montantTotal * 1.15) $
+        <br>
+        Frais de livraison : 15 $
+        <br>
+        Montant final : @(montantTotal * 1.15 + 15) $
+    </div>
 }
 
 
