@@ -25,8 +25,8 @@ namespace MiniStore.Controllers
 
         private CartViewModels.CartViewModel CartMapping(Cart cart)
         {
-            var items = _context.ItemInCarts.Where(x => x.CartId == cart.Id).ToList();
-            var sousTotal = _context.ItemInCarts.Where(x => x.CartId == cart.Id).Select(x => x.Mini.ReducedPrice * x.Quantity).Sum();
+            var items = _context.ItemInCarts.Where(i => i.CartId == cart.Id).ToList();
+            var sousTotal = _context.ItemInCarts.Where(x => x.CartId == cart.Id).Select(y => y.Mini.ReducedPrice * y.Quantity).Sum();
 
             var list = new CartViewModels.CartViewModel(
                 cart.Id,
