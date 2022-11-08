@@ -17,8 +17,9 @@ namespace MiniStore.Models
         public string City { get; set; }
         public string PostalCode { get; set; }
 
+        public Cart Cart { get; set; }
         // Cart ?
-        public CartViewModels.CartViewModel Cart { get; set; }
+        public CartViewModels.CartViewModel CartView { get; set; }
     }
     
     public class CommandValidator : AbstractValidator<CommandModel>

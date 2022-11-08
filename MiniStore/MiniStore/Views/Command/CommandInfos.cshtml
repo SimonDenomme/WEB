@@ -17,14 +17,14 @@
             </thead>
             <tbody>
 
-                @foreach (var item in Model.Cart)
+                @foreach (var item in Model.CartView.ItemsInCart)
                 {
-                    montantTotal += item.Mini.NormalPrice;
+                    montantTotal += item.Price;
                     <tr>
-                        @Html.DisplayFor(modelItem => item.Mini.Name)
+                        @Html.DisplayFor(modelItem => item.Name)
                     </tr>
                     <tr>
-                        @Html.DisplayFor(modelItem => item.Mini.NormalPrice)
+                        @Html.DisplayFor(modelItem => item.Price)
                     </tr>
                 }
             </tbody>

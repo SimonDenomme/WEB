@@ -86,15 +86,17 @@ namespace MiniStore.Controllers
 
             var cart1 = new CartViewModel
             {
+                Id = cart.Id,
+                UserName = "",
                 ItemsInCart = (System.Collections.Generic.IEnumerable<ItemInCartModel>)items.AsEnumerable(),
-                SousTotal = 0,
-                Taxes = 0,
-                Total = 0,
-                UserName = ""
+                SousTotal = 0.0d,
+                Taxes = 0.0d,
+                Total = 0.0d
             };
             var commandModel = new CommandModel
             {
-                Cart = cart1
+                Cart = cart,
+                CartView = cart1
             };
 
             return View(commandModel);
