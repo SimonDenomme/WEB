@@ -17,7 +17,7 @@
             </thead>
             <tbody>
 
-                @foreach (var item in Model.Cart.items)
+                @foreach (var item in Model.Cart)
                 {
                     montantTotal += item.Mini.NormalPrice;
                     <tr>

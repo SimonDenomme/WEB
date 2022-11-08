@@ -7,6 +7,7 @@ using MiniStore.Domain;
 using MiniStore.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using static MiniStore.ViewModels.Cart.CartViewModels;
 
 namespace MiniStore.Controllers
 {
@@ -70,12 +71,21 @@ namespace MiniStore.Controllers
 
         public async Task<IActionResult> CommandInfos()
         {
-            var Command = _context.Commands.Where(c => c.IsSent == false).FirstOrDefault();
+            //var Command = _context.Commands.Where(c => c.IsSent == false).FirstOrDefault();
             var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+            var items =  _context.ItemInCarts.Where(i => i.CartId == cart.Id);
 
+            var cart1 = new CartViewModel
+            {
+                ItemsInCart = (System.Collections.Generic.IEnumerable<ItemInCartModel>)items.AsEnumerable(),
+                SousTotal = 0,
+                Taxes = 0,
+                Total = 0,
+                UserName = ""
+            };
             var commandModel = new CommandModel
             {
-                Cart = cart
+                Cart = cart1
             };
 
             return View(commandModel);
