@@ -32,6 +32,7 @@ namespace MiniStore.Controllers
             var sousTotal = _context.ItemInCarts.Where(x => x.CartId == cart.Id).Select(x => x.Mini.ReducedPrice * x.Quantity).Sum();
 
             var list = new CartViewModels.CartViewModel(
+                cart.Id,
                 _context.Users.Find(cart.UserId).UserName,
                 items.Select(i =>
                     new CartViewModels.ItemInCartModel(
