@@ -73,6 +73,7 @@ namespace MiniStore.Controllers
             }
             else
             {
+                // retourne pas la bonne chose
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
                 return RedirectToAction("CommandForm", "Command", cart);
             }

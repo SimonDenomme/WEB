@@ -34,16 +34,25 @@ namespace MiniStore.Controllers
         public async Task<IActionResult> CreateCommand(int cartId)
         {
             var cart = await _context.Carts.FindAsync(cartId);
+            var cartTEST = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+
+
+            var items = await _context.ItemInCarts.Where(i => i.CartId == cartId).ToListAsync();
+            var itemsTEST = await _context.ItemInCarts.Where(i => i.CartId == cartTEST.Id).FirstOrDefaultAsync();
+
+
             var command = new Commande
             {
                 IsSent = true,
-                Items = cart,
+                Items = cartTEST,
                 UserId = _userManager.GetUserId(User),
             };
+
+            //var items = await _context.ItemInCarts.Where(i => i.CartId == cartId).ToListAsync();
+            //var itemsTEST = await _context.ItemInCarts.Where(i => i.CartId == cartTEST.Id).FirstOrDefaultAsync();
+
             _context.Add(command);
             await _context.SaveChangesAsync();
-
-            var items = await _context.ItemInCarts.Where(i => i.CartId == cartId).ToListAsync();
             foreach (var i in items)
             {
                 i.CommandeId = command.Id;
@@ -53,7 +62,7 @@ namespace MiniStore.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("CommandForm", command.Id);
+                return RedirectToAction("CommandForm", new { id = command.Id });
             }
             return RedirectToAction("LogIn", "Account");
         }
@@ -71,6 +80,11 @@ namespace MiniStore.Controllers
             var items = await _context.ItemInCarts.Where(i => i.CommandeId == id).ToListAsync();
             if (items == null)
                 return NotFound();
+
+            foreach (var item in items)
+            {
+                item.Mini = await _context.Minis.Where(m => m.Id == item.MiniId).FirstOrDefaultAsync();
+            }
 
             var model = new CommandModel
             {
@@ -112,9 +126,16 @@ namespace MiniStore.Controllers
             var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
             var items = await _context.ItemInCarts.Where(i => i.CartId == cart.Id).ToListAsync();
 
+            var command = await _context.Commands.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+
+            foreach (var item in command.Items.items)
+            {
+                item.Mini = await _context.Minis.Where(m => m.Id == item.MiniId).FirstOrDefaultAsync();
+            }
             var commandModel = new CommandModel()
             {
-                Items = items
+                
+                Items = command.Items.items
             };
 
             return View(commandModel);
