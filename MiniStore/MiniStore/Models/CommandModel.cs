@@ -19,7 +19,7 @@ namespace MiniStore.Models
 
         public Cart Cart { get; set; }
         // Cart ?
-        public List<ItemInCart> items { get; set; }
+        public List<ItemInCart> Items { get; set; }
     }
     
     public class CommandValidator : AbstractValidator<CommandModel>

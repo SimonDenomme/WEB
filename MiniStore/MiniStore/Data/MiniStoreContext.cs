@@ -24,6 +24,5 @@ namespace MiniStore.Data
 
             modelBuilder.Seed();
         }
-        public DbSet<MiniStore.Models.CommandModel> CommandModel { get; set; }
     }
 }
