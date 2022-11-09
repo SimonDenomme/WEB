@@ -16,12 +16,15 @@ namespace MiniStore.Models
         public string Street { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
-
+        public Address Adresse { get; set; }
         public Cart Cart { get; set; }
         // Cart ?
         public List<ItemInCart> Items { get; set; }
+
+        public ApplicationUser CommandUser { get; set; }
+
     }
-    
+
     public class CommandValidator : AbstractValidator<CommandModel>
     {
         private const string EMAILREGEX = @"^[A-z\d!\/$%?&*#]{4,30}@[A-z\d]{4,30}.[A-z]{2,5}$";

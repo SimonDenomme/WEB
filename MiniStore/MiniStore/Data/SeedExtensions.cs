@@ -22,7 +22,7 @@ namespace MiniStore.Data
             builder.SeedMessages();
         }
 
-        private static ApplicationUser CreateUser(string email, string password)
+        private static ApplicationUser CreateUser(string email, string password, string firstName, string lastName)
         {
             var user = new ApplicationUser
             {
@@ -30,6 +30,9 @@ namespace MiniStore.Data
                 NormalizedUserName = email.ToUpper(),
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
+                FirstName = firstName,
+                LastName = lastName
+                
             };
             user.PasswordHash = PASSWORD_HASHER.HashPassword(user, password);
 
@@ -61,8 +64,8 @@ namespace MiniStore.Data
         private static void SeedAdmin(this ModelBuilder builder)
         {
             var admins = new List<ApplicationUser>() {
-                CreateUser("admin@test.ca", "Qwerty123!"),
-                CreateUser("edmon@narnia.na", "Qwerty123!"),
+                CreateUser("admin@test.ca", "Qwerty123!", "Admin","Test"),
+                CreateUser("edmon@narnia.na", "Qwerty123!","Edmon","Narnia"),
             };
 
             builder.SeedUsers(admins);
@@ -71,9 +74,9 @@ namespace MiniStore.Data
         private static void SeedClient(this ModelBuilder builder)
         {
             var clients = new List<ApplicationUser>() {
-                CreateUser("client@test.ca", "Qwerty123!"),
-                CreateUser("client2@test.ca", "Qwerty123!"),
-                CreateUser("client3@test.ca", "Qwerty123!"),
+                CreateUser("client@test.ca",  "Qwerty123!","Client1","Test1"),
+                CreateUser("client2@test.ca", "Qwerty123!","Client2","Test2"),
+                CreateUser("client3@test.ca", "Qwerty123!","Client3","Test3"),
             };
 
             builder.SeedUsers(clients);

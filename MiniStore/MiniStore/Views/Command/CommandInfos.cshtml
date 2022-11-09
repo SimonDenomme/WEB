@@ -1,6 +1,5 @@
 ﻿@model CommandModel
 
-
 @*<div>
         @Model.Cart.CartUser
     </div>*@
@@ -21,10 +20,12 @@
                 {
                     montantTotal += item.Mini.NormalPrice;
                     <tr>
-                        @Html.DisplayFor(modelItem => item.Mini.Name)
-                    </tr>
-                    <tr>
-                        @Html.DisplayFor(modelItem => item.Mini.NormalPrice)
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mini.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mini.NormalPrice)
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -32,28 +33,28 @@
     </div>
     <div>
         Informations personnelles
-        <table>
+        <table class="table">
             <thead>
                 <tr>
-                    <th>Prénom</th>
-                    <th>Nom</th>
-                    <th>Adresse</th>
-                    <th>Ville</th>
-                    <th>Code postal</th>
+                    <th class="p-auto">Prénom</th>
+                    <th class="p-auto">Nom</th>
+                    <th class="p-auto">Adresse</th>
+                    <th class="p-auto">Ville</th>
+                    <th class="p-auto">Code postal</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Cart.CartUser.Address)
-                {
+                @*@foreach (var item in Model.Adresse)
+                    {*@
 
-                    <tr>
-                        <td>@Model.Cart.CartUser.FirstName</td>
-                        <td>@Model.Cart.CartUser.LastName</td>
-                        <td>@item.Number @item.Street</td>
-                        <td>@item.City</td>
-                        <td>@item.PostalCode</td>
-                    </tr>
-                }
+                <tr>
+                    <td class="p-auto">@Model.CommandUser.FirstName</td>
+                    <td class="p-auto">@Model.CommandUser.LastName</td>
+                    <td class="p-auto">@Model.Number @Model.Street</td>
+                    <td class="p-auto">@Model.City</td>
+                    <td class="p-auto">@Model.PostalCode</td>
+                </tr>
+                @*}*@
             </tbody>
         </table>
     </div>

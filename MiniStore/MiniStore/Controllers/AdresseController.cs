@@ -44,6 +44,7 @@ namespace MiniStore.Controllers
                 Street = model.AddressStreet,
                 City = model.AddressCity,
                 PostalCode = model.AddressPostalCode,
+                UserId = _userManager.GetUserId(User)
             };
             var user = await _userManager.FindByNameAsync(name);
             try

@@ -39,13 +39,14 @@ namespace MiniStore.Controllers
 
             var items = await _context.ItemInCarts.Where(i => i.CartId == cartId).ToListAsync();
             var itemsTEST = await _context.ItemInCarts.Where(i => i.CartId == cartTEST.Id).FirstOrDefaultAsync();
-
+            var adresse = await _context.Addresses.Where(a => a.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
 
             var command = new Commande
             {
                 IsSent = true,
                 Items = cartTEST,
                 UserId = _userManager.GetUserId(User),
+                AddressId = adresse.Id
             };
 
             //var items = await _context.ItemInCarts.Where(i => i.CartId == cartId).ToListAsync();
@@ -127,6 +128,7 @@ namespace MiniStore.Controllers
             var items = await _context.ItemInCarts.Where(i => i.CartId == cart.Id).ToListAsync();
 
             var command = await _context.Commands.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+            var address = await _context.Addresses.Where(a => a.Id == command.AddressId).FirstOrDefaultAsync();
 
             foreach (var item in command.Items.items)
             {
@@ -134,8 +136,16 @@ namespace MiniStore.Controllers
             }
             var commandModel = new CommandModel()
             {
-                
-                Items = command.Items.items
+                Id = command.Id,
+                UserId = command.UserId,
+                IsSent = command.IsSent,
+                //AddressId = address != null ? address.Id : 0,
+                Number = address != null ? address.Number : 0,
+                Street = address != null ? address.Street : "",
+                City = address != null ? address.City : "",
+                PostalCode = address != null ? address.PostalCode : "",
+                Items = command.Items.items,
+                CommandUser = await _userManager.GetUserAsync(User)
             };
 
             return View(commandModel);
