@@ -1,0 +1,17 @@
+﻿
+
+
+
+.tableMini {
+    background-color:chartreuse;
+}
+
+
+.cMini {
+    margin-left: 43px;
+    margin-right: 43px;
+}
+
+.cMini td {
+    text-align:center;
+}

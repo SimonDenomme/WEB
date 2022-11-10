@@ -1,90 +1,96 @@
 ﻿@model CommandModel
-
 @*<div>
         @Model.Cart.CartUser
     </div>*@
-@{
-    double montantTotal = 0;
-    <div>
+<div class="container">
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prix</th>
-                </tr>
-            </thead>
-            <tbody>
+    @{
+        double montantTotal = 0;
+        <div>
 
-                @foreach (var item in Model.Items)
-                {
-                    montantTotal += item.Mini.NormalPrice;
+            <table class="table tableMini">
+                @*<thead>
+                        <tr>
+                            <th></th>
+                            <th>Nom</th>
+                            <th>Prix</th>
+                        </tr>
+                    </thead>*@
+                <tbody>
+
+                    @foreach (var item in Model.Items)
+                    {
+                        montantTotal += item.Mini.NormalPrice;
+                        <tr class="cMini">
+                            <td class="image">
+                                <img src="/img/@item.Mini.ImagePath" alt="" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Mini.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Mini.NormalPrice)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div>
+            Informations personnelles
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Mini.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Mini.NormalPrice)
-                        </td>
+                        <th class="p-auto">Prénom</th>
+                        <th class="p-auto">Nom</th>
+                        <th class="p-auto">Adresse</th>
+                        <th class="p-auto">Ville</th>
+                        <th class="p-auto">Code postal</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <div>
-        Informations personnelles
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="p-auto">Prénom</th>
-                    <th class="p-auto">Nom</th>
-                    <th class="p-auto">Adresse</th>
-                    <th class="p-auto">Ville</th>
-                    <th class="p-auto">Code postal</th>
-                </tr>
-            </thead>
-            <tbody>
-                @*@foreach (var item in Model.Adresse)
-                    {*@
+                </thead>
+                <tbody>
+                    @*@foreach (var item in Model.Adresse)
+                        {*@
 
-                <tr>
-                    <td class="p-auto">@Model.CommandUser.FirstName</td>
-                    <td class="p-auto">@Model.CommandUser.LastName</td>
-                    <td class="p-auto">@Model.Number @Model.Street</td>
-                    <td class="p-auto">@Model.City</td>
-                    <td class="p-auto">@Model.PostalCode</td>
-                </tr>
-                @*}*@
-            </tbody>
-        </table>
-    </div>
-    <div>
-        Montant avant taxe : @montantTotal $
-        <br>
-        Taxe : @(montantTotal * 0.15) $
-        <br>
-        Montant après taxe : @(montantTotal * 1.15) $
-        <br>
-        Frais de livraison : 15 $
-        <br>
-        Montant final : @(montantTotal * 1.15 + 15) $
-    </div>
-}
+                    <tr>
+                        <td class="p-auto">@Model.CommandUser.FirstName</td>
+                        <td class="p-auto">@Model.CommandUser.LastName</td>
+                        <td class="p-auto">@Model.Number @Model.Street</td>
+                        <td class="p-auto">@Model.City</td>
+                        <td class="p-auto">@Model.PostalCode</td>
+                    </tr>
+                    @*}*@
+                </tbody>
+            </table>
+        </div>
+        <div>
+            Montant avant taxe : @(montantTotal.ToString("C"))
+            <br>
+            Taxe : @((montantTotal * 0.15).ToString("C"))
+            <br>
+            Montant après taxe : @((montantTotal * 1.1).ToString("C"))
+            <br>
+            Frais de livraison : 15 $
+            <br>
+            Montant final : @((montantTotal * 1.15 + 15).ToString("C"))
+        </div>
+    }
 
 
-<div class="container py-5">
-    <div class="row py-5">
-        <form class="col-md-9 m-auto" method="post" role="form">
+    <div class="container py-5">
+        <div class="row py-5">
+            <form class="col-md-9 m-auto" method="post" role="form">
 
-            <div class="row">
-                <div class="col text-end mt-2">
-                    <button type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>
+                <div class="row">
+                    <div class="col text-end mt-2">
+                        <button type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>
+                    </div>
+                    <div class="buttons">
+                        <a asp-action="CancelCommand" asp-route-id="@Model.Id" class="delete-btn"></a>
+                        @*<span class="like-btn"></span>*@
+                    </div>
                 </div>
-                <div class="buttons">
-                    <a asp-action="CancelCommand" asp-route-id="@Model.Id" class="delete-btn"></a>
-                    @*<span class="like-btn"></span>*@
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
