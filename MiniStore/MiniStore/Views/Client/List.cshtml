@@ -10,14 +10,13 @@
                 Vous n'avez aucunes commandes
                         :(
                         <br>
-                @Html.ActionLink(" Magasinez! ", "Index", "Home")
+                @Html.ActionLink(" Magasinez! ", "Index", "Shop")
             </p>
         </div>
-            
     }
     else
     {
-        <h2> Commandes crées</h2>
+        <h2> Commandes envoyées</h2>
         <div class="my-4">
             <table class="table">
                 <thead>
@@ -44,16 +43,13 @@
                                 </td>
                             </tr>
                         }
-
                     }
                 </tbody>
             </table>
-
         </div>
 
 
-
-        <h2> Commandes annulées</h2>
+        <h2> Commandes non-envoyées</h2>
         <div>
             <table class="table">
                 <thead>

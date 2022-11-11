@@ -20,15 +20,12 @@ namespace MiniStore.Controllers
     {
         private readonly MiniStoreContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public CommandController(MiniStoreContext context,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         // Confirmer le panier -> Rentrer les infos de la command (livraison/address)           => CreateCommand
@@ -46,6 +43,7 @@ namespace MiniStore.Controllers
             var command = new Commande
             {
                 IsSent = false,
+                IsPaid = false,
                 Items = cart,
                 UserId = _userManager.GetUserId(User),
                 AddressId = adresse != null ? adresse.Id : null
@@ -65,8 +63,7 @@ namespace MiniStore.Controllers
             return RedirectToAction("CommandForm", new { id = command.Id });
         }
 
-
-        // ToDo: GET CommandForm
+        // GET CommandForm
         public async Task<IActionResult> CommandForm(int id)
         {
             var command = await _context.Commands.FindAsync(id);
@@ -87,45 +84,55 @@ namespace MiniStore.Controllers
             return View(model);
         }
 
-        // ToDo: POST CommandForm
+        // POST CommandForm
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CommandForm(CommandModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+
+            var command = await _context.Commands.FindAsync(model.Id);
+            var address = new Address
             {
-                var command = await _context.Commands.FindAsync(model.Id);
-                command.IsSent = true;
-                _context.Update(command);
-                await _context.SaveChangesAsync();
+                Number = model.Number,
+                Street = model.Street,
+                City = model.City,
+                PostalCode = model.PostalCode,
+                UserId = command.UserId
+            };
+            command.Address = address;
 
-                // Co-Pilot m'a sortie ça je sais pas si c'est bon, mais ça semble efficace
-                //var bill = new Bill
-                //{
-                //    CommandeId = command.Id,
-                //    IsPaid = false,
-                //    UserId = command.UserId,
-                //    AddressId = model.AddressId,
-                //    Number = model.Number,
-                //    Street = model.Street,
-                //    City = model.City,
-                //    PostalCode = model.PostalCode
-                //};
+            _context.Addresses.Add(address);
+            _context.Update(command);
+            await _context.SaveChangesAsync();
 
-                //_context.Add(bill);
-                //await _context.SaveChangesAsync();
-
-                //return RedirectToAction("PayBill", new { id = bill.Id });
-            }
-            return View(model);
+            return RedirectToAction("PayBill", new { id = command.Id });
         }
 
-        // ToDo: GET CancelCommand
-        public async Task<IActionResult> CancelCommand(int id)
+        // GET CancelCommand
+        public async Task<IActionResult> CancelCommand(int? id)
         {
-            var command = await _context.Carts.FindAsync(id);
-            command.IsCommand = false;
-            return View();
+            var command = await _context.Commands.FindAsync(id);
+            if (command is null) return NotFound();
+            
+            var items = await _context.ItemInCarts.Where(i => i.CommandeId == command.Id).ToListAsync();
+            if (items is null) return NotFound();
+            
+            var cart = await _context.Carts.Where(c => c.UserId == command.UserId).FirstOrDefaultAsync();
+            if (cart is null)
+                cart = new Cart { items = items, UserId = command.UserId, IsCommand = false };
+
+            foreach (var i in items)
+            {
+                i.CommandeId = null;
+                i.CartId = cart.Id;
+                _context.ItemInCarts.Update(i);
+            }
+            _context.Commands.Remove(command);
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Cart");
         }
 
         // ToDo: GET PayBill

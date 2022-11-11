@@ -51,10 +51,8 @@ namespace MiniStore.Controllers
         }
 
         // GET ListCart / Index
-        [Authorize]
         public async Task<IActionResult> Index()
         {
-            // List par rôle
             if (User.IsInRole("Admin"))
             {
                 var carts = await _context.Carts.ToListAsync();
@@ -84,7 +82,6 @@ namespace MiniStore.Controllers
             }
             else
             {
-                // retourne pas la bonne chose
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
                 return RedirectToAction("CommandForm", "Command", cart);
             }
@@ -93,12 +90,11 @@ namespace MiniStore.Controllers
         // POST AddToCart
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> AjouterItemPanier(int MiniId, int Quantity)
         {
             // User
-            if (_userManager.GetUserId(User) == null)
-                return RedirectToAction("LogIn", "Account");
+            if (User?.Identity?.IsAuthenticated ?? false || _userManager.GetUserId(User) == null)
+                return RedirectToAction("ConfirmBuying");
 
             // Quantity
             if (Quantity < 1)
@@ -138,8 +134,12 @@ namespace MiniStore.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult ConfirmBuying()
+        {
+            return View();
+        }
+
         // GET IncItem
-        [Authorize]
         public async Task<IActionResult> IncItem(int? id)
         {
             if (id == null)
@@ -154,7 +154,6 @@ namespace MiniStore.Controllers
         }
 
         // GET DecItem
-        [Authorize]
         public async Task<IActionResult> DecItem(int? id)
         {
             if (id == null)
@@ -172,7 +171,6 @@ namespace MiniStore.Controllers
         }
 
         // GET DeleteItem
-        [Authorize]
         public async Task<IActionResult> DeleteItem(int? id)
         {
             if (id == null)

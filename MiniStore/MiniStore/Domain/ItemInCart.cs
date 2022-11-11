@@ -8,9 +8,9 @@
 
 
         // Navigations Properties
-        public int? CartId { get; set; }
         public int MiniId { get; set; }
         public Mini Mini { get; set; }
+        public int? CartId { get; set; }
         public int? CommandeId { get; set; } = null;    // ForeignKey
     }
 }
