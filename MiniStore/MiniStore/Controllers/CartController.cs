@@ -27,7 +27,7 @@ namespace MiniStore.Controllers
         {
             if (cart == null)
                 return null;
-            var items = _context.ItemInCarts.Where(i => i.CartId == cart.Id).ToList();
+            var items = _context.ItemInCarts.Where(i => i.CartId == cart.Id && i.CommandeId == null).ToList();
             if (items.Count == 0)
                 return null;
 

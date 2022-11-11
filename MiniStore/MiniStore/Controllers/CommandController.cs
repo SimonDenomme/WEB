@@ -34,26 +34,21 @@ namespace MiniStore.Controllers
         public async Task<IActionResult> CreateCommand(int cartId)
         {
             var cart = await _context.Carts.FindAsync(cartId);
-            var cartTEST = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
 
-
-            var items = await _context.ItemInCarts.Where(i => i.CartId == cartId).ToListAsync();
-            var itemsTEST = await _context.ItemInCarts.Where(i => i.CartId == cartTEST.Id).FirstOrDefaultAsync();
+            var items = await _context.ItemInCarts.Where(i => i.CartId == cartId && i.CommandeId == null).ToListAsync();
             var adresse = await _context.Addresses.Where(a => a.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
-
+            
             var command = new Commande
             {
-                IsSent = true,
-                Items = cartTEST,
+                IsSent = false,
+                Items = cart,
                 UserId = _userManager.GetUserId(User),
-                AddressId = adresse.Id
+                AddressId = adresse != null ? adresse.Id : null
             };
-
-            //var items = await _context.ItemInCarts.Where(i => i.CartId == cartId).ToListAsync();
-            //var itemsTEST = await _context.ItemInCarts.Where(i => i.CartId == cartTEST.Id).FirstOrDefaultAsync();
 
             _context.Add(command);
             await _context.SaveChangesAsync();
+
             foreach (var i in items)
             {
                 i.CommandeId = command.Id;
@@ -61,11 +56,7 @@ namespace MiniStore.Controllers
             }
             await _context.SaveChangesAsync();
 
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("CommandForm", new { id = command.Id });
-            }
-            return RedirectToAction("LogIn", "Account");
+            return RedirectToAction("CommandForm", new { id = command.Id });
         }
 
         // ToDo: GET CommandForm
