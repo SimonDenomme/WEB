@@ -51,7 +51,6 @@ namespace MiniStore.Controllers
                                                    .Select(c =>
                                                    new CommandModel
                                                    {
-                                                       IsSent = c.IsSent,
                                                        Cart = c.Items,
                                                        Number = c.Id
                                                    }).ToListAsync();

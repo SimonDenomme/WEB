@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
 using MiniStore.Models;
+using MiniStore.ViewModels.Cart;
+using MiniStore.ViewModels.Command;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +35,7 @@ namespace MiniStore.Controllers
         // Confirmer la commande -> Créer la facture et ferme la modification de la command     => CommandForm
         // Payer la facture -> Créer le reçu et ferme la modification de la facture             => PayBill
 
-        // ToDo: GET CreateCommand
+        // GET CreateCommand
         public async Task<IActionResult> CreateCommand(int cartId)
         {
             var cart = await _context.Carts.FindAsync(cartId);
@@ -63,41 +65,58 @@ namespace MiniStore.Controllers
             return RedirectToAction("CommandForm", new { id = command.Id });
         }
 
+
         // ToDo: GET CommandForm
         public async Task<IActionResult> CommandForm(int id)
         {
-            // ToDo: ramasser les infos de livraison (pour plus qu'une addresse aussi)
-            var address = await _context.Addresses.FirstOrDefaultAsync(a => a.UserId == _userManager.GetUserId(User));
-            // Genre de DropDownMenu ?
-            // Il y en a dans ShopController/FillDropDownSize() && ShopController/FillDropDownCategory()
-
-            // ToDo: Confirmer la commande
             var command = await _context.Commands.FindAsync(id);
-            var items = await _context.ItemInCarts.Where(i => i.CommandeId == id).ToListAsync();
-            if (items == null)
+            if (command == null)
                 return NotFound();
 
-            foreach (var item in items)
-            {
-                item.Mini = await _context.Minis.Where(m => m.Id == item.MiniId).FirstOrDefaultAsync();
-            }
-
-            var model = new CommandModel
+            var model = new CommandForm
             {
                 Id = command.Id,
-                UserId = command.UserId,
-                Items = items,
-                IsSent = command.IsSent,
-                // Address manuellement
-                AddressId = address != null ? address.Id : 0,
-                Number = address != null ? address.Number : 0,
-                Street = address != null ? address.Street : "",
-                City = address != null ? address.City : "",
-                PostalCode = address != null ? address.PostalCode : "",
-                //DropDownMenu
                 Addresses = FillDropDownAddress(),
+                Number = 0,
+                Street = "",
+                City = "",
+                PostalCode = "",
+                Cart = CommandMapping(command)
             };
 
+            return View(model);
+        }
+
+        // ToDo: POST CommandForm
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CommandForm(CommandModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var command = await _context.Commands.FindAsync(model.Id);
+                command.IsSent = true;
+                _context.Update(command);
+                await _context.SaveChangesAsync();
+
+                // Co-Pilot m'a sortie ça je sais pas si c'est bon, mais ça semble efficace
+                //var bill = new Bill
+                //{
+                //    CommandeId = command.Id,
+                //    IsPaid = false,
+                //    UserId = command.UserId,
+                //    AddressId = model.AddressId,
+                //    Number = model.Number,
+                //    Street = model.Street,
+                //    City = model.City,
+                //    PostalCode = model.PostalCode
+                //};
+
+                //_context.Add(bill);
+                //await _context.SaveChangesAsync();
+
+                //return RedirectToAction("PayBill", new { id = bill.Id });
+            }
             return View(model);
         }
 
@@ -147,7 +166,34 @@ namespace MiniStore.Controllers
 
             return View(commandModel);
         }
-        
+
+        private CartViewModels.CartViewModel CommandMapping(Commande command)
+        {
+            if (command == null)
+                return null;
+            var items = _context.ItemInCarts.Where(i => i.CommandeId == command.Id).ToList();
+            if (items.Count == 0)
+                return null;
+
+            var sousTotal = _context.ItemInCarts.Where(x => x.CartId == command.Id).Select(y => y.Mini.ReducedPrice * y.Quantity).Sum();
+
+            var list = new CartViewModels.CartViewModel(
+                0,
+                _context.Users.Find(command.UserId).UserName,
+                items.Select(i =>
+                    new CartViewModels.ItemInCartModel(
+                        i.Id,
+                        _context.Minis.Find(i.MiniId).Name,
+                        _context.Minis.Find(i.MiniId).ImagePath,
+                        i.Quantity,
+                        _context.Minis.Find(i.MiniId).ReducedPrice)).ToList(),
+                sousTotal,
+                sousTotal * 0.15,
+                sousTotal * 1.15);
+
+            return list;
+        }
+
         private IEnumerable<SelectListItem> FillDropDownAddress()
         {
             var addresses = _context.Addresses.Where(a => a.UserId.Equals(_userManager.GetUserId(User))).ToList();

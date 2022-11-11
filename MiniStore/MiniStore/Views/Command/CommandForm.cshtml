@@ -1,71 +1,77 @@
-﻿
+﻿@model MiniStore.ViewModels.Command.CommandForm
 
 <div class="container py-5">
     <div class="row py-5">
-        <form class="col-md-9 m-auto" method="post" role="form">
-
-            <div class="row">
-                <div class="form-group mb-3">
-                    <label for="inputlastname">Nom</label>
-                    <input type="text" class="form-control mt-1" id="LastName" name="LastName" placeholder="Nom" required>
-                </div>
+        <form asp-action="CommandForm" class="col-md-9 m-auto" method="post" role="form">
+            <div class="form-group">
+                @Html.DropDownListFor(m=>m.SelectedAddress, Model.Addresses, "Addresse déjà entrée", new { @class = "form_control" })
             </div>
 
-            <div class="row">
-                <div class="form-group mb-3">
-                    <label for="inputfirstname">Prénom</label>
-                    <input type="text" class="form-control mt-1" id="FirstName" name="FirstName" placeholder="Prénom" required>
+            <div class="form-group">
+                <label asp-for="Number" class="control-label"></label>
+                <input asp-for="Number" class="form-control" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Street" class="control-label"></label>
+                <input asp-for="Street" class="form-control" />
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostalCode" class="control-label"></label>
+                <input asp-for="PostalCode" class="form-control" />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Envoyer" class="btn btn-primary" />
+            </div>
+
+            <div class="cart-body-command">
+                <div class="shopping-cart">
+                    <!-- Title -->
+                    <div class="title">
+                        Panier d'achats
+                    </div>
+
+                    @foreach (var item in Model.Cart.ItemsInCart)
+                    {
+                        <div class="item">
+                            <div class="image">
+                                <img src="/img/@item.ImagePath" alt="" />
+                            </div>
+
+                            <div class="description">
+                                <span>@item.Name</span>
+                            </div>
+
+                            <div class="quantity">
+                                <ul class="list-inline pb-3">
+                                    <li class="list-inline-item text-right">
+                                        <input type="hidden" name="Quantity" id="product-quanity" value="@item.Quantity">
+                                    </li>
+                                    <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">@item.Quantity</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="price">$@item.Price</div>
+                        </div>
+                    }
+
+                    <div class="sous-total">Sous-Total : @Model.Cart.SousTotal.ToString("C")</div>
+                    <div class="taxes">Taxes : @Model.Cart.Taxes.ToString("C")</div>
+                    <div class="total-price">Total : @Model.Cart.Total.ToString("C")</div>
+
                 </div>
             </div>
 
-            <div class="row">
-                <div class="form-group mb-3">
-                    <label for="address">Adresse</label>
-                    <input type="text" class="form-control mt-1" id="address" name="address" placeholder="Adresse" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group mb-3">
-                    <label for="city">Ville</label>
-                    <input type="text" class="form-control mt-1" id="city" name="city" placeholder="Ville" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group mb-3">
-                    <label for="province">Province</label>
-                    <input type="text" class="form-control mt-1" id="province" name="province" placeholder="Province" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group mb-3">
-                    <label for="country">Pays</label>
-                    <input type="text" class="form-control mt-1" id="country" name="country" placeholder="Pays" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group mb-3">
-                    <label for="postalcode">Code postal</label>
-                    <input type="text" class="form-control mt-1" id="postalcode" name="postalcode" placeholder="Code postal" required>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group mb-3">
-                    <label for="inputemail">Adresse courriel</label>
-                    <input type="email" class="form-control mt-1" id="email" name="email" placeholder="Adresse courriel" required>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="form-group mb-3">
-                    <label for="inputphone">Numéro de cellulaire</label>
-                    <input type="text" class="form-control mt-1" id="phonenumber" name="PhoneNumber" placeholder="Numéro de cellulaire" required>
-                </div>
-            </div>
-
-            <div>
-                <a class="nav-link" asp-area="" asp-controller="Command" asp-action="CommandInfos" >Passer le panier en commande</a>
-
-            </div>
+            @*<div>
+            <a class="nav-link" asp-area="" asp-controller="Command" asp-action="CommandInfos" >Passer le panier en commande</a>
+            </div>*@
         </form>
     </div>
 </div>
