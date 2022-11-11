@@ -80,7 +80,7 @@ namespace MiniStore.Controllers
                 var model = CartMapping(cart);
                 if (model == null) return View("EmptyCart");
 
-                return View();
+                return View(model);
             }
             else
             {
@@ -183,14 +183,14 @@ namespace MiniStore.Controllers
             int cartId = item.CartId;
 
             _context.ItemInCarts.Remove(item);
+            await _context.SaveChangesAsync();
 
             if (_context.ItemInCarts.Where(i => i.CartId == cartId).Count() == 0)
             {
                 var cart = await _context.Carts.FindAsync(cartId);
                 _context.Carts.Remove(cart);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
