@@ -16,12 +16,18 @@ namespace MiniStore.Controllers
     {
         private readonly MiniStoreContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public CartController(MiniStoreContext context,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
         private CartViewModels.CartViewModel CartMapping(Cart cart)
@@ -146,12 +152,32 @@ namespace MiniStore.Controllers
         }
 
         [HttpPost]
-        public ActionResult ConfirmBuying(ConfirmBuying model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmBuying(ConfirmBuying model)
         {
             // ToDo: Création d'un nouveau user pour l'invité
-            // Ou alors on doit mettre son Guid de ID dans les claims
-            
-            return RedirectToAction("");
+            string guid = new Guid().ToString();
+            var user = new ApplicationUser
+            {
+                UserName = guid,
+                Email = guid+"@guest.com",
+                FirstName = string.Empty,
+                LastName = string.Empty,
+            };
+            // Create Role if not exists
+            bool roleExist = await _roleManager.RoleExistsAsync("Guest");
+            if (!roleExist)
+                await _roleManager.CreateAsync(new IdentityRole("Guest"));
+
+            // Create User
+            var create = await _userManager.CreateAsync(user);
+            if (create.Succeeded)
+                await _userManager.AddToRoleAsync(user, "Guest");
+
+            // Logging in with guest
+            await _signInManager.SignInAsync(user, true);
+
+            return RedirectToAction("AjouterItemPanier", new { MiniId = model.MiniId, Quantity = model.Quantity });
         }
 
         // GET IncItem
