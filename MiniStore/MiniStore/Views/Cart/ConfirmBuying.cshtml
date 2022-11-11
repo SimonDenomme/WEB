@@ -1,10 +1,14 @@
-﻿@model MiniStore.ViewModels.Cart.CartViewModels.CartViewModel
+﻿@model MiniStore.ViewModels.Cart.ConfirmBuying
 
-<div class="row">
-    <div class="col-6">
-        <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">Continuer en tant qu'invité</a>
+<form asp-area="" asp-controller="Cart" asp-action="Index" method="post" , role="form">
+    <input type="hidden" name="Quantity" value="@Model.Quantity" />
+    <input type="hidden" name="MiniId" value="@Model.MiniId" />
+    <div class="row">
+        <div class="col-6">
+            <button type="submit" class="btn btn-success btn-lg" name="submit" value="guest">Continuer en tant qu'invité</button>
+        </div>
+        <div class="col-6">
+            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Devenir client</a>
+        </div>
     </div>
-    <div class="col-6">
-        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Devenir client</a>
-    </div>
-</div>
+</form>

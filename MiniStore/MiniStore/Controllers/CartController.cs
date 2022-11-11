@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MiniStore.ViewModels.Cart;
 using System.Collections.Generic;
+using System;
 
 namespace MiniStore.Controllers
 {
@@ -93,8 +94,8 @@ namespace MiniStore.Controllers
         public async Task<IActionResult> AjouterItemPanier(int MiniId, int Quantity)
         {
             // User
-            if (User?.Identity?.IsAuthenticated ?? false || _userManager.GetUserId(User) == null)
-                return RedirectToAction("ConfirmBuying");
+            if (User?.Identity?.IsAuthenticated == false || _userManager.GetUserId(User) == null)
+                return RedirectToAction("ConfirmBuying", new { MiniId = MiniId, Quantity = Quantity });
 
             // Quantity
             if (Quantity < 1)
@@ -134,9 +135,23 @@ namespace MiniStore.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult ConfirmBuying()
+        public ActionResult ConfirmBuying(int MiniId, int Quantity)
         {
-            return View();
+            var model = new ConfirmBuying
+            {
+                MiniId = MiniId,
+                Quantity = Quantity,
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmBuying(ConfirmBuying model)
+        {
+            // ToDo: Création d'un nouveau user pour l'invité
+            // Ou alors on doit mettre son Guid de ID dans les claims
+            
+            return RedirectToAction("");
         }
 
         // GET IncItem
