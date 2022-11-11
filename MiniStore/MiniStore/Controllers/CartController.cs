@@ -25,7 +25,12 @@ namespace MiniStore.Controllers
 
         private CartViewModels.CartViewModel CartMapping(Cart cart)
         {
+            if (cart == null)
+                return null;
             var items = _context.ItemInCarts.Where(i => i.CartId == cart.Id).ToList();
+            if (items.Count == 0)
+                return null;
+
             var sousTotal = _context.ItemInCarts.Where(x => x.CartId == cart.Id).Select(y => y.Mini.ReducedPrice * y.Quantity).Sum();
 
             var list = new CartViewModels.CartViewModel(
@@ -55,8 +60,15 @@ namespace MiniStore.Controllers
                 var carts = await _context.Carts.ToListAsync();
                 var model = new List<CartViewModels.CartViewModel>();
 
+                if (carts.Count == 0) return View("EmptyCart");
+
                 foreach (var cart in carts)
-                    model.Add(CartMapping(cart));
+                {
+                    var mapping = CartMapping(cart);
+                    if (mapping == null) return View("EmptyCart");
+
+                    model.Add(mapping);
+                }
 
                 return View("AdminIndex", model);
             }
@@ -64,12 +76,11 @@ namespace MiniStore.Controllers
             if (User.IsInRole("Client"))
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
-                if (cart == null)
-                    return View("EmptyCart");
-                var items = await _context.ItemInCarts.Where(i => i.CartId == cart.Id).FirstOrDefaultAsync();
-                if (items == null)
-                    return View("EmptyCart");
-                return View(CartMapping(cart));
+
+                var model = CartMapping(cart);
+                if (model == null) return View("EmptyCart");
+
+                return View();
             }
             else
             {
