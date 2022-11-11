@@ -130,7 +130,6 @@ namespace MiniStore.Controllers
                     Mini = entity,
                     Quantity = Quantity,
                     CartId = cart.Id,
-                    Cart = cart
                 };
 
                 _context.Add(item);
@@ -180,7 +179,7 @@ namespace MiniStore.Controllers
                 return NotFound();
 
             var item = await _context.ItemInCarts.FindAsync(id);
-            int cartId = item.CartId;
+            int? cartId = item.CartId;
 
             _context.ItemInCarts.Remove(item);
             await _context.SaveChangesAsync();

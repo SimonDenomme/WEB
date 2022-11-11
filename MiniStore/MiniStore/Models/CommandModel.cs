@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MiniStore.Domain;
 using System.Collections.Generic;
 
@@ -16,13 +17,16 @@ namespace MiniStore.Models
         public string Street { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
+
+        // DropDownList pour les adresses
+        public IEnumerable<SelectListItem> Addresses { get; set; }
+        public string SelectedAddress { get; set; }
+
+        // Je suis moins sur de ceux qui suive (je = Simon)
         public Address Adresse { get; set; }
         public Cart Cart { get; set; }
-        // Cart ?
         public List<ItemInCart> Items { get; set; }
-
         public ApplicationUser CommandUser { get; set; }
-
     }
 
     public class CommandValidator : AbstractValidator<CommandModel>

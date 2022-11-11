@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
 using MiniStore.Models;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,7 +40,7 @@ namespace MiniStore.Controllers
 
             var items = await _context.ItemInCarts.Where(i => i.CartId == cartId && i.CommandeId == null).ToListAsync();
             var adresse = await _context.Addresses.Where(a => a.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
-            
+
             var command = new Commande
             {
                 IsSent = false,
@@ -52,6 +55,7 @@ namespace MiniStore.Controllers
             foreach (var i in items)
             {
                 i.CommandeId = command.Id;
+                i.CartId = null;
                 _context.Update(i);
             }
             await _context.SaveChangesAsync();
@@ -84,12 +88,14 @@ namespace MiniStore.Controllers
                 UserId = command.UserId,
                 Items = items,
                 IsSent = command.IsSent,
-                //AddressId = address != null ? address.Id : 0,
+                // Address manuellement
+                AddressId = address != null ? address.Id : 0,
                 Number = address != null ? address.Number : 0,
                 Street = address != null ? address.Street : "",
                 City = address != null ? address.City : "",
                 PostalCode = address != null ? address.PostalCode : "",
-                //Cart = command.Cart
+                //DropDownMenu
+                Addresses = FillDropDownAddress(),
             };
 
             return View(model);
@@ -141,6 +147,16 @@ namespace MiniStore.Controllers
 
             return View(commandModel);
         }
+        
+        private IEnumerable<SelectListItem> FillDropDownAddress()
+        {
+            var addresses = _context.Addresses.Where(a => a.UserId.Equals(_userManager.GetUserId(User))).ToList();
+            var list = addresses.Select(a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.Number + " " + a.Street + ", " + a.City + ", " + a.PostalCode
+            });
+            return list;
+        }
     }
-
 }
