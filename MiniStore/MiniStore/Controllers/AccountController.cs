@@ -80,7 +80,7 @@ namespace MiniStore.Controllers
             {
                 return View(model);
             }
-            
+
             // Create Address
             List<Address> lstAddress = new List<Address>();
             var address = new Address
@@ -104,17 +104,28 @@ namespace MiniStore.Controllers
             };
 
             // Create Role if not exists
-            bool adminRoleExists = await _roleManager.RoleExistsAsync("Client");
-            if (!adminRoleExists)
+            bool clientRoleExists = await _roleManager.RoleExistsAsync("Client");
+            if (!clientRoleExists)
             {
                 var roleResult = await _roleManager.CreateAsync(new IdentityRole("Client"));
             }
-
+            bool adminRoleExists = await _roleManager.RoleExistsAsync("Admin");
+            if (!adminRoleExists)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
             // Create User
             var createPowerUser = await _userManager.CreateAsync(user, model.Password);
             if (createPowerUser.Succeeded)
             {
-                var testing = await _userManager.AddToRoleAsync(user, "Client");
+                if (model.RoleUser == RegisterViewModel.Role.Administrateur)
+                {
+                    var testing = await _userManager.AddToRoleAsync(user, "Admin");
+                }
+                else
+                {
+                    var testing = await _userManager.AddToRoleAsync(user, "Client");
+                }
             }
             else
             {
@@ -123,6 +134,73 @@ namespace MiniStore.Controllers
             }
 
             return RedirectToAction(nameof(LogIn));
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult RegisterAdmin()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> RegisterAdmin(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // Create Address
+            List<Address> lstAddress = new List<Address>();
+            var address = new Address
+            {
+                Number = model.AddressNumber,
+                Street = model.AddressStreet,
+                City = model.AddressCity,
+                PostalCode = model.AddressPostalCode,
+            };
+            lstAddress.Add(address);
+            await _context.SaveChangesAsync();
+
+            // Create UserModel
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Address = lstAddress,
+            };
+            // Create Role if not exists
+            bool clientRoleExists = await _roleManager.RoleExistsAsync("Client");
+            if (!clientRoleExists)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Client"));
+            }
+            bool adminRoleExists = await _roleManager.RoleExistsAsync("Admin");
+            if (!adminRoleExists)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            // Create User
+            var createPowerUser = await _userManager.CreateAsync(user, model.Password);
+            if (createPowerUser.Succeeded)
+            {
+                if (model.RoleUser == RegisterViewModel.Role.Administrateur)
+                {
+                    var testing = await _userManager.AddToRoleAsync(user, "Admin");
+                }
+                else
+                {
+                    var testing = await _userManager.AddToRoleAsync(user, "Client");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error adding the user to the database");
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
         [Authorize(Roles = "Admin")]
         public IActionResult List()

@@ -71,14 +71,20 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Shop" asp-action="AdminProduit">Inventaire</a>
                                 </li>
                             }
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="RegisterAdmin">Inscrire</a>
+                                </li>
+                            }
                             @if (User.IsInRole("Admin") || User.IsInRole("Client"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Index">Mon compte</a>
                                 </li>
                                 @*<li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Adresse" asp-action="Add">Ajouter adresse</a>
-                                </li>*@
+                <a class="nav-link text-dark" asp-area="" asp-controller="Adresse" asp-action="Add">Ajouter adresse</a>
+            </li>*@
                             }
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
