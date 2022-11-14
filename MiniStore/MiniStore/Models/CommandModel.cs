@@ -28,26 +28,4 @@ namespace MiniStore.Models
         public List<ItemInCart> Items { get; set; }
         public ApplicationUser CommandUser { get; set; }
     }
-
-    public class CommandValidator : AbstractValidator<CommandModel>
-    {
-        private const string EMAILREGEX = @"^[A-z\d!\/$%?&*#]{4,30}@[A-z\d]{4,30}.[A-z]{2,5}$";
-        private const string PhoneRegex = @"^[0-9]{3,4}-? ?[0-9]{3}-? ?[0-9]{4}$";
-
-        public CommandValidator()
-        {
-            //RuleFor(x => x.Email).Matches(EMAILREGEX).WithMessage("The email must be in the good format (Ex: example@example.com).")
-
-            RuleFor(x => x.PostalCode)
-                .NotEmpty()
-                    .When(x => x.Number > 0)
-                    .WithMessage("The postal code is required.")
-                .Matches(@"^[A-z]\d[A-z]\s?\d[A-z]\d$")
-                    .WithMessage("The postal code must respect the convention, H0H0H0.");
-
-            //RuleFor(x => x.PhoneNumber)
-            //    .Matches(PhoneRegex)
-            //        .WithMessage("The phone number must be in the required format. (Ex: 450-123-4567)");
-        }
-    }
 }
