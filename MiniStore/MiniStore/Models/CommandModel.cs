@@ -32,6 +32,7 @@ namespace MiniStore.Models
     public class CommandValidator : AbstractValidator<CommandModel>
     {
         private const string EMAILREGEX = @"^[A-z\d!\/$%?&*#]{4,30}@[A-z\d]{4,30}.[A-z]{2,5}$";
+        private const string PhoneRegex = @"^[0-9]{3,4}-? ?[0-9]{3}-? ?[0-9]{4}$";
 
         public CommandValidator()
         {
@@ -43,6 +44,10 @@ namespace MiniStore.Models
                     .WithMessage("The postal code is required.")
                 .Matches(@"^[A-z]\d[A-z]\s?\d[A-z]\d$")
                     .WithMessage("The postal code must respect the convention, H0H0H0.");
+
+            //RuleFor(x => x.PhoneNumber)
+            //    .Matches(PhoneRegex)
+            //        .WithMessage("The phone number must be in the required format. (Ex: 450-123-4567)");
         }
     }
 }
