@@ -3,6 +3,7 @@ using MiniStore.Domain;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace MiniStore.Data
 {
@@ -18,7 +19,6 @@ namespace MiniStore.Data
             builder.SeedSizes();
             builder.SeedStatus();
             builder.SeedMinis();
-            builder.SeedReviews();
             builder.SeedMessages();
         }
 
@@ -91,7 +91,7 @@ namespace MiniStore.Data
                 {
                     Id = i,
                     Name = NameArray[i - 1],
-                    Minis = new System.Collections.Generic.List<Mini>()
+                    Minis = new List<Mini>()
                 });
         }
         private static void SeedMinis(this ModelBuilder builder)
@@ -99,7 +99,7 @@ namespace MiniStore.Data
             for (int i = 1; i <= 32; i++)
                 builder.Entity<Mini>().HasData(new Mini
                 {
-                    Id = i,
+                    Id = Guid.NewGuid(),
                     Name = $"Mini {i}",
                     Description = $"This is a description of Mini {i}",
                     ImagePath = "Creature" + i + ".png",
@@ -119,23 +119,12 @@ namespace MiniStore.Data
         {
             builder.Entity<Message>().HasData(new Message
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Name = "bob",
                 Email = "bob@gmail.com",
                 Text = "allo je mappel bob."
             });
 
-        }
-        private static void SeedReviews(this ModelBuilder builder)
-        {
-            builder.Entity<Review>().HasData(new Review
-            {
-                Id = 1,
-                UserName = "Review 1",
-                Text = "Good",
-                Rating = 5,
-                MiniId = 1
-            });
         }
         private static void SeedSizes(this ModelBuilder builder)
         {

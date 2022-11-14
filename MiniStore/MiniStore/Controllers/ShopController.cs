@@ -9,6 +9,7 @@ using MiniStore.Domain;
 using MiniStore.ViewModels.Shop;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 
 namespace MiniStore.Controllers
 {
@@ -87,7 +88,7 @@ namespace MiniStore.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> SupprimerProduit(int? id)
+        public async Task<IActionResult> SupprimerProduit(Guid? id)
         {
             try
             {
@@ -103,7 +104,7 @@ namespace MiniStore.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> ModifierProduit(int? id)
+        public async Task<IActionResult> ModifierProduit(Guid? id)
         {
             if (id == null)
                 return NotFound();
@@ -234,7 +235,7 @@ namespace MiniStore.Controllers
             return list;
         }
 
-        public IActionResult Item(int id)
+        public IActionResult Item(Guid id)
         {
             ViewData["itemId"] = id;
             return View();

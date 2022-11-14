@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MiniStore.Domain
 {
     public class Mini
     {
-        public int Id { get; set; }                 // Pour la BD
+        public Guid Id { get; set; }                 // Pour la BD
         public string Name { get; set; }            // Données d'affichage et de recherche pour le filtre par SearchBar
         public string Description { get; set; }     // Données d'affichage et une forme de recherche pour le filtre par la SearchBar (SI ON A LE TEMPS!!)
         public string ImagePath { get; set; }       // Données vital pour l'affichage

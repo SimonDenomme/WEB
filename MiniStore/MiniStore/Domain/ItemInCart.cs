@@ -1,16 +1,18 @@
-﻿namespace MiniStore.Domain
+﻿using System;
+
+namespace MiniStore.Domain
 {
     // Table Many Many entre cart et les minis
     public class ItemInCart
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public int Quantity { get; set; }
 
 
         // Navigations Properties
-        public int MiniId { get; set; }
+        public Guid MiniId { get; set; }
         public Mini Mini { get; set; }
-        public int? CartId { get; set; }
-        public int? CommandeId { get; set; } = null;    // ForeignKey
+        public Guid? CartId { get; set; }
+        public Guid? CommandeId { get; set; } = null;    // ForeignKey
     }
 }

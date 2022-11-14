@@ -9,6 +9,7 @@ using MiniStore.Models;
 using MiniStore.ViewModels.Cart;
 using MiniStore.ViewModels.Command;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace MiniStore.Controllers
         // Payer la facture -> Créer le reçu et ferme la modification de la facture             => PayBill
 
         // GET CreateCommand
-        public async Task<IActionResult> CreateCommand(int cartId)
+        public async Task<IActionResult> CreateCommand(Guid cartId)
         {
             var cart = await _context.Carts.FindAsync(cartId);
 
@@ -64,7 +65,7 @@ namespace MiniStore.Controllers
         }
 
         // GET CommandForm
-        public async Task<IActionResult> CommandForm(int id)
+        public async Task<IActionResult> CommandForm(Guid id)
         {
             var command = await _context.Commands.FindAsync(id);
             if (command == null)
@@ -84,8 +85,6 @@ namespace MiniStore.Controllers
                     model.Addresses = FillDropDownAddress();
                     model.SelectedAddress = address.Id.ToString();
                 }
-                //else
-                //model.Number = 0;
 
                 model.Id = command.Id;
                 model.FirstName = user.FirstName;
@@ -99,7 +98,6 @@ namespace MiniStore.Controllers
             {
                 model.Id = command.Id;
                 model.Addresses = FillDropDownAddress();
-                //model.Number = 0;
                 model.Cart = CommandMapping(command);
             }
             return View(model);
@@ -157,11 +155,11 @@ namespace MiniStore.Controllers
             _context.Update(command);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("PayBill", new { id = command.Id });
+            return RedirectToAction("CommandInfos", new { id = command.Id });
         }
 
         // GET CancelCommand
-        public async Task<IActionResult> CancelCommand(int? id)
+        public async Task<IActionResult> CancelCommand(Guid? id)
         {
             var command = await _context.Commands.FindAsync(id);
             if (command is null) return NotFound();
@@ -187,7 +185,7 @@ namespace MiniStore.Controllers
         }
 
         // ToDo: GET PayBill
-        public async Task<IActionResult> PayBill(int? id)
+        public async Task<IActionResult> PayBill(Guid? id)
         {
             // ToDo: Fermer la modification sur la facture (option de paiement)
             // ToDo: Faire le paiement
@@ -196,31 +194,39 @@ namespace MiniStore.Controllers
         }
 
         // ToDo: GET CommandInfos
-        public async Task<IActionResult> CommandInfos()
+        public async Task<IActionResult> CommandInfos(Guid? id)
         {
-            var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
-            var items = await _context.ItemInCarts.Where(i => i.CartId == cart.Id).ToListAsync();
-
-            var command = await _context.Commands.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+            var command = await _context.Commands.FindAsync(id);
+            if (command is null) return NotFound();
+            
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user is null) return Forbid();
+            
             var address = await _context.Addresses.Where(a => a.Id == command.AddressId).FirstOrDefaultAsync();
+            if (address is null) return NotFound();
 
-            foreach (var item in command.Items.items)
-            {
-                item.Mini = await _context.Minis.Where(m => m.Id == item.MiniId).FirstOrDefaultAsync();
-            }
-            var commandModel = new CommandModel()
+            var items = CommandMapping(command);
+
+            var model = new CommandInfos
             {
                 Id = command.Id,
-                //AddressId = address != null ? address.Id : 0,
-                Number = address != null ? address.Number : 0,
-                Street = address != null ? address.Street : "",
-                City = address != null ? address.City : "",
-                PostalCode = address != null ? address.PostalCode : "",
-                Items = command.Items.items,
-                CommandUser = await _userManager.GetUserAsync(User)
+                
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CellPhone = user.PhoneNumber,
+                
+                Number = address.Number,
+                Street = address.Street,
+                City = address.City,
+                PostalCode = address.PostalCode,
+
+                Cart = items,
+                
+                FraisLivraison = items.Total * 0.05
             };
 
-            return View(commandModel);
+            return View(model);
         }
 
         private CartViewModels.CartViewModel CommandMapping(Commande command)
@@ -231,10 +237,10 @@ namespace MiniStore.Controllers
             if (items.Count == 0)
                 return null;
 
-            var sousTotal = _context.ItemInCarts.Where(x => x.CartId == command.Id).Select(y => y.Mini.ReducedPrice * y.Quantity).Sum();
+            var sousTotal = _context.ItemInCarts.Where(x => x.CommandeId == command.Id).Select(y => y.Mini.ReducedPrice * y.Quantity).Sum();
 
             var list = new CartViewModels.CartViewModel(
-                0,
+                Guid.NewGuid(),
                 _context.Users.Find(command.UserId).UserName,
                 items.Select(i =>
                     new CartViewModels.ItemInCartModel(

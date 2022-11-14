@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MiniStore.ViewModels.Command
 {
-    public class CommandForm
+    public class CommandInfos
     {
         public Guid Id { get; set; }
 
@@ -15,10 +15,6 @@ namespace MiniStore.ViewModels.Command
         public string Email { get; set; }
         public string CellPhone { get; set; }
 
-        // DropDownList pour les adresses
-        public IEnumerable<SelectListItem> Addresses { get; set; }
-        public string SelectedAddress { get; set; }
-
         // Address
         public int Number { get; set; }
         public string Street { get; set; }
@@ -27,5 +23,8 @@ namespace MiniStore.ViewModels.Command
 
         // Cart
         public CartViewModels.CartViewModel Cart { get; set; }
+
+        // Infos Command
+        public double FraisLivraison { get; set; }
     }
 }

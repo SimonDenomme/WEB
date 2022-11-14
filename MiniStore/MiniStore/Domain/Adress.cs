@@ -1,8 +1,10 @@
-﻿namespace MiniStore.Domain
+﻿using System;
+
+namespace MiniStore.Domain
 {
     public class Address
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public int Number { get; set; }
         public string Street { get; set; }
         public string City { get; set; }

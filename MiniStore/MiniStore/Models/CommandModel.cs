@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MiniStore.Domain;
+using System;
 using System.Collections.Generic;
 
 namespace MiniStore.Models
 {
     public class CommandModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public bool IsSent { get; set; }
 
         // Address

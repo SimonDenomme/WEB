@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace MiniStore.ViewModels.Adresse
@@ -6,7 +7,7 @@ namespace MiniStore.ViewModels.Adresse
     public class AdresseViewModel
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [Display(Name = "Street Number")]
         public int AddressNumber { get; set; }

@@ -1,4 +1,5 @@
 ﻿using MiniStore.Domain;
+using System;
 
 namespace MiniStore.Models
 {

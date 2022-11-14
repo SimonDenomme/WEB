@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MiniStore.Data;
 using MiniStore.Models;
@@ -14,7 +15,7 @@ namespace MiniStore.ViewComponents
         {
             _context = context;
         }
-        public async Task<IViewComponentResult> InvokeAsync(int Id)
+        public async Task<IViewComponentResult> InvokeAsync(Guid Id)
         {
             var m = await _context.Minis.FindAsync(Id);
 

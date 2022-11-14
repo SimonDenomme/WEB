@@ -52,7 +52,7 @@ namespace MiniStore.Controllers
                                                    new CommandModel
                                                    {
                                                        Cart = c.Items,
-                                                       Number = c.Id
+                                                       Id = c.Id
                                                    }).ToListAsync();
 
                 return View(cdes);
