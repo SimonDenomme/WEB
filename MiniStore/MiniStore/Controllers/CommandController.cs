@@ -70,39 +70,90 @@ namespace MiniStore.Controllers
             if (command == null)
                 return NotFound();
 
-            var model = new CommandForm
+            var model = new CommandForm();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (command.UserId == user.Id)
             {
-                Id = command.Id,
-                Addresses = FillDropDownAddress(),
-                Number = 0,
-                Street = "",
-                City = "",
-                PostalCode = "",
-                Cart = CommandMapping(command)
-            };
+                var address = _context.Addresses.Where(a => a.UserId == user.Id).FirstOrDefault();
+                if (address is not null)
+                {
+                    model.Number = address.Number;
+                    model.Street = address.Street;
+                    model.City = address.City;
+                    model.PostalCode = address.PostalCode;
+                    model.Addresses = FillDropDownAddress();
+                    model.SelectedAddress = address.Id.ToString();
+                }
+                //else
+                //model.Number = 0;
 
+                model.Id = command.Id;
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
+                model.Email = user.Email;
+                model.CellPhone = user.PhoneNumber;
+                model.Cart = CommandMapping(command);
+            }
+
+            else
+            {
+                model.Id = command.Id;
+                model.Addresses = FillDropDownAddress();
+                //model.Number = 0;
+                model.Cart = CommandMapping(command);
+            }
             return View(model);
         }
 
         // POST CommandForm
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CommandForm(CommandModel model)
+        public async Task<IActionResult> CommandForm(CommandForm model)
         {
             if (!ModelState.IsValid) return View(model);
 
             var command = await _context.Commands.FindAsync(model.Id);
-            var address = new Address
-            {
-                Number = model.Number,
-                Street = model.Street,
-                City = model.City,
-                PostalCode = model.PostalCode,
-                UserId = command.UserId
-            };
-            command.Address = address;
 
-            _context.Addresses.Add(address);
+            int add;
+            bool success = int.TryParse(model.SelectedAddress, out add);
+            if (success)
+            {
+                var liste = FillDropDownAddress();
+                var value = liste.Where(a => a.Value.Equals(model.SelectedAddress)).FirstOrDefault();
+                var address = _context.Addresses.Find(int.Parse(value.Value));
+
+                command.AddressId = address.Id;
+                command.Address = address;
+            }
+            else
+            {
+                var req = _context.Addresses.Where(
+                        a => a.UserId.Equals(_userManager.GetUserId(User)) &&
+                        a.Number == model.Number &&
+                        a.Street == model.Street &&
+                        a.City == model.City &&
+                        a.PostalCode == model.PostalCode
+                    ).FirstOrDefault();
+                if (req is not null)
+                {
+                    command.Address = req;
+                    command.AddressId = req.Id;
+                }
+                else
+                {
+                    var address = new Address
+                    {
+                        Number = model.Number,
+                        Street = model.Street,
+                        City = model.City,
+                        PostalCode = model.PostalCode,
+                        UserId = command.UserId
+                    };
+                    command.Address = address;
+                    _context.Addresses.Add(address);
+                }
+            }
+
             _context.Update(command);
             await _context.SaveChangesAsync();
 
@@ -114,10 +165,10 @@ namespace MiniStore.Controllers
         {
             var command = await _context.Commands.FindAsync(id);
             if (command is null) return NotFound();
-            
+
             var items = await _context.ItemInCarts.Where(i => i.CommandeId == command.Id).ToListAsync();
             if (items is null) return NotFound();
-            
+
             var cart = await _context.Carts.Where(c => c.UserId == command.UserId).FirstOrDefaultAsync();
             if (cart is null)
                 cart = new Cart { items = items, UserId = command.UserId, IsCommand = false };
@@ -160,8 +211,6 @@ namespace MiniStore.Controllers
             var commandModel = new CommandModel()
             {
                 Id = command.Id,
-                UserId = command.UserId,
-                IsSent = command.IsSent,
                 //AddressId = address != null ? address.Id : 0,
                 Number = address != null ? address.Number : 0,
                 Street = address != null ? address.Street : "",

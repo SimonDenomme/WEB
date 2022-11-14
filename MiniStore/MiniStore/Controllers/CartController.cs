@@ -156,11 +156,11 @@ namespace MiniStore.Controllers
         public async Task<IActionResult> ConfirmBuying(ConfirmBuying model)
         {
             // ToDo: Création d'un nouveau user pour l'invité
-            string guid = new Guid().ToString();
+            string guid = Guid.NewGuid().ToString();
             var user = new ApplicationUser
             {
                 UserName = guid,
-                Email = guid+"@guest.com",
+                Email = guid + "@guest.com",
                 FirstName = string.Empty,
                 LastName = string.Empty,
             };
@@ -177,7 +177,8 @@ namespace MiniStore.Controllers
             // Logging in with guest
             await _signInManager.SignInAsync(user, true);
 
-            return RedirectToAction("AjouterItemPanier", new { MiniId = model.MiniId, Quantity = model.Quantity });
+            //return RedirectToAction("AjouterItemPanier", new { MiniId = model.MiniId, Quantity = model.Quantity });
+            return await AjouterItemPanier(model.MiniId, model.Quantity);
         }
 
         // GET IncItem

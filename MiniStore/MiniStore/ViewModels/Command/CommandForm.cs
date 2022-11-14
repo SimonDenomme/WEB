@@ -7,6 +7,10 @@ namespace MiniStore.ViewModels.Command
     public class CommandForm
     {
         public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string CellPhone { get; set; }
 
         // DropDownList pour les adresses
         public IEnumerable<SelectListItem> Addresses { get; set; }

@@ -37,6 +37,7 @@ namespace MiniStore
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             }).AddIdentityCookies();
 
+
             //services.AddFluentValidationAutoValidation();
             //services.AddFluentValidationClientsideAdapters();
             //services.AddValidatorsFromAssembly(typeof(SignUpRequestModelValidator).Assembly);
