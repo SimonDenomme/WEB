@@ -78,6 +78,7 @@ namespace MiniStore.Controllers
 
                 return View("AdminIndex", model);
             }
+
             if (User.IsInRole("Client"))
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
@@ -92,6 +93,53 @@ namespace MiniStore.Controllers
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).ToListAsync();
                 return RedirectToAction("CommandForm", "Command", cart);
             }
+        }
+
+        // POST AddToCart
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AjouterItemPanier(Guid MiniId, int Quantity)
+        {
+            // User
+            if (User?.Identity?.IsAuthenticated == false || _userManager.GetUserId(User) == null)
+                return Forbid();
+
+            // Quantity
+            if (Quantity < 1)
+                return RedirectToAction("Item", "Shop", new { id = MiniId });
+
+            // Mini
+            var entity = await _context.Minis.FindAsync(MiniId);
+            if (entity == null)
+                return RedirectToAction("Index", "Shop");
+
+            // Cart
+            var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+            if (cart == null)
+            {
+                cart = new Cart { UserId = _userManager.GetUserId(User) };
+                _context.Add(cart);
+                await _context.SaveChangesAsync();
+            }
+
+            // Valider si déjà dans le panier
+            var item1 = await _context.ItemInCarts.Where(i => i.MiniId == MiniId && i.CartId == cart.Id).FirstOrDefaultAsync();
+            if (item1 != null)
+                item1.Quantity++;
+            else
+            {
+                var item = new ItemInCart
+                {
+                    MiniId = MiniId,
+                    Mini = entity,
+                    Quantity = Quantity,
+                    CartId = cart.Id,
+                };
+
+                _context.Add(item);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET IncItem

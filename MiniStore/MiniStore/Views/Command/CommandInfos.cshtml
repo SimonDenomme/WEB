@@ -37,11 +37,6 @@
                             <div class="price">$@item.Price</div>
                         </div>
                     }
-
-                    <div class="sous-total">Sous-Total : @Model.Items.SousTotal.ToString("C")</div>
-                    <div class="taxes">Taxes : @Model.Items.Taxes.ToString("C")</div>
-                    <div class="taxes">Total : @Model.FraisLivraison.ToString("C")</div>
-                    <div class="total-price">Total : @Model.Items.Total.ToString("C")</div>
                 </div>
             </div>
         </div>
@@ -73,15 +68,10 @@
             </table>
         </div>
         <div>
-            Montant avant taxe : @(montantTotal.ToString("C"))
-            <br>
-            Taxe : @((montantTotal * 0.15).ToString("C"))
-            <br>
-            Montant après taxe : @((montantTotal * 1.1).ToString("C"))
-            <br>
-            Frais de livraison : 15 $
-            <br>
-            Montant final : @((montantTotal * 1.15 + 15).ToString("C"))
+            <div class="sous-total ">Sous-Total :         @Model.Items.SousTotal.ToString("C")</div>
+            <div class="taxes      ">Taxes :              @Model.Items.Taxes.ToString("C")</div>
+            <div class="taxes      ">Frais de livraison : @Model.FraisLivraison.ToString("C")</div>
+            <div class="total-price">Total :              @Model.Items.Total.ToString("C")</div>
         </div>
     }
 
@@ -92,8 +82,8 @@
                     <div class="col text-end mt-2">
                         <button type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>
                     </div>
-                    <div class="buttons">
-                        <a asp-action="CancelCommand" asp-route-id="@Model.Id" class="delete-btn"></a>
+                    <div class="col mt-2 buttons">
+                        <a asp-action="CancelCommand" asp-route-id="@Model.Id" class="btn delete-btn btn-lg px-3"></a>
                     </div>
                 </div>
             </form>
