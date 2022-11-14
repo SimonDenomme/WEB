@@ -1,4 +1,4 @@
-﻿@model CommandModel
+﻿@model MiniStore.ViewModels.Command.CommandInfos
 @*<div>
         @Model.Cart.CartUser
     </div>*@
@@ -7,34 +7,43 @@
     @{
         double montantTotal = 0;
         <div>
+            <div class="cart-body-command">
+                <div class="shopping-cart">
+                    <!-- Title -->
+                    <div class="title">
+                        Panier d'achats
+                    </div>
 
-            <table class="table tableMini">
-                @*<thead>
-                        <tr>
-                            <th></th>
-                            <th>Nom</th>
-                            <th>Prix</th>
-                        </tr>
-                    </thead>*@
-                <tbody>
-
-                    @foreach (var item in Model.Items)
+                    @foreach (var item in Model.Items.ItemsInCart)
                     {
-                        montantTotal += item.Mini.NormalPrice;
-                        <tr class="cMini">
-                            <td class="image">
-                                <img src="/img/@item.Mini.ImagePath" alt="" />
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Mini.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Mini.NormalPrice)
-                            </td>
-                        </tr>
+                        <div class="item">
+                            <div class="image">
+                                <img src="/img/@item.ImagePath" alt="" />
+                            </div>
+
+                            <div class="description">
+                                <span>@item.Name</span>
+                            </div>
+
+                            <div class="quantity">
+                                <ul class="list-inline pb-3">
+                                    <li class="list-inline-item text-right">
+                                        <input type="hidden" name="Quantity" id="product-quanity" value="@item.Quantity">
+                                    </li>
+                                    <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">@item.Quantity</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="price">$@item.Price</div>
+                        </div>
                     }
-                </tbody>
-            </table>
+
+                    <div class="sous-total">Sous-Total : @Model.Items.SousTotal.ToString("C")</div>
+                    <div class="taxes">Taxes : @Model.Items.Taxes.ToString("C")</div>
+                    <div class="taxes">Total : @Model.FraisLivraison.ToString("C")</div>
+                    <div class="total-price">Total : @Model.Items.Total.ToString("C")</div>
+                </div>
+            </div>
         </div>
         <div>
             Informations personnelles
@@ -43,23 +52,23 @@
                     <tr>
                         <th class="p-auto">Prénom</th>
                         <th class="p-auto">Nom</th>
+                        <th class="p-auto">Courriel</th>
+                        <th class="p-auto">Numéro de téléphone</th>
                         <th class="p-auto">Adresse</th>
                         <th class="p-auto">Ville</th>
                         <th class="p-auto">Code postal</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @*@foreach (var item in Model.Adresse)
-                        {*@
-
                     <tr>
-                        <td class="p-auto">@Model.CommandUser.FirstName</td>
-                        <td class="p-auto">@Model.CommandUser.LastName</td>
+                        <td class="p-auto">@Model.FirstName</td>
+                        <td class="p-auto">@Model.LastName</td>
+                        <td class="p-auto">@Model.Email</td>
+                        <td class="p-auto">@Model.CellPhone</td>
                         <td class="p-auto">@Model.Number @Model.Street</td>
                         <td class="p-auto">@Model.City</td>
                         <td class="p-auto">@Model.PostalCode</td>
                     </tr>
-                    @*}*@
                 </tbody>
             </table>
         </div>
@@ -76,18 +85,15 @@
         </div>
     }
 
-
     <div class="container py-5">
         <div class="row py-5">
             <form class="col-md-9 m-auto" method="post" role="form">
-
                 <div class="row">
                     <div class="col text-end mt-2">
                         <button type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>
                     </div>
                     <div class="buttons">
                         <a asp-action="CancelCommand" asp-route-id="@Model.Id" class="delete-btn"></a>
-                        @*<span class="like-btn"></span>*@
                     </div>
                 </div>
             </form>

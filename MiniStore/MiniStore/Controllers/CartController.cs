@@ -12,6 +12,7 @@ using System;
 
 namespace MiniStore.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly MiniStoreContext _context;
@@ -77,7 +78,6 @@ namespace MiniStore.Controllers
 
                 return View("AdminIndex", model);
             }
-
             if (User.IsInRole("Client"))
             {
                 var cart = await _context.Carts.Where(c => c.UserId.Equals(_userManager.GetUserId(User))).FirstOrDefaultAsync();

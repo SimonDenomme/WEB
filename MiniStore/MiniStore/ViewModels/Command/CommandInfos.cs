@@ -22,7 +22,7 @@ namespace MiniStore.ViewModels.Command
         public string PostalCode { get; set; }
 
         // Cart
-        public CartViewModels.CartViewModel Cart { get; set; }
+        public CartViewModels.CartViewModel Items { get; set; }
 
         // Infos Command
         public double FraisLivraison { get; set; }

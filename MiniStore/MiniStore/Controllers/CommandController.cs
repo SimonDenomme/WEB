@@ -221,7 +221,7 @@ namespace MiniStore.Controllers
                 City = address.City,
                 PostalCode = address.PostalCode,
 
-                Cart = items,
+                Items = items,
                 
                 FraisLivraison = items.Total * 0.05
             };

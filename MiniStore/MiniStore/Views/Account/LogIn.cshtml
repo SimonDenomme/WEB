@@ -48,16 +48,12 @@
                             <button type="submit" class="btn btn-primary">Log in</button>
                         </div>
                     </div>
-                    @*@if (User.Identity.IsAuthenticated)
-                    {
-                    }*@
-
                     <p>
                         <a asp-action="Register">Ajouter un nouvel utilisateur?</a>
                     </p>
-                    @*<p>
-                    <a asp-action="ForgotPassword">Forgot your password?</a>
-                    </p>*@
+                    <p>
+                        <a asp-action="GuestCreate">Continuer en tant qu'invité</a>
+                    </p>
                 </form>
             </section>
         </div>

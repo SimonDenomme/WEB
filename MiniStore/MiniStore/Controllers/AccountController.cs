@@ -6,6 +6,7 @@ using MiniStore.Data;
 using MiniStore.Domain;
 using MiniStore.ViewModels.Account;
 using System.Collections.Generic;
+using System;
 
 namespace MiniStore.Controllers
 {
@@ -68,9 +69,16 @@ namespace MiniStore.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult GuestCreate()
+        {
+            return NotFound();
         }
 
         [HttpPost]
@@ -135,11 +143,13 @@ namespace MiniStore.Controllers
 
             return RedirectToAction(nameof(LogIn));
         }
+        
         [Authorize(Roles = "Admin")]
         public IActionResult RegisterAdmin()
         {
             return View();
         }
+        
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> RegisterAdmin(RegisterViewModel model)
@@ -202,6 +212,7 @@ namespace MiniStore.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        
         [Authorize(Roles = "Admin")]
         public IActionResult List()
         {
