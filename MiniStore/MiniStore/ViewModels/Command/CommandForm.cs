@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MiniStore.ViewModels.Cart;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MiniStore.ViewModels.Command
 {
@@ -13,7 +14,9 @@ namespace MiniStore.ViewModels.Command
         // Infos Clients
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
         public string CellPhone { get; set; }
 
         // DropDownList pour les adresses
@@ -22,9 +25,11 @@ namespace MiniStore.ViewModels.Command
 
         // Address
         public Guid? AdresseId { get; set; }
+        
         public int Number { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
+        [Required]
         public string PostalCode { get; set; }
 
         // Cart
@@ -39,7 +44,9 @@ namespace MiniStore.ViewModels.Command
 
         public CommandFormValidator()
         {
-            RuleFor(x => x.Email).Matches(EMAILREGEX).WithMessage("The email must be in the good format (Ex: example@example.com).");
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .Matches(EMAILREGEX).WithMessage("The email must be in the good format (Ex: example@example.com).");
 
 
             //La validation du code postal pose un pb pour eenvoyer le formulaire à cause de dropdown list
@@ -49,6 +56,7 @@ namespace MiniStore.ViewModels.Command
                     .WithMessage("The postal code must respect the convention, H0H0H0.");
 
             RuleFor(x => x.CellPhone)
+                .NotEmpty()
                 .Matches(PhoneRegex)
                     .WithMessage("The phone number must be in the required format. (Ex: 450-123-4567)");
         }
