@@ -82,7 +82,6 @@ namespace MiniStore.Controllers
                     model.Street = address.Street;
                     model.City = address.City;
                     model.PostalCode = address.PostalCode;
-                    model.SelectedAddress = address.Id.ToString();
                 }
 
                 model.Id = command.Id;
@@ -90,14 +89,14 @@ namespace MiniStore.Controllers
                 model.LastName = user.LastName;
                 model.Email = user.Email;
                 model.CellPhone = user.PhoneNumber;
-                model.Addresses = FillDropDownAddress();
+                //model.Addresses = FillDropDownAddress();
                 model.Cart = CommandMapping(command);
             }
 
             else
             {
                 model.Id = command.Id;
-                model.Addresses = FillDropDownAddress();
+                model.AdresseId = command.AddressId;
                 model.Cart = CommandMapping(command);
             }
             return View(model);
@@ -108,23 +107,17 @@ namespace MiniStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CommandForm(CommandForm model)
         {
-            if (!ModelState.IsValid) return View(model);
+            //LA VALIDATION DU MODÈLE N'EMBARQUE PAS, ALORS POUR PAS LE FAIRE CRACHER JE REDIRIGE SUR LA MEME PAGE
+            if (!ModelState.IsValid) return RedirectToAction("CommandForm", new { id = model.Id });
 
             var command = await _context.Commands.FindAsync(model.Id);
 
             int add;
-            bool success = int.TryParse(model.SelectedAddress, out add);
-            if (success)
-            {
-                var liste = FillDropDownAddress();
-                var value = liste.Where(a => a.Value.Equals(model.SelectedAddress)).FirstOrDefault();
-                var address = _context.Addresses.Find(int.Parse(value.Value));
+            //bool success = int.TryParse(model.SelectedAddress, out add);
+            
+            // checker adresse
 
-                command.AddressId = address.Id;
-                command.Address = address;
-            }
-            else
-            {
+                // recup les adreses en memoire et comparer
                 var req = _context.Addresses.Where(
                         a => a.UserId.Equals(_userManager.GetUserId(User)) &&
                         a.Number == model.Number &&
@@ -150,7 +143,7 @@ namespace MiniStore.Controllers
                     command.Address = address;
                     _context.Addresses.Add(address);
                 }
-            }
+            
 
             _context.Update(command);
             await _context.SaveChangesAsync();

@@ -17,10 +17,11 @@ namespace MiniStore.ViewModels.Command
         public string CellPhone { get; set; }
 
         // DropDownList pour les adresses
-        public IEnumerable<SelectListItem> Addresses { get; set; }
-        public string SelectedAddress { get; set; }
+        // public IEnumerable<SelectListItem> Addresses { get; set; }
+        //public string SelectedAddress { get; set; }
 
         // Address
+        public Guid? AdresseId { get; set; }
         public int Number { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
@@ -42,10 +43,10 @@ namespace MiniStore.ViewModels.Command
 
 
             //La validation du code postal pose un pb pour eenvoyer le formulaire à cause de dropdown list
-            //RuleFor(x => x.PostalCode)
-            //    .NotEmpty()
-            //    .Matches(PostalRegex)
-            //        .WithMessage("The postal code must respect the convention, H0H0H0.");
+            RuleFor(x => x.PostalCode)
+                .NotEmpty()
+                .Matches(PostalRegex)
+                    .WithMessage("The postal code must respect the convention, H0H0H0.");
 
             RuleFor(x => x.CellPhone)
                 .Matches(PhoneRegex)
