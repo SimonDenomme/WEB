@@ -17,24 +17,25 @@
     else
     {
         <h2> Commandes passées</h2>
-        foreach (var command in Model)
-        {
-            <div class="my-4">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => command.Id)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => command.Status)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => command.Items)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
+
+
+        <div class="my-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Numéro de commande
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th> Produits </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var command in Model)
+                    {
+
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => command.Id)
@@ -42,14 +43,15 @@
                             <td>
                                 @Html.DisplayFor(modelItem => command.Status)
                             </td>
-                            @if (command.Items != null)
-                                @if (command.Items.ItemsInCart.FirstOrDefault() is not null)
-                                {
-                                    <td>
-                                        @Html.DisplayFor(modelItem => command.Items.ItemsInCart.First().Name)
-                                    </td>
-                                }
+                            
                             <td>
+                                @if (command.Items != null)
+                                    @if (command.Items.ItemsInCart.FirstOrDefault() is not null)
+                                    {
+                                    
+                                      @Html.DisplayFor(modelItem => command.Items.ItemsInCart.First().Name)
+                                    
+                                    }
                                 <a asp-controller="Command" asp-action="CommandInfos" asp-route-id="@command.Id">Details</a>
                             </td>
                         </tr>
@@ -65,9 +67,15 @@
                                     <td></td>
                                 </tr>
                             }
-                    </tbody>
-                </table>
-            </div>
-        }
+
+
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+
+
     }
 </div>
