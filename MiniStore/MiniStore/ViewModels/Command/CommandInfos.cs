@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using MiniStore.ViewModels.Cart;
+﻿using MiniStore.ViewModels.Cart;
 using System;
-using System.Collections.Generic;
 
 namespace MiniStore.ViewModels.Command
 {
     public class CommandInfos
     {
         public Guid Id { get; set; }
+        public bool IsPaid { get; set; }
 
         // Infos Clients
         public string FirstName { get; set; }

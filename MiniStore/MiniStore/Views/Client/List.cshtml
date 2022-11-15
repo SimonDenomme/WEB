@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MiniStore.Models.CommandModel>
+﻿@model List<MiniStore.ViewModels.Client.CommandViewModel>
 
 
 <div class="container my-5">
@@ -8,83 +8,66 @@
         <div class="my-4">
             <p class="blocktext">
                 Vous n'avez aucunes commandes
-                        :(
-                        <br>
+                :(
+                <br>
                 @Html.ActionLink(" Magasinez! ", "Index", "Shop")
             </p>
         </div>
     }
     else
     {
-        <h2> Commandes envoyées</h2>
-        <div class="my-4">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Number)
-                        </th>
-                        <th> Produits </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        @if (item.IsSent is true)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Number)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-
-
-        <h2> Commandes non-envoyées</h2>
-        <div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Number)
-                        </th>
-                        <th> Produits </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        @if (!item.IsSent)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Number)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-
-        </div>
-
+        <h2> Commandes passées</h2>
+        foreach (var command in Model)
+        {
+            <div class="my-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => command.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => command.Status)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => command.Items)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => command.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => command.Status)
+                            </td>
+                            @if (command.Items != null)
+                                @if (command.Items.ItemsInCart.FirstOrDefault() is not null)
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => command.Items.ItemsInCart.First().Name)
+                                    </td>
+                                }
+                            <td>
+                                <a asp-controller="Command" asp-action="CommandInfos" asp-route-id="@command.Id">Details</a>
+                            </td>
+                        </tr>
+                        @if (command.Items != null)
+                            @foreach (var items in command.Items.ItemsInCart.Skip(1))
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => items.Name)
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+        }
     }
-
-
 </div>
-
-

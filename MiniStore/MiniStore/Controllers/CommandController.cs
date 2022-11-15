@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Data;
 using MiniStore.Domain;
-using MiniStore.Models;
 using MiniStore.ViewModels.Cart;
 using MiniStore.ViewModels.Command;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +27,8 @@ namespace MiniStore.Controllers
             _userManager = userManager;
         }
 
-        // Confirmer le panier -> Rentrer les infos de la command (livraison/address)           => CreateCommand
-        // Confirmer la commande -> Créer la facture et ferme la modification de la command     => CommandForm
+        // Confirmer le panier -> Rentrer les infos de la command (livraison/address)           => CreateCommand -> CommandForm
+        // Confirmer la commande -> Créer la facture et ferme la modification de la command     => CommandInfos
         // Payer la facture -> Créer le reçu et ferme la modification de la facture             => PayBill
 
         // GET CreateCommand
@@ -45,7 +43,6 @@ namespace MiniStore.Controllers
             {
                 IsSent = false,
                 IsPaid = false,
-                Items = cart,
                 UserId = _userManager.GetUserId(User),
                 AddressId = adresse != null ? adresse.Id : null
             };
@@ -59,6 +56,9 @@ namespace MiniStore.Controllers
                 i.CartId = null;
                 _context.Update(i);
             }
+            await _context.SaveChangesAsync();
+
+            _context.Remove(cart);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("CommandForm", new { id = command.Id });
@@ -82,7 +82,6 @@ namespace MiniStore.Controllers
                     model.Street = address.Street;
                     model.City = address.City;
                     model.PostalCode = address.PostalCode;
-                    model.Addresses = FillDropDownAddress();
                     model.SelectedAddress = address.Id.ToString();
                 }
 
@@ -91,6 +90,7 @@ namespace MiniStore.Controllers
                 model.LastName = user.LastName;
                 model.Email = user.Email;
                 model.CellPhone = user.PhoneNumber;
+                model.Addresses = FillDropDownAddress();
                 model.Cart = CommandMapping(command);
             }
 
@@ -177,7 +177,6 @@ namespace MiniStore.Controllers
                 i.CartId = cart.Id;
                 _context.ItemInCarts.Update(i);
             }
-            _context.Commands.Remove(command);
             _context.Carts.Add(cart);
             await _context.SaveChangesAsync();
 
@@ -198,10 +197,10 @@ namespace MiniStore.Controllers
         {
             var command = await _context.Commands.FindAsync(id);
             if (command is null) return NotFound();
-            
+
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user is null) return Forbid();
-            
+
             var address = await _context.Addresses.Where(a => a.Id == command.AddressId).FirstOrDefaultAsync();
             if (address is null) return NotFound();
 
@@ -210,19 +209,20 @@ namespace MiniStore.Controllers
             var model = new CommandInfos
             {
                 Id = command.Id,
-                
+                IsPaid = command.IsPaid,
+
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
                 CellPhone = user.PhoneNumber,
-                
+
                 Number = address.Number,
                 Street = address.Street,
                 City = address.City,
                 PostalCode = address.PostalCode,
 
                 Items = items,
-                
+
                 FraisLivraison = items.Total * 0.05
             };
 

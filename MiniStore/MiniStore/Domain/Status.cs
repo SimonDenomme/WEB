@@ -1,5 +1,4 @@
-﻿using System;
-namespace MiniStore.Domain
+﻿namespace MiniStore.Domain
 {
     public class Status
     {

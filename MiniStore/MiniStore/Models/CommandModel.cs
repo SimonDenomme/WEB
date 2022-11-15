@@ -1,6 +1,6 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using MiniStore.Domain;
+using MiniStore.ViewModels.Cart;
 using System;
 using System.Collections.Generic;
 
@@ -24,7 +24,7 @@ namespace MiniStore.Models
 
         // Je suis moins sur de ceux qui suive (je = Simon)
         public Address Adresse { get; set; }
-        public Cart Cart { get; set; }
+        public CartViewModels.CartViewModel Cart { get; set; }
         public List<ItemInCart> Items { get; set; }
         public ApplicationUser CommandUser { get; set; }
     }

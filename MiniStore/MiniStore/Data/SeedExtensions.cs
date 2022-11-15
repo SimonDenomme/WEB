@@ -71,18 +71,6 @@ namespace MiniStore.Data
             builder.SeedUsers(admins);
             builder.SeedUsersToRole(admins, new IdentityRole("Admin"));
         }
-        private static void SeedClient(this ModelBuilder builder)
-        {
-            var clients = new List<ApplicationUser>() {
-                CreateUser("client@test.ca",  "Qwerty123!","Client1","Test1"),
-                CreateUser("client2@test.ca", "Qwerty123!","Client2","Test2"),
-                CreateUser("client3@test.ca", "Qwerty123!","Client3","Test3"),
-            };
-
-            builder.SeedUsers(clients);
-            builder.SeedUsersToRole(clients, new IdentityRole("Client"));
-        }
-
         private static void SeedCategories(this ModelBuilder builder)
         {
             string[] NameArray = { "Dungeons & Dragons", "PathFinder", "GloomHeaven", "Cyberpunk Red", "Gamma World" };
@@ -93,6 +81,17 @@ namespace MiniStore.Data
                     Name = NameArray[i - 1],
                     Minis = new List<Mini>()
                 });
+        }
+        private static void SeedClient(this ModelBuilder builder)
+        {
+            var clients = new List<ApplicationUser>() {
+                CreateUser("client@test.ca",  "Qwerty123!","Client1","Test1"),
+                CreateUser("client2@test.ca", "Qwerty123!","Client2","Test2"),
+                CreateUser("client3@test.ca", "Qwerty123!","Client3","Test3"),
+            };
+
+            builder.SeedUsers(clients);
+            builder.SeedUsersToRole(clients, new IdentityRole("Client"));
         }
         private static void SeedMinis(this ModelBuilder builder)
         {

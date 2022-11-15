@@ -1,92 +1,96 @@
 ﻿@model MiniStore.ViewModels.Command.CommandInfos
-@*<div>
-        @Model.Cart.CartUser
-    </div>*@
+
+
 <div class="container">
-
-    @{
-        double montantTotal = 0;
-        <div>
-            <div class="cart-body-command">
-                <div class="shopping-cart">
-                    <!-- Title -->
-                    <div class="title">
-                        Panier d'achats
-                    </div>
-
-                    @foreach (var item in Model.Items.ItemsInCart)
-                    {
-                        <div class="item">
-                            <div class="image">
-                                <img src="/img/@item.ImagePath" alt="" />
-                            </div>
-
-                            <div class="description">
-                                <span>@item.Name</span>
-                            </div>
-
-                            <div class="quantity">
-                                <ul class="list-inline pb-3">
-                                    <li class="list-inline-item text-right">
-                                        <input type="hidden" name="Quantity" id="product-quanity" value="@item.Quantity">
-                                    </li>
-                                    <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">@item.Quantity</span></li>
-                                </ul>
-                            </div>
-
-                            <div class="price">$@item.Price</div>
-                        </div>
-                    }
+    <div>
+        <div class="cart-body-command">
+            <div class="shopping-cart">
+                <!-- Title -->
+                <div class="title">
+                    Panier d'achats
                 </div>
+
+                @foreach (var item in Model.Items.ItemsInCart)
+                {
+                    <div class="item">
+                        <div class="image">
+                            <img src="/img/@item.ImagePath" alt="" />
+                        </div>
+
+                        <div class="description">
+                            <span>@item.Name</span>
+                        </div>
+
+                        <div class="quantity">
+                            <ul class="list-inline pb-3">
+                                <li class="list-inline-item text-right">
+                                    <input type="hidden" name="Quantity" id="product-quanity" value="@item.Quantity">
+                                </li>
+                                <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">@item.Quantity</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="price">$@item.Price</div>
+                    </div>
+                }
             </div>
         </div>
-        <div>
-            Informations personnelles
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th class="p-auto">Prénom</th>
-                        <th class="p-auto">Nom</th>
-                        <th class="p-auto">Courriel</th>
-                        <th class="p-auto">Numéro de téléphone</th>
-                        <th class="p-auto">Adresse</th>
-                        <th class="p-auto">Ville</th>
-                        <th class="p-auto">Code postal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="p-auto">@Model.FirstName</td>
-                        <td class="p-auto">@Model.LastName</td>
-                        <td class="p-auto">@Model.Email</td>
-                        <td class="p-auto">@Model.CellPhone</td>
-                        <td class="p-auto">@Model.Number @Model.Street</td>
-                        <td class="p-auto">@Model.City</td>
-                        <td class="p-auto">@Model.PostalCode</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <div class="sous-total ">Sous-Total :         @Model.Items.SousTotal.ToString("C")</div>
-            <div class="taxes      ">Taxes :              @Model.Items.Taxes.ToString("C")</div>
-            <div class="taxes      ">Frais de livraison : @Model.FraisLivraison.ToString("C")</div>
-            <div class="total-price">Total :              @Model.Items.Total.ToString("C")</div>
-        </div>
-    }
+    </div>
+    <div>
+        Informations personnelles
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="p-auto">Prénom</th>
+                    <th class="p-auto">Nom</th>
+                    <th class="p-auto">Courriel</th>
+                    <th class="p-auto">Numéro de téléphone</th>
+                    <th class="p-auto">Adresse</th>
+                    <th class="p-auto">Ville</th>
+                    <th class="p-auto">Code postal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="p-auto">@Model.FirstName</td>
+                    <td class="p-auto">@Model.LastName</td>
+                    <td class="p-auto">@Model.Email</td>
+                    <td class="p-auto">@Model.CellPhone</td>
+                    <td class="p-auto">@Model.Number @Model.Street</td>
+                    <td class="p-auto">@Model.City</td>
+                    <td class="p-auto">@Model.PostalCode</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <div class="sous-total">Sous-Total : @Model.Items.SousTotal.ToString("C")</div>
+        <div class="taxes">Taxes : @Model.Items.Taxes.ToString("C")</div>
+        <div class="taxes">Frais de livraison : @Model.FraisLivraison.ToString("C")</div>
+        <div class="total-price">Total : @Model.Items.Total.ToString("C")</div>
+    </div>
 
     <div class="container py-5">
         <div class="row py-5">
-            <form class="col-md-9 m-auto" method="post" role="form">
+            <div class="col-md-9 m-auto" >
                 <div class="row">
                     <div class="col text-end mt-2">
-                        <button type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>
+                        @if (Model.IsPaid)
+                        {
+                            @*<button disabled type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>*@
+                            <a class="btn btn-success btn-lg px-3" role="link" aria-disabled="true"> Confirmer </a>
+                        }
+                        else
+                        {
+                            <a asp-action="PayBill" asp-route-id="@Model.Id" class="btn btn-success btn-lg px-3"> Confirmer </a>
+                            @*<button type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>*@
+                        }
                     </div>
-                    <div class="col mt-2 buttons">
+                    <div class="col mt-2">
                         <a asp-action="CancelCommand" asp-route-id="@Model.Id" class="btn delete-btn btn-lg px-3"></a>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

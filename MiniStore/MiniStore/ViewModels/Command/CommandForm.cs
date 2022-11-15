@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MiniStore.Models;
 using MiniStore.ViewModels.Cart;
 using System;
 using System.Collections.Generic;
