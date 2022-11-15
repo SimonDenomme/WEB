@@ -1,0 +1,13 @@
+2022-11-08
+	1. passer une commande est impossible prÃ©sentement
+	2. Remplir un panier sans Ãªtre connectÃ© est impossible
+	3. validations
+	4. selection d'adresses non-existante lors de la commande
+	5. attribuer le role admin a un user
+
+2022-11-15
+	1. Se connecter en guest est impossible
+	2. La validation sur les emails lors d'une inscription (Register) ne regarde pas si le courriel existe déjà
+	3. Ajouter un Item dans le cart redirige vers le cart au lieu de permettre d'acheter davantage
+	4. Il manque de try catch au long du code et permet de voir certaines erreurs par moment.
+	5. La Suppression de Command avec des items identiques dans le panier monte une erreur (Mini1 + Insert(Mini1) == ERROR)
