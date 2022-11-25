@@ -32,7 +32,7 @@ namespace MiniStore.Controllers
             _signInManager = signInManager;
         }
 
-        // GET: ClientController
+        // GET: /Client
         [Authorize(Roles = "Client")]
         public async Task<ActionResult> IndexAsync()
         {
@@ -43,7 +43,7 @@ namespace MiniStore.Controllers
             return View();
         }
 
-        // GET: ClientController/Details
+        // GET: /Client/Details
         [Authorize(Roles = "Client")]
         public async Task<IActionResult> List()
         {
@@ -65,6 +65,13 @@ namespace MiniStore.Controllers
             {
                 return StatusCode(500, "Server error");
             }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ListAdmin()
+        {
+            // ToDo: Prendre toutes les commandes (clients, status, ItemInCart,  ...)
+            return View();
         }
 
         private CartViewModels.CartViewModel CommandMapping(Commande command)
@@ -98,9 +105,9 @@ namespace MiniStore.Controllers
         {
             if (command.IsSent) return "En Livraison";
             else if (command.IsPaid) return "En Préparation";
-            
+
             // Si la commande n'a aucun article elle est annulée
-            if (_context.ItemInCarts.Where(i => i.CommandeId == command.Id).Count() == 0) 
+            if (_context.ItemInCarts.Where(i => i.CommandeId == command.Id).Count() == 0)
                 return "Annulée";
 
             // Si la commande a une addresse

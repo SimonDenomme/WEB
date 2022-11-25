@@ -154,6 +154,7 @@ namespace MiniStore.Controllers
         // GET CancelCommand
         public async Task<IActionResult> CancelCommand(Guid? id)
         {
+            // ToDo: Ne doit pas détruire le lien ItemInCart & Command
             var command = await _context.Commands.FindAsync(id);
             if (command is null) return NotFound();
 
