@@ -16,6 +16,7 @@ namespace MiniStore.Data
         public DbSet<Status> Status { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Commande> Commands { get; set; }
+        public DbSet<CommandStatus> CommandStatus { get; set; }
         public DbSet<ItemInCart> ItemInCarts { get; set; }
         public DbSet<Address> Addresses { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

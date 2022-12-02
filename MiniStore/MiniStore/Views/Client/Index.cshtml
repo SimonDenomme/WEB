@@ -1,7 +1,7 @@
 ﻿@{
     var data = ViewData["name"];
+    var address = (List<string>)ViewData["address"];
 }
-
 
 <div class="container my-5">
 
@@ -9,18 +9,16 @@
 
     <div class="row align-content-center my-4">
         <div class="col-md-6">
+            @if (address != null)
+                foreach (var a in address)
+                {
+                    <p>@a</p>
+                }
 
             <a href='@Url.Action("Add", "Adresse")' class="btn btn-primary">Ajouter une adresse</a>
-@*            @Html.ActionLink("Ajouter une adresse", "Add", "Adresse", new {@class = "btn btn-primary"})
-*@
         </div>
         <div class="col-md-6">
-
             <a href='@Url.Action("List", "Client")' class="btn btn-primary">Mes Commandes</a>
-
-@*            @Html.ActionLink("Mes Commandes", "List", "Client")
-*@
-
         </div>
     </div>
 </div>

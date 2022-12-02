@@ -6,7 +6,6 @@ namespace MiniStore.ViewModels.Command
     public class CommandInfos
     {
         public Guid Id { get; set; }
-        public bool IsPaid { get; set; }
 
         // Infos Clients
         public string FirstName { get; set; }
@@ -25,5 +24,6 @@ namespace MiniStore.ViewModels.Command
 
         // Infos Command
         public double FraisLivraison { get; set; }
+        public bool IsConfirmable { get; set; }
     }
 }

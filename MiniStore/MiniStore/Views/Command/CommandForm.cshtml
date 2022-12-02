@@ -3,9 +3,9 @@
 <div class="container py-5">
     <div class="row py-5">
         <form asp-action="CommandForm" class="col-md-9 m-auto" method="post" role="form">
-            @*<div class="form-group">
+            <div class="form-group">
                 @Html.DropDownListFor(m=>m.SelectedAddress, Model.Addresses, "Addresse déjà entrée", new { @class = "form_control" })
-            </div>*@
+            </div>
 
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -48,9 +48,6 @@
                 <input asp-for="PostalCode" class="form-control" />
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
-
-
-
 
             <div class="form-group">
                 <input type="submit" value="Envoyer" class="btn btn-primary" />

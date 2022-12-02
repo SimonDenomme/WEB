@@ -34,9 +34,17 @@ namespace MiniStore.Controllers
 
         // GET: /Client
         [Authorize(Roles = "Client")]
-        public async Task<ActionResult> IndexAsync()
+        public async Task<ActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var add = await _context.Addresses.Where(a => a.UserId.Equals(user.Id)).ToListAsync();
+            if (add.Count > 0)
+            {
+                var adresses = add.Select(a => string.Format("{0} {1} {2} {3}", a.Number, a.Street, a.City, a.PostalCode)).ToList();
+
+                ViewData["address"] = adresses;
+            }
 
             ViewData["name"] = user.FirstName + " " + user.LastName;
 
@@ -71,7 +79,31 @@ namespace MiniStore.Controllers
         public async Task<IActionResult> ListAdmin()
         {
             // ToDo: Prendre toutes les commandes (clients, status, ItemInCart,  ...)
-            return View();
+            var adminModel = new List<AdminCommandViewModel>();
+
+            var users = await _context.Users.ToListAsync();
+            if (users == null) return StatusCode(500, "Server error");
+
+            foreach (var u in users)
+            {
+                var commandes = await _context.Commands.Where(c => c.UserId == u.Id).ToListAsync();
+                if (commandes.Count == 0) continue;
+
+                var model = commandes.Select(c => new CommandViewModel
+                {
+                    Id = c.Id,
+                    Items = CommandMapping(c),
+                    Status = GestionStatusCommand(c),
+                }).OrderBy(co => co.Status).ToList();
+
+                adminModel.Add(new AdminCommandViewModel
+                {
+                    UserName = u.FirstName + " " + u.LastName,
+                    Commandes = model
+                });
+            }
+
+            return View(adminModel);
         }
 
         private CartViewModels.CartViewModel CommandMapping(Commande command)

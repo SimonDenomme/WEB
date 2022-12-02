@@ -18,6 +18,7 @@ namespace MiniStore.Data
             builder.SeedCategories();
             builder.SeedSizes();
             builder.SeedStatus();
+            builder.SeedCommandStatus();
             builder.SeedMinis();
             builder.SeedMessages();
         }
@@ -80,6 +81,16 @@ namespace MiniStore.Data
                     Id = i,
                     Name = NameArray[i - 1],
                     Minis = new List<Mini>()
+                });
+        }
+        private static void SeedCommandStatus(this ModelBuilder builder)
+        {
+            string[] StatusArray = { "À Valider", "Confirmée", "Annulée", "En Préparation", "En Livraison", "Livrée", "Retournée" };
+            for (int i = 1; i <= StatusArray.Length; i++)
+                builder.Entity<CommandStatus>().HasData(new CommandStatus
+                {
+                    Id = i,
+                    Status = StatusArray[i - 1]
                 });
         }
         private static void SeedClient(this ModelBuilder builder)

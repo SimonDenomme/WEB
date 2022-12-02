@@ -20,8 +20,8 @@ namespace MiniStore.ViewModels.Command
         public string CellPhone { get; set; }
 
         // DropDownList pour les adresses
-        // public IEnumerable<SelectListItem> Addresses { get; set; }
-        //public string SelectedAddress { get; set; }
+        public IEnumerable<SelectListItem> Addresses { get; set; }
+        public string SelectedAddress { get; set; }
 
         // Address
         public Guid? AdresseId { get; set; }

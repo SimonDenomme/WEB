@@ -1,0 +1,73 @@
+﻿@model List<MiniStore.ViewModels.Client.AdminCommandViewModel>
+
+
+<div class="container my-5">
+
+    @if (Model.Count() == 0)
+    {
+        <div class="my-4">
+            <p class="blocktext">
+                C'est désert ici...
+                :(
+            </p>
+        </div>
+    }
+    else
+    {
+        foreach (var u in Model)
+        {
+            <h2> Commandes passées par @u.UserName</h2>
+
+            <div class="my-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Numéro de commande
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th> Produits </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var command in u.Commandes)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => command.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => command.Status)
+                                </td>
+
+                                <td>
+                                    @if (command.Items != null)
+                                        @if (command.Items.ItemsInCart.FirstOrDefault() is not null)
+                                        {
+                                            @Html.DisplayFor(modelItem => command.Items.ItemsInCart.First().Name)
+                                        }
+                                    <a asp-controller="Command" asp-action="CommandInfos" asp-route-id="@command.Id">Details</a>
+                                </td>
+                            </tr>
+                            @if (command.Items != null)
+                                @foreach (var items in command.Items.ItemsInCart.Skip(1))
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => items.Name)
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        }
+    }
+</div>
