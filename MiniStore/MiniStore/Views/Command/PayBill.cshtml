@@ -8,10 +8,10 @@
     <div class="row align-content-center my-4">
         <div class="my-4">
             <p class="blocktext">
-                
+
                 Cher client, votre commande est en cours de traitement!
                 <br>
-                
+
                 <form method="post">
                     <div class="row">
                         <div class="col">
@@ -165,7 +165,7 @@
                             amountInCents: @Model.Price * 100, // Price in cents
                             currencyCode: "cad"
                         })
-                    // Report to the browser that the payment was successful or failed.
+                        // Report to the browser that the payment was successful or failed.
                     }).then(function (response) {
                         if (response.ok) {
                             window.location.replace("@Url.Action("Confirmation")")
@@ -178,3 +178,6 @@
         })();
     </script>
 }
+
+    @*https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements*@
+    @*https://stripe.com/docs/js/elements_object/get_element*@

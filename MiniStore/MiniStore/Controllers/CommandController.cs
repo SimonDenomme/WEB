@@ -181,6 +181,8 @@ namespace MiniStore.Controllers
             return RedirectToAction("Index", "Cart");
         }
 
+        // ToDo: lire https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements
+        // ToDo: lire https://stripe.com/docs/js/elements_object/get_element
         // ToDo: GET PayBill
         public async Task<IActionResult> PayBill(Guid? id)
         {
@@ -190,7 +192,8 @@ namespace MiniStore.Controllers
 
             var model = new ProductModel
             {
-                Name = "test", Price = 15
+                Name = "test",
+                Price = 15
             };
             return View(model);
         }
