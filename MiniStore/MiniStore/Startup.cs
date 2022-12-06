@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MiniStore.Data;
 using MiniStore.Domain;
+using Stripe;
 
 namespace MiniStore
 {
@@ -32,7 +33,8 @@ namespace MiniStore
                 .AddSignInManager()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             }).AddIdentityCookies();
@@ -51,6 +53,7 @@ namespace MiniStore
         {
             if (env.IsDevelopment())
             {
+                StripeConfiguration.ApiKey = Configuration.GetConnectionString("Stripe:TestSecretKey");
                 app.UseDeveloperExceptionPage();
             }
             else

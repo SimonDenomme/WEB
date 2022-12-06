@@ -12,7 +12,15 @@
                 Cher client, votre commande est en cours de traitement!
                 <br>
                 
-                <a href="#"> Paiment </a>
+                <form method="post">
+                    <div class="row">
+                        <div class="col">
+                            <div class="float-right">
+                                <button id="payment-request-button" class="btn btn-primary" type="button" href="#payment-form">Buy</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </p>
         </div>
     </div>
@@ -123,10 +131,10 @@
 
                 card.mount("#card");
 
-                card.addEventListener('change', function (event) {
-                    var displayError = document.getElementById('card-errors');
-                    if (event.error) {
-                        displayError.textContent = event.error.message;
+                card.on('change', ({ error }) => {
+                    let displayError = document.getElementById('card-errors');
+                    if (error) {
+                        displayError.textContent = error.message;
                     } else {
                         displayError.textContent = '';
                     }

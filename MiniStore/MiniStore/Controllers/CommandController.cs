@@ -136,7 +136,7 @@ namespace MiniStore.Controllers
             }
             else
             {
-                var address = new Address
+                var address = new Domain.Address
                 {
                     Number = model.Number,
                     Street = model.Street,
@@ -187,7 +187,12 @@ namespace MiniStore.Controllers
             // ToDo: Fermer la modification sur la facture (option de paiement)
             // ToDo: Faire le paiement
             // ToDO: Envoyer le colis
-            return View();
+
+            var model = new ProductModel
+            {
+                Name = "test", Price = 15
+            };
+            return View(model);
         }
 
         // GET CommandInfos
