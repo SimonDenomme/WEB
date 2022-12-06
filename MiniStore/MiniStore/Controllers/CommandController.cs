@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MiniStore.Data;
 using MiniStore.Domain;
+using MiniStore.Models;
 using MiniStore.ViewModels.Cart;
 using MiniStore.ViewModels.Command;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +22,7 @@ namespace MiniStore.Controllers
     {
         private readonly MiniStoreContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IOptions<StripeOptions> stripeOptions;
 
         public CommandController(MiniStoreContext context,
             UserManager<ApplicationUser> userManager)
@@ -186,7 +190,7 @@ namespace MiniStore.Controllers
             return View();
         }
 
-        // ToDo: GET CommandInfos
+        // GET CommandInfos
         public async Task<IActionResult> CommandInfos(Guid? id)
         {
             var command = await _context.Commands.FindAsync(id);
@@ -221,6 +225,25 @@ namespace MiniStore.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult Charges([FromBody] ChargesModel model)
+        {
+            StripeConfiguration.ApiKey = stripeOptions.Value.SecretKey;
+
+            var options = new PaymentIntentCreateOptions
+            {
+                Amount = model.AmountInCents,
+                Currency = model.CurrencyCode,
+                Metadata = new Dictionary<string, string>{
+                    { "integration_check", "accept_a_payment" },
+                }
+            };
+            var service = new PaymentIntentService();
+            var paymentIntent = service.Create(options);
+
+            return Json(paymentIntent.ToJson());
         }
 
         private CartViewModels.CartViewModel CommandMapping(Commande command)
