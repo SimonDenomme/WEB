@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MiniStore.Data;
 using MiniStore.Domain;
+using MiniStore.Models;
 using Stripe;
 
 namespace MiniStore
@@ -23,6 +24,9 @@ namespace MiniStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<StripeOptions>(options => 
+                        Configuration.GetSection("StripeTest").Bind(options));
+
             services.AddControllersWithViews();
             services.AddDbContext<MiniStoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -55,6 +59,8 @@ namespace MiniStore
             {
                 StripeConfiguration.ApiKey = Configuration.GetConnectionString("Stripe:TestSecretKey");
                 app.UseDeveloperExceptionPage();
+
+                //app.UseDatabaseErrorPage();
             }
             else
             {
