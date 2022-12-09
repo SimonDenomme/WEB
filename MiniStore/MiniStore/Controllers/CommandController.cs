@@ -245,10 +245,9 @@ namespace MiniStore.Controllers
             var options = new ChargeCreateOptions
             {
                 Amount = model.AmountInCents,
+                Description = model.Description,
+                Source = model.Token,
                 Currency = model.CurrencyCode,
-                Metadata = new Dictionary<string, string>{
-                    { "integration_check", "accept_a_payment" },
-                }
             };
             var service = new ChargeService();
             var charge = service.Create(options);
