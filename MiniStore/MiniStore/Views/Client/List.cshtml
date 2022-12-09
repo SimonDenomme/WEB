@@ -47,7 +47,22 @@
                                     {
                                         @Html.DisplayFor(modelItem => command.Items.ItemsInCart.First().Name)
                                     }
-                                <a asp-controller="Command" asp-action="CommandInfos" asp-route-id="@command.Id">Details</a>
+                                @if (command.Status.Equals("À Valider"))
+                                {
+                                    <a asp-controller="Command" asp-action="CommandForm" asp-route-id="@command.Id">Formulaire</a>
+                                }
+                                else if (command.Status.Equals("Confirmée"))
+                                {
+                                    <a asp-controller="Command" asp-action="PayBill" asp-route-id="@command.Id">Pay</a>
+                                }
+                                else if (command.Status.Equals("Annulée"))
+                                {
+                                    <a asp-controller="Command" asp-action="CommandInfos" asp-route-id="@command.Id">Pay</a>
+                                }
+                                else @*if (command.Status.Equals("En Préparation"))*@
+                                {
+                                    <a asp-controller="Command" asp-action="PayBill" disabled="disabled" asp-route-id="@command.Id">Pay</a>
+                                }
                             </td>
                         </tr>
                         @if (command.Items != null)

@@ -38,7 +38,6 @@ namespace MiniStore.Controllers
         // Confirmer la commande -> Créer la facture et ferme la modification de la command     => CommandInfos
         // Payer la facture -> Créer le reçu et ferme la modification de la facture             => PayBill
 
-        // GET CreateCommand
         public async Task<IActionResult> CreateCommand(Guid cartId)
         {
             var cart = await _context.Carts.FindAsync(cartId);
@@ -51,6 +50,7 @@ namespace MiniStore.Controllers
                 IsSent = false,
                 IsPaid = false,
                 UserId = _userManager.GetUserId(User),
+                CommandStatusId = 1,
                 AddressId = adresse != null ? adresse.Id : null
             };
 
@@ -71,7 +71,6 @@ namespace MiniStore.Controllers
             return RedirectToAction("CommandForm", new { id = command.Id });
         }
 
-        // GET CommandForm
         public async Task<IActionResult> CommandForm(Guid id)
         {
             var command = await _context.Commands.FindAsync(id);
@@ -109,7 +108,6 @@ namespace MiniStore.Controllers
             return View(model);
         }
 
-        // POST CommandForm
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CommandForm(CommandForm model)
@@ -121,7 +119,7 @@ namespace MiniStore.Controllers
             int add;
             bool success = int.TryParse(model.SelectedAddress, out add);
 
-            // checker adresse
+            //ToDo: checker adresse
 
             // recup les adreses en memoire et comparer
             var req = _context.Addresses.Where(
@@ -150,14 +148,12 @@ namespace MiniStore.Controllers
                 _context.Addresses.Add(address);
             }
 
-
             _context.Update(command);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("CommandInfos", new { id = command.Id });
         }
 
-        // GET CancelCommand
         public async Task<IActionResult> CancelCommand(Guid? id)
         {
             // Ne doit pas détruire le lien ItemInCart & Command
@@ -183,14 +179,13 @@ namespace MiniStore.Controllers
             return RedirectToAction("Index", "Cart");
         }
 
-        // ToDo: lire https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements
-        // ToDo: lire https://stripe.com/docs/js/elements_object/get_element
-        // ToDo: GET PayBill
+        // https://stripe.com/docs/testing?testing-method=card-numbers
         public async Task<IActionResult> PayBill(Guid? id)
         {
-            // ToDo: Fermer la modification sur la facture (option de paiement)
-            // ToDo: Faire le paiement
-            var cart = CommandMapping(await _context.Commands.FindAsync(id));
+            var command = await _context.Commands.FindAsync(id);
+            if (command is null) return NotFound();
+
+            var cart = CommandMapping(command);
 
             var model = new ProductModel
             {
@@ -200,7 +195,6 @@ namespace MiniStore.Controllers
             return View(model);
         }
 
-        // GET CommandInfos
         public async Task<IActionResult> CommandInfos(Guid? id)
         {
             var command = await _context.Commands.FindAsync(id);
@@ -253,6 +247,17 @@ namespace MiniStore.Controllers
             var charge = service.Create(options);
 
             return Json(charge.ToJson());
+        }
+        public async Task<IActionResult> Confirmation(Guid id)
+        {
+            var command = await _context.Commands.FindAsync(id);
+            if (command is null) return NotFound();
+            if (command.CommandStatusId != 2) 
+                return Forbid();
+            
+            command.CommandStatusId = 4; // En Préparation
+
+            return View();
         }
 
         private CartViewModels.CartViewModel CommandMapping(Commande command)

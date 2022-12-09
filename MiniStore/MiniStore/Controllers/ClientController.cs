@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MiniStore.Controllers
 {
@@ -64,7 +65,7 @@ namespace MiniStore.Controllers
                 {
                     Id = c.Id,
                     Items = CommandMapping(c),
-                    Status = GestionStatusCommand(c)
+                    Status = _context.CommandStatus.Find(c.CommandStatusId).Status.ToString()
                 }).OrderBy(co => co.Status).ToList();
 
                 return View(model);
@@ -78,7 +79,6 @@ namespace MiniStore.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListAdmin()
         {
-            // ToDo: Prendre toutes les commandes (clients, status, ItemInCart,  ...)
             var adminModel = new List<AdminCommandViewModel>();
 
             var users = await _context.Users.ToListAsync();
@@ -93,7 +93,7 @@ namespace MiniStore.Controllers
                 {
                     Id = c.Id,
                     Items = CommandMapping(c),
-                    Status = GestionStatusCommand(c),
+                    Status = _context.CommandStatus.Find(c.CommandStatusId).Status.ToString(),
                 }).OrderBy(co => co.Status).ToList();
 
                 adminModel.Add(new AdminCommandViewModel
@@ -133,19 +133,21 @@ namespace MiniStore.Controllers
             return list;
         }
 
-        private string GestionStatusCommand(Commande command)
-        {
-            if (command.IsSent) return "En Livraison";
-            else if (command.IsPaid) return "En Préparation";
+        //private string GestionStatusCommand(Commande command)
+        //{
+        //    return _context.CommandStatus.Find(command.CommandStatusId).Status.ToString();
 
-            // Si la commande n'a aucun article elle est annulée
-            if (_context.ItemInCarts.Where(i => i.CommandeId == command.Id).Count() == 0)
-                return "Annulée";
+        //    if (command.IsSent) return "En Livraison";
+        //    else if (command.IsPaid) return "En Préparation";
 
-            // Si la commande a une addresse
-            if (command.AddressId is not null) return "Confirmée";
+        //    // Si la commande n'a aucun article elle est annulée
+        //    if (_context.ItemInCarts.Where(i => i.CommandeId == command.Id).Count() == 0)
+        //        return "Annulée";
 
-            return "En Attente";
-        }
+        //    // Si la commande a une addresse
+        //    if (command.AddressId is not null) return "Confirmée";
+
+        //    return "En Attente";
+        //}
     }
 }

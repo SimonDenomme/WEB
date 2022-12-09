@@ -77,13 +77,11 @@
                     <div class="col text-end mt-2">
                         @if (Model.IsConfirmable)
                         {
-                            @*<button disabled type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>*@
-                            <a class="btn btn-success btn-lg px-3" role="link" aria-disabled="true"> Confirmer </a>
+                            <a asp-action="PayBill" asp-route-id="@Model.Id" class="btn btn-success btn-lg px-3"> Confirmer </a>
                         }
                         else
                         {
-                            <a asp-action="PayBill" asp-route-id="@Model.Id" class="btn btn-success btn-lg px-3"> Confirmer </a>
-                            @*<button type="submit" class="btn btn-success btn-lg px-3">Confirmer</button>*@
+                            <a class="btn btn-success btn-lg px-3" role="link" aria-disabled="true"> Confirmer </a>
                         }
                     </div>
                     <div class="col mt-2">
