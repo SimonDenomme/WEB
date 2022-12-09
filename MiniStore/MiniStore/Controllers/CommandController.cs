@@ -246,19 +246,13 @@ namespace MiniStore.Controllers
             var service = new ChargeService();
             var charge = service.Create(options);
 
+            var command = _context.Commands.Find(model.Description);
+            command.CommandStatusId = 4; // En Préparation
+            _context.SaveChanges();
+
             return Json(charge.ToJson());
         }
-        public async Task<IActionResult> Confirmation(Guid id)
-        {
-            var command = await _context.Commands.FindAsync(id);
-            if (command is null) return NotFound();
-            if (command.CommandStatusId != 2) 
-                return Forbid();
-            
-            command.CommandStatusId = 4; // En Préparation
-
-            return View();
-        }
+        public IActionResult Confirmation() { return View(); }
 
         private CartViewModels.CartViewModel CommandMapping(Commande command)
         {
