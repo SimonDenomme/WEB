@@ -23,13 +23,15 @@ namespace MiniStore.Controllers
     {
         private readonly MiniStoreContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IOptions<StripeOptions> stripeOptions;
+        private readonly IOptions<StripeOptions> _stripeOptions;
 
         public CommandController(MiniStoreContext context,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IOptions<StripeOptions> stripeOptions)
         {
             _context = context;
             _userManager = userManager;
+            _stripeOptions = stripeOptions;
         }
 
         // Confirmer le panier -> Rentrer les infos de la command (livraison/address)           => CreateCommand -> CommandForm
@@ -190,22 +192,9 @@ namespace MiniStore.Controllers
             // ToDo: Faire le paiement
             var cart = CommandMapping(await _context.Commands.FindAsync(id));
 
-            //StripeConfiguration.ApiKey = stripeOptions.Value.SecretKey;
-
-            //var options = new PaymentIntentCreateOptions
-            //{
-            //    Amount = (long?)(cart.Total * 100),
-            //    Currency = "cad",
-            //    Metadata = new Dictionary<string, string>{
-            //        { "integration_check", "accept_a_payment" },
-            //    }
-            //};
-            //var service = new PaymentIntentService();
-            //var paymentIntent = service.Create(options);
-
             var model = new ProductModel
             {
-                Name = "test",
+                Name = cart.Id.ToString(),
                 Price = cart.Total * 100,
             };
             return View(model);
@@ -251,7 +240,7 @@ namespace MiniStore.Controllers
         [HttpPost]
         public JsonResult Charges([FromBody] ChargesModel model)
         {
-            StripeConfiguration.ApiKey = stripeOptions.Value.SecretKey;
+            StripeConfiguration.ApiKey = _stripeOptions.Value.SecretKey;
 
             var options = new ChargeCreateOptions
             {
