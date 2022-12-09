@@ -60,10 +60,8 @@ namespace MiniStore.Controllers
 
                 ModelState.AddModelError(string.Empty, "Unable to add address to user!");
             }
-            //_context.SaveChanges();
             try
             {
-                //_context.Attach(user);
                 _context.SaveChanges();
 
             }
@@ -72,8 +70,7 @@ namespace MiniStore.Controllers
                 ModelState.AddModelError(string.Empty, "Unable to add address!");
                 return View(model);
             }
-            //return View(returnurl);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Client");
         }
     }
 }
