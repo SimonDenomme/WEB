@@ -50,7 +50,7 @@ namespace MiniStore.Controllers
                 IsSent = false,
                 IsPaid = false,
                 UserId = _userManager.GetUserId(User),
-                CommandStatusId = 1,
+                CommandStatusId = 1, // À Valider
                 AddressId = adresse != null ? adresse.Id : null
             };
 
@@ -184,6 +184,7 @@ namespace MiniStore.Controllers
         {
             var command = await _context.Commands.FindAsync(id);
             if (command is null) return NotFound();
+            command.CommandStatusId = 2; // Confirmée
 
             var cart = CommandMapping(command);
 
@@ -232,7 +233,7 @@ namespace MiniStore.Controllers
         }
 
         [HttpPost]
-        public JsonResult Charges([FromBody] ChargesModel model)
+        public async Task<JsonResult> Charges([FromBody] ChargesModel model)
         {
             StripeConfiguration.ApiKey = _stripeOptions.Value.SecretKey;
 
@@ -246,13 +247,38 @@ namespace MiniStore.Controllers
             var service = new ChargeService();
             var charge = service.Create(options);
 
-            var command = _context.Commands.Find(model.Description);
+            var command = await _context.Commands.FindAsync(model.Description);
             command.CommandStatusId = 4; // En Préparation
-            _context.SaveChanges();
+            
+            // ToDo: Trouver une meilleure façon de gérer l'addresse
+            var add = await _context.Addresses.FindAsync(command.AddressId);
+            if (add is null) return Json(new { success = false, message = "Adresse introuvable" });
+
+            var bill = new Bill {
+                Id = command.Id,
+                Date = charge.Created,
+                Name = model.Name,
+                Address = add.Number.ToString() + " " + add.Street + " " + add.City + ", " + add.PostalCode,
+                Phone = model.Phone,
+                CreditCard = charge.PaymentMethodDetails.Card.Last4,
+            };
+            await _context.Bills.AddAsync(bill);
+            await _context.SaveChangesAsync();
 
             return Json(charge.ToJson());
         }
         public IActionResult Confirmation() { return View(); }
+        //public async Task<IActionResult> Confirmation(Guid id)
+        //{
+        //    var command = await _context.Commands.FindAsync(id);
+        //    if (command is null) return NotFound();
+        //    if (command.CommandStatusId != 2) return Forbid();
+
+        //    command.CommandStatusId = 4; // En Préparation
+        //    _context.SaveChanges();
+
+        //    return View();
+        //}
 
         private CartViewModels.CartViewModel CommandMapping(Commande command)
         {

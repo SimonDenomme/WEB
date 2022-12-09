@@ -138,12 +138,15 @@
                             token: token.id,
                             description: "@Model.Name",
                             amountInCents: @Model.Price, // Price in cents
-                            currencyCode: "cad"
+                            currencyCode: "cad",
+                            name: document.getElementById("name").innerText,
+                            phone: document.getElementById("phone").innerText,
+                            email: document.getElementById("email").innerText,
                         })
                         // Report to the browser that the payment was successful or failed.
                     }).then(function (response) {
                         if (response.ok) {
-                            window.location.replace("@Url.Action("Confirmation")
+                            window.location.replace("@Url.Action("Confirmation")")
                         } else {
                             e.complete('fail');
                         }
