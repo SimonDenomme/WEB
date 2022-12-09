@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MiniStore.Controllers
 {
@@ -111,7 +112,6 @@ namespace MiniStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CommandForm(CommandForm model)
         {
-            //LA VALIDATION DU MODÈLE N'EMBARQUE PAS, ALORS POUR PAS LE FAIRE CRACHER JE REDIRIGE SUR LA MEME PAGE
             if (!ModelState.IsValid) return RedirectToAction("CommandForm", new { id = model.Id });
 
             var command = await _context.Commands.FindAsync(model.Id);
@@ -158,7 +158,7 @@ namespace MiniStore.Controllers
         // GET CancelCommand
         public async Task<IActionResult> CancelCommand(Guid? id)
         {
-            // ToDo: Ne doit pas détruire le lien ItemInCart & Command
+            // Ne doit pas détruire le lien ItemInCart & Command
             var command = await _context.Commands.FindAsync(id);
             if (command is null) return NotFound();
 
@@ -188,12 +188,25 @@ namespace MiniStore.Controllers
         {
             // ToDo: Fermer la modification sur la facture (option de paiement)
             // ToDo: Faire le paiement
-            // ToDO: Envoyer le colis
+            var cart = CommandMapping(await _context.Commands.FindAsync(id));
+
+            //StripeConfiguration.ApiKey = stripeOptions.Value.SecretKey;
+
+            //var options = new PaymentIntentCreateOptions
+            //{
+            //    Amount = (long?)(cart.Total * 100),
+            //    Currency = "cad",
+            //    Metadata = new Dictionary<string, string>{
+            //        { "integration_check", "accept_a_payment" },
+            //    }
+            //};
+            //var service = new PaymentIntentService();
+            //var paymentIntent = service.Create(options);
 
             var model = new ProductModel
             {
                 Name = "test",
-                Price = 15
+                Price = cart.Total * 100,
             };
             return View(model);
         }
@@ -240,7 +253,7 @@ namespace MiniStore.Controllers
         {
             StripeConfiguration.ApiKey = stripeOptions.Value.SecretKey;
 
-            var options = new PaymentIntentCreateOptions
+            var options = new ChargeCreateOptions
             {
                 Amount = model.AmountInCents,
                 Currency = model.CurrencyCode,
@@ -248,10 +261,10 @@ namespace MiniStore.Controllers
                     { "integration_check", "accept_a_payment" },
                 }
             };
-            var service = new PaymentIntentService();
-            var paymentIntent = service.Create(options);
+            var service = new ChargeService();
+            var charge = service.Create(options);
 
-            return Json(paymentIntent.ToJson());
+            return Json(charge.ToJson());
         }
 
         private CartViewModels.CartViewModel CommandMapping(Commande command)

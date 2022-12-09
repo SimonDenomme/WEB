@@ -7,93 +7,79 @@
 
     <div class="row align-content-center my-4">
         <div class="my-4">
-            <p class="blocktext">
+            @*<p class="blocktext">
+            Cher client, votre commande est en cours de traitement!
+            </p>*@
 
-                Cher client, votre commande est en cours de traitement!
-                <br>
+            <form id="payment-form" class="modal-dialog modal-content bg-light" method="post" accept-charset="UTF-8">
 
-                <form method="post">
-                    <div class="row">
+                <div class="modal-header">
+                    <h4 class="modal-title">Payment Informations</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-row mb-2">
                         <div class="col">
-                            <div class="float-right">
-                                <button id="payment-request-button" class="btn btn-primary" type="button" href="#payment-form">Buy</button>
+                            <label for="name" class="control-label">Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-white"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input id="name" name="name" class="form-control border-left-0" type="text" placeholder="Nom" required>
                             </div>
                         </div>
                     </div>
-                </form>
-            </p>
+
+                    <div class="form-row mb-2">
+                        <div class="col">
+                            <label for="phone" class="control-label">Phone</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-white"><i class="fas fa-phone"></i></span>
+                                </div>
+                                <input id="phone" name="phone" class="form-control border-left-0" type="text" placeholder="Phone number" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-2">
+                        <div class="col">
+                            <label for="email" class="control-label">Email</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-white"><i class="fas fa-at"></i></span>
+                                </div>
+                                <input id="email" class="form-control border-left-0" type="email" placeholder="Email address" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-2">
+                        <div class="col">
+                            <label for="card" class="control-label">Card</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-white"><i class="fas fa-credit-card"></i></span>
+                                </div>
+                                <div id="card" class="form-control border-left-0"></div>
+                            </div>
+                            <div id="card-errors" role="alert"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer row">
+                        <div class="float-right">
+                            <button id="cancel-btn" type="button" class="btn btn-outline-danger">Cancel</button>
+                            <button id="reset-btn" type="reset" class="btn btn-outline-secondary">Reset</button>
+                            <button id="submit-btn" type="submit" class="btn btn-success">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<section id="payment-section" class="modal fade rounded" role="dialog">
-    <form id="payment-form" class="modal-dialog modal-content bg-light" method="post" accept-charset="UTF-8">
-
-        <div class="modal-header">
-            <h4 class="modal-title">Payment Informations</h4>
-        </div>
-
-        <div class="modal-body">
-            <div class="form-row mb-2">
-                <div class="col">
-                    <label for="name" class="control-label">Name</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white"><i class="fas fa-user"></i></span>
-                        </div>
-                        <input id="name" name="name" class="form-control border-left-0" type="text" placeholder="Nom" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row mb-2">
-                <div class="col">
-                    <label for="phone" class="control-label">Phone</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white"><i class="fas fa-phone"></i></span>
-                        </div>
-                        <input id="phone" name="phone" class="form-control border-left-0" type="text" placeholder="Phone number" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row mb-2">
-                <div class="col">
-                    <label for="email" class="control-label">Email</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white"><i class="fas fa-at"></i></span>
-                        </div>
-                        <input id="email" class="form-control border-left-0" type="email" placeholder="Email address" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row mb-2">
-                <div class="col">
-                    <label for="card" class="control-label">Card</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white"><i class="fas fa-credit-card"></i></span>
-                        </div>
-                        <div id="card" class="form-control border-left-0"></div>
-                    </div>
-                    <div id="card-errors" role="alert"></div>
-                </div>
-            </div>
-
-
-            <div class="modal-footer row">
-                <div class="float-right">
-                    <button id="cancel-btn" type="button" class="btn btn-outline-danger">Cancel</button>
-                    <button id="reset-btn" type="reset" class="btn btn-outline-secondary">Reset</button>
-                    <button id="submit-btn" type="submit" class="btn btn-success">Confirm</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</section>
-
 
 
 @section scripts {
@@ -104,16 +90,6 @@
             "use strict";
 
             $(document).ready(function () {
-                $("#payment-request-button").on("click", function () {
-                    $("#payment-section").modal({
-                        backdrop: 'static'
-                    });
-
-                    $("#cancel-btn").on("click", function () {
-                        $("#payment-section").modal("hide");
-                    });
-                });
-
                 let stripe = Stripe("@StripeOptions.Value.PublicKey");
                 let elements = stripe.elements();
 
@@ -154,15 +130,14 @@
                         }
                     });
                 });
-
                 function stripeTokenHandler(token) {
-                    fetch('/payment/charges', {
+                    fetch('/command/charges', {
                         method: 'post',
                         headers: { 'content-type': 'application/json' },
                         body: JSON.stringify({
                             token: token.id,
                             description: "@Model.Name",
-                            amountInCents: @Model.Price * 100, // Price in cents
+                            amountInCents: @Model.Price, // Price in cents
                             currencyCode: "cad"
                         })
                         // Report to the browser that the payment was successful or failed.
@@ -178,6 +153,3 @@
         })();
     </script>
 }
-
-    @*https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements*@
-    @*https://stripe.com/docs/js/elements_object/get_element*@
