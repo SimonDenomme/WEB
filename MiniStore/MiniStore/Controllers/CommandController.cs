@@ -189,9 +189,17 @@ namespace MiniStore.Controllers
 
 			var cart = CommandMapping(command);
 
+			//description
+			String name = "";
+			int tempSize = cart.ItemsInCart.Count();
+
+            for (int i = 0; i < tempSize; i++)
+			{
+				name += i == tempSize? cart.ItemsInCart[i].Name + " ," : cart.ItemsInCart[i].Name + ".";
+            }
 			var model = new ProductModel
 			{
-				Name = cart.Id.ToString(),
+				Name = name,
 				Price = Math.Round(cart.Total * 100, 2, MidpointRounding.ToEven),
 			};
 			return View(model);

@@ -70,18 +70,18 @@ namespace MiniStore.ViewModels.Command
 
             RuleFor(x => x.Street)
                 .NotEmpty()
-                    .When(x => x.Number > 0)
+                    //.When(x => x.Number > 0)
                         .WithMessage("The street must be specified.");
 
             RuleFor(x => x.City)
                 .NotEmpty()
-                    .When(x => x.Number > 0)
+                    //.When(x => x.Number > 0)
                         .WithMessage("The city must be specified.");
 
             //La validation du code postal pose un pb pour eenvoyer le formulaire à cause de dropdown list
             RuleFor(x => x.PostalCode)
                 .NotEmpty()
-                    .When(x => x.Number > 0)
+                    //.When(x => x.Number > 0)
                 .Matches(PostalRegex)
                     .WithMessage("The postal code must respect the convention, H0H0H0.");
 
