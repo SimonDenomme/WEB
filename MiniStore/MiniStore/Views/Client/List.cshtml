@@ -57,11 +57,11 @@
                                 }
                                 else if (command.Status.Equals("Annulée"))
                                 {
-                                    <a asp-controller="Command" asp-action="CommandInfos" asp-route-id="@command.Id">Pay</a>
+                                    <a asp-controller="Command" asp-action="CommandInfos" asp-route-id="@command.Id">Détails</a>
                                 }
-                                else @*if (command.Status.Equals("En Préparation"))*@
+                                else if (command.Status.Equals("En Préparation"))
                                 {
-                                    <a asp-controller="Command" asp-action="PayBill" disabled="disabled" asp-route-id="@command.Id">Pay</a>
+                                    <a asp-controller="Command" asp-action="BillHistoric" asp-route-id="@command.Id">Historique de paiement</a>
                                 }
                             </td>
                         </tr>

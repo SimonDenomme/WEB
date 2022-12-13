@@ -132,22 +132,5 @@ namespace MiniStore.Controllers
 
             return list;
         }
-
-        //private string GestionStatusCommand(Commande command)
-        //{
-        //    return _context.CommandStatus.Find(command.CommandStatusId).Status.ToString();
-
-        //    if (command.IsSent) return "En Livraison";
-        //    else if (command.IsPaid) return "En Préparation";
-
-        //    // Si la commande n'a aucun article elle est annulée
-        //    if (_context.ItemInCarts.Where(i => i.CommandeId == command.Id).Count() == 0)
-        //        return "Annulée";
-
-        //    // Si la commande a une addresse
-        //    if (command.AddressId is not null) return "Confirmée";
-
-        //    return "En Attente";
-        //}
     }
 }
