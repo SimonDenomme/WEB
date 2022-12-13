@@ -139,9 +139,9 @@
                             description: "@Model.Name",
                             amountInCents: @Model.Price, // Price in cents
                             currencyCode: "cad",
-                            name: document.getElementById("name").innerText,
-                            phone: document.getElementById("phone").innerText,
-                            email: document.getElementById("email").innerText,
+                            name: document.getElementById("name").value,
+                            phone: document.getElementById("phone").value,
+                            email: document.getElementById("email").value,
                         })
                         // Report to the browser that the payment was successful or failed.
                     }).then(function (response) {

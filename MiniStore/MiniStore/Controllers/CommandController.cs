@@ -185,13 +185,14 @@ namespace MiniStore.Controllers
             var command = await _context.Commands.FindAsync(id);
             if (command is null) return NotFound();
             command.CommandStatusId = 2; // Confirmée
+            await _context.SaveChangesAsync();
 
             var cart = CommandMapping(command);
 
             var model = new ProductModel
             {
                 Name = cart.Id.ToString(),
-                Price = cart.Total * 100,
+                Price = Math.Round(cart.Total * 100, 2, MidpointRounding.ToEven),
             };
             return View(model);
         }
@@ -247,15 +248,17 @@ namespace MiniStore.Controllers
             var service = new ChargeService();
             var charge = service.Create(options);
 
-            var command = await _context.Commands.FindAsync(model.Description);
+            var command = await _context.Commands.FindAsync(new Guid(model.Description));
+            if (command is null) return Json(new { success = false, message = "Commande introuvable" });
             command.CommandStatusId = 4; // En Préparation
-            
+
             // ToDo: Trouver une meilleure façon de gérer l'addresse
             var add = await _context.Addresses.FindAsync(command.AddressId);
             if (add is null) return Json(new { success = false, message = "Adresse introuvable" });
 
-            var bill = new Bill {
-                Id = command.Id,
+            var bill = new Bill
+            {
+                CommandId = command.Id,
                 Date = charge.Created,
                 Name = model.Name,
                 Address = add.Number.ToString() + " " + add.Street + " " + add.City + ", " + add.PostalCode,
@@ -268,17 +271,6 @@ namespace MiniStore.Controllers
             return Json(charge.ToJson());
         }
         public IActionResult Confirmation() { return View(); }
-        //public async Task<IActionResult> Confirmation(Guid id)
-        //{
-        //    var command = await _context.Commands.FindAsync(id);
-        //    if (command is null) return NotFound();
-        //    if (command.CommandStatusId != 2) return Forbid();
-
-        //    command.CommandStatusId = 4; // En Préparation
-        //    _context.SaveChanges();
-
-        //    return View();
-        //}
 
         private CartViewModels.CartViewModel CommandMapping(Commande command)
         {
@@ -291,7 +283,7 @@ namespace MiniStore.Controllers
             var sousTotal = _context.ItemInCarts.Where(x => x.CommandeId == command.Id).Select(y => y.Mini.ReducedPrice * y.Quantity).Sum();
 
             var list = new CartViewModels.CartViewModel(
-                Guid.NewGuid(),
+                command.Id,
                 _context.Users.Find(command.UserId).UserName,
                 items.Select(i =>
                     new CartViewModels.ItemInCartModel(

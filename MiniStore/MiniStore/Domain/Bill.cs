@@ -10,5 +10,6 @@ namespace MiniStore.Domain
         public string Address { get; set; }
         public string CreditCard { get; set; }
         public DateTime Date { get; set; }
+        public Guid CommandId { get; set; }
     }
 }
