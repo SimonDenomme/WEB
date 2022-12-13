@@ -31,9 +31,24 @@ namespace MiniStore.ViewModels.Adresse
 
         public AdresseViewModelValidator()
         {
+            
+            RuleFor(x => x.AddressNumber)
+                .GreaterThan(0)
+                    .WithMessage("The address can't be 0 or below.");
+
+            RuleFor(x => x.AddressStreet)
+                .NotEmpty()
+                    .When(x => x.AddressNumber > 0)
+                        .WithMessage("The street must be specified.");
+
+            RuleFor(x => x.AddressCity)
+                .NotEmpty()
+                    .When(x => x.AddressNumber > 0)
+                        .WithMessage("The city must be specified.");
 
             RuleFor(x => x.AddressPostalCode)
                 .NotEmpty()
+                    .When(x => x.AddressNumber > 0)
                 .Matches(PostalRegex)
                     .WithMessage("The postal code must respect the convention, H0H0H0.");
             
