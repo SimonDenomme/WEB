@@ -199,7 +199,7 @@ namespace MiniStore.Controllers
             }
 			var model = new ProductModel
 			{
-				Name = name,
+				Name = cart.Id.ToString(),
 				Price = Math.Round(cart.Total * 100, 2, MidpointRounding.ToEven),
 			};
 			return View(model);
